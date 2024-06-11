@@ -1,5 +1,5 @@
 import { Devvit, RichTextBuilder } from '@devvit/public-api';
-
+//Disregard
 // Docs: https://developers.reddit.com/docs/media_uploads
 Devvit.configure({ media: true, redditAPI: true });
 
@@ -90,31 +90,94 @@ type PageProps = {
   setPage: (page: string) => void;
 }
 
-const PageA = ({ setPage }: PageProps) => ( //HOME, IMAGE UPLOAD OPTIONS, vstack = vertical, hstack = horizontal....Duh!
+const Landing = ({ setPage }: PageProps) => ( //HOME, IMAGE UPLOAD OPTIONS, vstack = vertical, hstack = horizontal....Duh!
   <vstack
     width="100%"
     height="100%"
     alignment="middle center"
-    gap="large"
-    backgroundColor="lightblue"
+    gap="medium"
+    backgroundColor="white"
   >
-    <text size="xxlarge">Page A</text>
-    <button onPress={() => setPage('b')}>Go to B</button>
+
   </vstack>
 );
 
-const PageB = ({ setPage }: PageProps) => (
+const SubmissionGuide = ({ setPage }: PageProps) => (
   <vstack
-    width="100%"
-    height="100%"
-    alignment="middle center"
-    gap="large"
-    backgroundColor="pink"
+    width = "100%"
+    height = "100%"
+    alignment = "top"
+    gap = "medium"
+    backgroundColor = "white"
+    >
+      <text size="large" wrap color = "black"> Submit wood for ID </text>
+      <text size="small" wrap color = "black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>
+      <text size="small" wrap color = "black">2. Include a close-up picture of the end grain. Not blurry. Eng grain pore structure is one of the most useful bits of info for wood ID.</text>
+      <text size="small" wrap color = "black">3. Note any non-visual distingushing characteristics. Does the wood feel particularly light or particularly dense? Does it have an odor when planned?</text>
+      <text size="small" wrap color = "black">4.Include multiple pictures or text as sub-comments under the main picture, not as an avalanche of first-level comments. </text>
+      <hstack>
+        <button>
+          Cancel
+        </button>
+        <button>
+          Continue
+        </button>
+      </hstack>
+    </vstack>
+);
+
+const Leaderboard1 = ({ setPage }: PageProps) => (
+  <vstack
+    width = "100%"
+    height = "100%"
+    alignment = "top"
+    gap = "medium"
+    backgroundColor = "white"
   >
-    <text size="xxlarge">Page B</text>
-    <button onPress={() => setPage('a')}>Go to A</button>
+    <text size="medium" color = "black">1.</text>
+    //username stuff goes here
+    <text size="medium" color = "black">2.</text>
+    //username stuff goes here
+    <text size="medium" color = "black">3.</text>
+    //username stuff goes here
+    <text size="medium" color = "black">4.</text>
+    //username stuff goes here
+
+    //There's DEFINITELY a more precise way to add the ranks, but this will be a placeholder for now. The leaderboard will go up to the top 10-20
+    //The "YardMarkers" on the Football Field example can be a great start
   </vstack>
 );
+
+const Indentification = ({ setPage}: PageProps ) => (
+  <vstack
+  width = "100%" 
+  height = "100%"
+  alignment = "top center"
+  gap = "medium"
+  backgroundColor="white"
+  >
+    <hstack
+      width = "100%" 
+      height = "100%"
+      alignment = "top"
+      gap = "medium"
+      >
+        <button icon= "caret-left"></button>
+        <text size = "medium" color = "black"> What is this? </text>
+     </hstack> 
+    <hstack>
+      <button
+      icon = "comments"
+      >
+        Numbers will go hereeee
+      </button>
+    </hstack>
+  </vstack>
+);
+
+
+
+//So far, I haven't found a way to remove the rounded edges from buttons, so I'll probably just have to replace them once I'm done typing and organizing everything on each page
 
 /* This will stay as a comment until the pages are done, then I'll add the new names into the switch statement
 Devvit.addCustomPostType({
