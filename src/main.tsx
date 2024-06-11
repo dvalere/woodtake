@@ -90,15 +90,31 @@ type PageProps = {
   setPage: (page: string) => void;
 }
 
-const Landing = ({ setPage }: PageProps) => ( //HOME, IMAGE UPLOAD OPTIONS, vstack = vertical, hstack = horizontal....Duh!
-  <vstack
-    width="100%"
-    height="100%"
-    alignment="middle center"
-    gap="medium"
-    backgroundColor="white"
-  >
-
+const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+  <vstack gap="small" alignment="middle center">
+  //First stack of 3
+  <hstack gap="small">
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+  </hstack>
+  //Second stack
+  <hstack gap="small">
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+  </hstack>
+  //Third stack
+  <hstack gap="small">
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+  </hstack>
+  //Buttons
+  <hstack gap="small">
+    <hstack backgroundColor="gray" height="45px" width="125px"></hstack>
+    <hstack backgroundColor="gray" height="45px" width="125px"></hstack>
+  </hstack>
   </vstack>
 );
 
@@ -177,9 +193,9 @@ const Indentification = ({ setPage}: PageProps ) => (
 
 
 
-//So far, I haven't found a way to remove the rounded edges from buttons, so I'll probably just have to replace them once I'm done typing and organizing everything on each page
+//So far, I haven't found a way to remove the rounded edges from buttons, so I'll probably just have to replace them with stacks once I'm done typing and organizing everything on each page
 
-/* This will stay as a comment until the pages are done, then I'll add the new names into the switch statement
+/* This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
 Devvit.addCustomPostType({
   name: 'Name',
   render: context => {
