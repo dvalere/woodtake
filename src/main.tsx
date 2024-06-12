@@ -91,53 +91,60 @@ type PageProps = {
 }
 
 const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
-  <vstack gap="small" alignment="middle center">
+<vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small">
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"
+    onPress={() => console.log('clicked')}
+    >
+    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
   //Second stack
   <hstack gap="small">
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
   //Third stack
   <hstack gap="small">
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="gray" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
-  //Buttons
+  //Up and down buttons
   <hstack gap="small">
-    <hstack backgroundColor="gray" height="45px" width="125px"></hstack>
-    <hstack backgroundColor="gray" height="45px" width="125px"></hstack>
+    <hstack onPress={() => console.log('clicked')} 
+    backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
+    >
+    </hstack>
+    <hstack onPress={() => console.log('clicked')} 
+    backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
+    >
+    </hstack>
   </hstack>
   </vstack>
 );
 
 const SubmissionGuide = ({ setPage }: PageProps) => (
-  <vstack
-    width = "100%"
-    height = "100%"
-    alignment = "top"
-    gap = "medium"
-    backgroundColor = "white"
-    >
-      <text size="large" wrap color = "black"> Submit wood for ID </text>
+  <vstack width = "100%" height = "100%" alignment = "top" gap = "medium" backgroundColor = "white">
+      <text size="large" weight="bold" wrap color = "black"> Submit wood for ID </text>
       <text size="small" wrap color = "black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>
       <text size="small" wrap color = "black">2. Include a close-up picture of the end grain. Not blurry. Eng grain pore structure is one of the most useful bits of info for wood ID.</text>
       <text size="small" wrap color = "black">3. Note any non-visual distingushing characteristics. Does the wood feel particularly light or particularly dense? Does it have an odor when planned?</text>
       <text size="small" wrap color = "black">4.Include multiple pictures or text as sub-comments under the main picture, not as an avalanche of first-level comments. </text>
-      <hstack>
-        <button>
-          Cancel
-        </button>
-        <button>
+      <hstack alignment="middle center" gap="small">
+      <hstack backgroundColor="PureGray-250" height="45px" width="125px">
+          <text weight="bold" alignment="middle center" color="black">
+            Continue
+          </text>
+        </hstack>
+        <hstack backgroundColor="PureGray-250" height="45px" width="125px">
+          <text weight="bold" alignment="middle center" color="black">
           Continue
-        </button>
+            </text>
+        </hstack>
       </hstack>
     </vstack>
 );
