@@ -1,4 +1,5 @@
 import { Devvit, RichTextBuilder } from '@devvit/public-api';
+
 //Disregard
 // Docs: https://developers.reddit.com/docs/media_uploads
 Devvit.configure({ media: true, redditAPI: true });
@@ -84,6 +85,8 @@ Devvit.addMenuItem({
   },
 });
 
+
+
 //PAGES ---------------------------------------------------------------------------------------
 
 type PageProps = {
@@ -94,6 +97,7 @@ const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTI
 <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small">
+    //Post option
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"
     onPress={() => console.log('clicked')}
     >
@@ -128,12 +132,12 @@ const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTI
 );
 
 const SubmissionGuide = ({ setPage }: PageProps) => (
-  <vstack width = "100%" height = "100%" alignment = "top" gap = "medium" backgroundColor = "white">
+  <vstack width = "100%" height = "100%" alignment="top" gap="medium" backgroundColor="white">
       <text size="large" weight="bold" wrap color = "black"> Submit wood for ID </text>
-      <text size="small" wrap color = "black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>
-      <text size="small" wrap color = "black">2. Include a close-up picture of the end grain. Not blurry. Eng grain pore structure is one of the most useful bits of info for wood ID.</text>
-      <text size="small" wrap color = "black">3. Note any non-visual distingushing characteristics. Does the wood feel particularly light or particularly dense? Does it have an odor when planned?</text>
-      <text size="small" wrap color = "black">4.Include multiple pictures or text as sub-comments under the main picture, not as an avalanche of first-level comments. </text>
+      <text size="small" wrap color ="black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>
+      <text size="small" wrap color ="black">2. Include a close-up picture of the end grain. Not blurry. Eng grain pore structure is one of the most useful bits of info for wood ID.</text>
+      <text size="small" wrap color ="black">3. Note any non-visual distingushing characteristics. Does the wood feel particularly light or particularly dense? Does it have an odor when planned?</text>
+      <text size="small" wrap color ="black">4.Include multiple pictures or text as sub-comments under the main picture, not as an avalanche of first-level comments. </text>
       <hstack alignment="middle center" gap="small">
       <hstack backgroundColor="PureGray-250" height="45px" width="125px">
           <text weight="bold" alignment="middle center" color="black">
@@ -171,29 +175,38 @@ const Leaderboard1 = ({ setPage }: PageProps) => (
   </vstack>
 );
 
-const Indentification = ({ setPage}: PageProps ) => (
+const viewingPost = ({ setPage}: PageProps ) => (
   <vstack
-  width = "100%" 
-  height = "100%"
-  alignment = "top center"
-  gap = "medium"
+  width="100%"
+  height="100%"
+  alignment="top center"
   backgroundColor="white"
+  gap="small"
   >
-    <hstack
-      width = "100%" 
-      height = "100%"
-      alignment = "top"
-      gap = "medium"
+    //Line with the back button and "what is this"
+    <hstack  width="85%" height="25%" alignment="middle start"
+    gap="large"
+    > //Back button
+      <hstack
+      onPress={() => console.log('clicked')}
+      backgroundColor="PureGray-250" width="35px" height="35px"
       >
-        <button icon= "caret-left"></button>
-        <text size = "medium" color = "black"> What is this? </text>
-     </hstack> 
-    <hstack>
-      <button
-      icon = "comments"
-      >
-        Numbers will go hereeee
-      </button>
+          <button icon="back" disabled={true} appearance="plain">
+        </button>
+      </hstack>
+      <hstack width="45%" height="12%" alignment="middle end">
+      <text weight="bold" alignment="top center" color="black" > What is this? </text>
+      </hstack>
+    </hstack>
+    
+    //This stack is for the image...it should be replaced
+    <hstack alignment="top center" width="85%" height="55%" backgroundColor="PureGray-250">
+    </hstack>
+
+    //This stack is the button at the bottom
+    //Don't forget to add text that updates based on every comment added
+    <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
+        <button icon="comments" disabled={true} appearance="plain"
     </hstack>
   </vstack>
 );
@@ -202,7 +215,7 @@ const Indentification = ({ setPage}: PageProps ) => (
 
 //So far, I haven't found a way to remove the rounded edges from buttons, so I'll probably just have to replace them with stacks once I'm done typing and organizing everything on each page
 
-/* This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
+//This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
 Devvit.addCustomPostType({
   name: 'Name',
   render: context => {
@@ -229,6 +242,44 @@ Devvit.addCustomPostType({
   }
 })
 
-*/
+const form = Devvit.createForm(
+  {
+    title: 'Upload an image!',
+    fields: [
+      {
+        name: 'myImage',
+        type: 'image', // This tells the form to expect an image
+        label: 'Image goes here',
+        required: true,
+      },
+    ],
+  },
+  (event, context) => {
+    const imageUrl = event.values.myImage;
+    // Use the mediaUrl to store in redis and display it in an <image> block, or send to external service to modify
+  }
+);
+
+type post = {
+  <post_id>: { imageUrl: 'i.redd.it/my.jpg', note: 'blah' }
+}
+
+const onSubmitHandler = (event, context) => {
+//Make it so the image uploaded goes into the database and then is put into a "post" object which shows the image and comments under it
+};
+
+const openForm = (_, context) => {
+  context.ui.showForm(form);
+};
+
+//Opens the image form, then stores the image into a post after it's entered
+function openImageForm(){
+
+} 
+
+
+
 
 export default Devvit;
+
+
