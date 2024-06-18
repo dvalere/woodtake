@@ -147,7 +147,7 @@ const viewingPost = ({ setPage}: PageProps ) => (
 //This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
 
 Devvit.addCustomPostType({
-  name: 'Name',
+  name: 'HELLO!?',
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
