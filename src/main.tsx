@@ -1,90 +1,19 @@
-import { Devvit, RichTextBuilder } from '@devvit/public-api';
+import { Devvit, RichTextBuilder, useForm, Form, RedisClient } from '@devvit/public-api';
 
 //Disregard
 // Docs: https://developers.reddit.com/docs/media_uploads
-Devvit.configure({ media: true, redditAPI: true });
+Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 // Use Case: Create Rich-Text Comments with Media
-Devvit.addMenuItem({
-  location: 'comment',
-  label: 'Reply with GIF',
-  onPress: async (event, context) => {
-    console.log(`Invoked action on comment ${event.targetId}`);
-    try {
-      // Upload external media
-      const response = await context.media.upload({
-        url: 'https://media2.giphy.com/media/xTiN0CNHgoRf1Ha7CM/giphy.gif',
-        type: 'gif',
-      });
 
-      // Create a comment with media
-      await context.reddit.submitComment({
-        id: event.targetId, // where context menu action was invoked
-        text: 'Hello World with Media',
-        richtext: new RichTextBuilder()
-          .image({ mediaId: response.mediaId })
-          .codeBlock({}, (cb) => cb.rawText('This comment was created from a Devvit App')),
-      });
-    } catch (err) {
-      throw new Error(`Error uploading media: ${err}`);
-    }
-  },
-});
 
-// Use Case: Create Rich-Text Posts with Media
 Devvit.addMenuItem({
   location: 'subreddit',
-  label: 'Post with GIF',
+  label: 'WoodID',
+  forUserType: 'member', //Temporarily for members, while testing
   onPress: async (event, context) => {
-    try {
-      // Upload external media
-      const response = await context.media.upload({
-        url: 'https://media2.giphy.com/media/xTiN0CNHgoRf1Ha7CM/giphy.gif',
-        type: 'gif',
-      });
-
-      // Get Subreddit
-      const subreddit = await context.reddit.getSubredditById(event.targetId);
-
-      // Create a post with media
-      await context.reddit.submitPost({
-        subredditName: subreddit.name,
-        title: 'Hello World with Media',
-        richtext: new RichTextBuilder().image({ mediaId: response.mediaId }),
-      });
-    } catch (err) {
-      throw new Error(`Error uploading media: ${err}`);
-    }
-  },
+  }
 });
-
-// Use Case: Create Native Image Posts in Reddit
-Devvit.addMenuItem({
-  location: 'subreddit',
-  label: 'Post/Comment with Image',
-  onPress: async (event, context) => {
-    console.log(`Invoked action on subreddit ${event.targetId}`);
-    try {
-      const subreddit = await context.reddit.getSubredditById(event.targetId);
-      const response = await context.media.upload({
-        url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Boulevard_du_Temple_by_Daguerre.jpg',
-        type: 'image',
-      });
-
-      // In the future, we will support video and videogif types
-      // Similar to https://www.reddit.com/dev/api/#POST_api_submit
-      await context.reddit.submitPost({
-        subredditName: subreddit.name,
-        title: 'Hello World with Media',
-        kind: 'image',
-        url: response.mediaUrl,
-      });
-    } catch (err) {
-      throw new Error(`Error uploading media: ${err}`);
-    }
-  },
-});
-
 
 
 //PAGES ---------------------------------------------------------------------------------------
@@ -99,7 +28,7 @@ const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTI
   <hstack gap="small">
     //Post option
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"
-    onPress={() => console.log('clicked')}
+    onPress={() => { imageForm } }//Stack opens the submission form when clicked
     >
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
@@ -206,7 +135,7 @@ const viewingPost = ({ setPage}: PageProps ) => (
     //This stack is the button at the bottom
     //Don't forget to add text that updates based on every comment added
     <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
-        <button icon="comments" disabled={true} appearance="plain"
+        <button icon="comments" disabled={true} appearance="plain"></button>
     </hstack>
   </vstack>
 );
@@ -216,6 +145,7 @@ const viewingPost = ({ setPage}: PageProps ) => (
 //So far, I haven't found a way to remove the rounded edges from buttons, so I'll probably just have to replace them with stacks once I'm done typing and organizing everything on each page
 
 //This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
+
 Devvit.addCustomPostType({
   name: 'Name',
   render: context => {
@@ -225,13 +155,13 @@ Devvit.addCustomPostType({
     let currentPage;
     switch (page) {
       case 'a':
-        currentPage = <PageA setPage={setPage} />;
+        currentPage = <Landing setPage={setPage} />;
         break;
       case 'b':
-        currentPage = <PageB setPage={setPage} />;
+        currentPage = <SubmissionGuide setPage={setPage} />;
         break;
       default:
-        currentPage = <PageA setPage={setPage} />;
+        currentPage = <Landing setPage={setPage} />;
     }
 
     return (
@@ -240,46 +170,95 @@ Devvit.addCustomPostType({
       </blocks>
     )
   }
-})
 
-const form = Devvit.createForm(
+  }
+)
+
+
+
+
+//Run redis function in here
+const imageForm = Devvit.createForm(
   {
     title: 'Upload an image!',
     fields: [
-      {
+      { //Image field
         name: 'myImage',
         type: 'image', // This tells the form to expect an image
-        label: 'Image goes here',
+        label: 'Upload image',
         required: true,
+      },
+
+      { //Description field
+        type: 'paragraph',
+        name: 'description',
+        label: 'Description',
       },
     ],
   },
   (event, context) => {
-    const imageUrl = event.values.myImage;
+    const imageUrl = event.values.myImage; //retrieves image URL
+    const postDescription = event.values.paragraph; //retrieves post description
+    const holder = generateID(context.redis); //generates ID
+    context.redis.set(holder, imageUrl, postDescription)
+
     // Use the mediaUrl to store in redis and display it in an <image> block, or send to external service to modify
-  }
+  } //The mediaUrl should be retrievable now
 );
 
-type post = {
-  <post_id>: { imageUrl: 'i.redd.it/my.jpg', note: 'blah' }
+//POST ID GENERATION FUNCTION
+function generateID(redis: RedisClient): string { // Specify the type here
+  const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+  let ID = '';
+
+  while (true) {
+    const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
+    ID = '';
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      ID += chars[randomIndex];
+    }
+    const exists = redis.get(ID); //Uses get to check if the key exists already
+    if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
+      generateID(redis);
+    }
+  } //If the key didn't exist, then return ID
+  return ID;
 }
 
-const onSubmitHandler = (event, context) => {
-//Make it so the image uploaded goes into the database and then is put into a "post" object which shows the image and comments under it
-};
-
-const openForm = (_, context) => {
-  context.ui.showForm(form);
-};
-
-//Opens the image form, then stores the image into a post after it's entered
-function openImageForm(){
-
-} 
 
 
+//DISREGARD THIS TOO
+Devvit.addMenuItem({
+  location: 'subreddit',
+  label: 'Test Redis',
+  onPress: async (event, { redis }) => {
+    const key = 'hello';
+    await redis.set(key, '');
+    const value = await redis.get(key);
+    console.log(`${key}: ${value}`);
+  },
+  
+});
 
+
+
+//Menu item for
+//ACTUALLY DISREGARD....
+/*
+Devvit.addMenuItem({
+  location: 'subreddit',
+  label: 'Generate Post ID',
+  //These will be used within the code in the landing page
+  onPress: async (event, { redis }) => {
+    const ID = await generateID(redis);
+    console.log(`Generated ID: ${ID}`);
+  },
+  onPress: async (event, context) =>{
+    context.ui.showForm(imageForm);
+  },
+});
+*/
 
 export default Devvit;
-
-
