@@ -152,7 +152,6 @@ Devvit.addCustomPostType({
   name: 'HELLO!?',
   description: 'Identify types of wood',
   height: 'tall',
-  subredditName: currentSubreddit.name,
 
   render: context => {
     const { useState } = context;
@@ -177,7 +176,26 @@ Devvit.addCustomPostType({
     )
   }
   }
-);
+)
+
+Devvit.addMenuItem({  
+  location: 'subreddit',  
+  label: 'Add a HELLO!? post',  
+  onPress: async (_, context) => {  
+    const { reddit, ui } = context;  
+    const currentSubreddit = await reddit.getCurrentSubreddit();  
+    await reddit.submitPost({  
+      title: 'My HELLO!? post',  
+      subredditName: 'chippitychop',   
+      preview: (  
+        <vstack>  
+          <text>Loading...</text>  
+        </vstack>  
+      ),  
+    });  
+    ui.showToast(`Submitted HELLO!? post to ${currentSubreddit.name}`);  
+  },  
+});
 
 
 
