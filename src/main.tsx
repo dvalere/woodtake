@@ -6,6 +6,7 @@ Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 // Use Case: Create Rich-Text Comments with Media
 
+
 /*
 Devvit.addMenuItem({
   location: 'subreddit',
@@ -146,10 +147,12 @@ const viewingPost = ({ setPage}: PageProps ) => (
 
 //This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
 
+
 Devvit.addCustomPostType({
   name: 'HELLO!?',
   description: 'Identify types of wood',
   height: 'tall',
+  subredditName: currentSubreddit.name,
 
   render: context => {
     const { useState } = context;
@@ -161,7 +164,7 @@ Devvit.addCustomPostType({
         currentPage = <Landing setPage={setPage} />;
         break;
       case 'b':
-        currentPage = <SubmissionGuide setPage={setPage} />;
+        currentPage = <Landing setPage={setPage} />;
         break;
       default:
         currentPage = <Landing setPage={setPage} />;
@@ -173,10 +176,8 @@ Devvit.addCustomPostType({
       </blocks>
     )
   }
-
   }
-)
-
+);
 
 
 
