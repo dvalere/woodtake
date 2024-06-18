@@ -6,7 +6,7 @@ Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 // Use Case: Create Rich-Text Comments with Media
 
-
+/*
 Devvit.addMenuItem({
   location: 'subreddit',
   label: 'WoodID',
@@ -14,7 +14,7 @@ Devvit.addMenuItem({
   onPress: async (event, context) => {
   }
 });
-
+*/
 
 //PAGES ---------------------------------------------------------------------------------------
 
@@ -150,7 +150,7 @@ Devvit.addCustomPostType({
   name: 'HELLO!?',
   description: 'Identify types of wood',
   height: 'tall',
-  
+
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
@@ -233,18 +233,18 @@ function generateID(redis: RedisClient): string { // Specify the type here
 
 
 //DISREGARD THIS TOO
+/*
 Devvit.addMenuItem({
   location: 'subreddit',
-  label: 'Test Redis',
+  label: '..BRUH',
   onPress: async (event, { redis }) => {
     const key = 'hello';
     await redis.set(key, '');
     const value = await redis.get(key);
     console.log(`${key}: ${value}`);
   },
-  
 });
-
+*/
 
 
 //Menu item for
