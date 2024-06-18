@@ -148,6 +148,9 @@ const viewingPost = ({ setPage}: PageProps ) => (
 
 Devvit.addCustomPostType({
   name: 'HELLO!?',
+  description: 'Identify types of wood',
+  height: 'tall',
+  
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
