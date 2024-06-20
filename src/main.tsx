@@ -247,20 +247,18 @@ Devvit.addCustomPostType({
 function generateID(redis: RedisClient): string { // Specify the type here
   const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
   let ID = '';
+  const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
+  ID = '';
 
-  while (true) {
-    const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
-    ID = '';
-
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * chars.length);
-      ID += chars[randomIndex];
-    }
-    const exists = redis.get(ID); //Uses get to check if the key exists already
-    if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
-      generateID(redis);
-    }
-  } //If the key didn't exist, then return ID
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    ID += chars[randomIndex];
+  }
+  const exists = redis.get(ID); //Uses get to check if the key exists already
+  if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
+    generateID(redis);
+  }
+   //If the key didn't exist, then return ID
   return ID;
 }
 
