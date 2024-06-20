@@ -22,10 +22,9 @@ Devvit.addMenuItem({
 
 type PageProps = {
   setPage: (page: string) => void;
-  bleh: (blehhh: RenderContext);
 }
 
-const Landing = ({ setPage, bleh }: PageProps, blehhh) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
 
 <vstack gap="small" alignment="middle center">
   //First stack of 3
