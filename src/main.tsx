@@ -1,4 +1,4 @@
-import { Devvit, RichTextBuilder, useForm, Form, RedisClient } from '@devvit/public-api';
+import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
 import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
 
 //Disregard
@@ -24,13 +24,18 @@ type PageProps = {
   setPage: (page: string) => void;
 }
 
-const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+type plzwork = {
+  ui: {
+    showForm: (createForm: FormKey) => void;
+  };
+}
 
-<vstack gap="small" alignment="middle center">
+const Landing = ({ setPage }: PageProps, {ui}:plzwork) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+  <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small">
     //Post option
-    <hstack onPress={() => { imageForm } } backgroundColor="PureGray-250" height="70px" width="70px"
+    <hstack onPress={() => { ui.showForm(imageForm) }} backgroundColor="PureGray-250" height="70px" width="70px"
     //Stack opens the submission form when clicked
     >
     <button size="large" disabled={false} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
@@ -150,35 +155,6 @@ const viewingPost = ({ setPage}: PageProps ) => (
 //This will stay as a comment until the pages are done, then I'll add the new pages and buttons into the switch statement
 
 
-Devvit.addCustomPostType({
-  name: 'HELLO!?',
-  description: 'Identify types of wood',
-  height: 'tall',
-
-  render: context => {
-    const { useState } = context;
-    const [page, setPage] = useState('a');
-
-    let currentPage;
-    switch (page) {
-      case 'a':
-        currentPage = <Landing setPage={setPage} />;
-        break;
-      case 'b':
-        currentPage = <Landing setPage={setPage} />;
-        break;
-      default:
-        currentPage = <Landing setPage={setPage} />;
-    }
-
-    return (
-      <blocks>
-        {currentPage}
-      </blocks>
-    )
-  }
-  }
-)
 
 Devvit.addMenuItem({  
   location: 'subreddit',  
@@ -230,6 +206,38 @@ const imageForm = Devvit.createForm(
     // Use the mediaUrl to store in redis and display it in an <image> block, or send to external service to modify
   } //The mediaUrl should be retrievable now
 );
+
+Devvit.addCustomPostType({
+  name: 'HELLO!?',
+  description: 'Identify types of wood',
+  height: 'tall',
+
+  render: context => {
+    const { useState } = context;
+    const [page, setPage] = useState('a');
+
+
+    let currentPage;
+    let breh;
+    switch (page) {
+      case 'a':
+        currentPage = <Landing setPage={setPage}/>;
+        break;
+      case 'b':
+        currentPage = <Landing setPage={setPage}/>;
+        break;
+      default:
+        currentPage = <Landing setPage={setPage}/>;
+    }
+
+    return (
+      <blocks>
+        {currentPage}
+      </blocks>
+    )
+  }
+  }
+)
 
 //POST ID GENERATION FUNCTION
 function generateID(redis: RedisClient): string { // Specify the type here
