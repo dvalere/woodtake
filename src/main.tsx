@@ -219,10 +219,8 @@ Devvit.addCustomPostType({
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
-
-
+    
     let currentPage;
-    let breh;
     switch (page) {
       case 'a':
         currentPage = <Landing setPage={setPage}/>;
