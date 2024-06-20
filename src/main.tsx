@@ -30,7 +30,11 @@ type plzwork = {
   };
 }
 
-const Landing = ({ setPage }: PageProps, {ui}:plzwork) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+type imageee = {
+  link: (imageUrl: (string)) => void;
+}
+
+const Landing = ({ setPage }: PageProps, {ui}:plzwork, {link}:imageee) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small">
