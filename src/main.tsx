@@ -1,4 +1,5 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient } from '@devvit/public-api';
+import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
 
 //Disregard
 // Docs: https://developers.reddit.com/docs/media_uploads
@@ -21,17 +22,19 @@ Devvit.addMenuItem({
 
 type PageProps = {
   setPage: (page: string) => void;
+  bleh: (blehhh: RenderContext);
 }
 
-const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+const Landing = ({ setPage, bleh }: PageProps, blehhh) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+
 <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small">
     //Post option
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"
-    onPress={() => { imageForm } }//Stack opens the submission form when clicked
+    <hstack onPress={() => { imageForm } } backgroundColor="PureGray-250" height="70px" width="70px"
+    //Stack opens the submission form when clicked
     >
-    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
+    <button size="large" disabled={false} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
@@ -186,7 +189,8 @@ Devvit.addMenuItem({
     const currentSubreddit = await reddit.getCurrentSubreddit();  
     await reddit.submitPost({  
       title: 'My HELLO!? post',  
-      subredditName: 'chippitychop',   
+      subredditName: 'chippitychop', 
+        
       preview: (  
         <vstack>  
           <text>Loading...</text>  
