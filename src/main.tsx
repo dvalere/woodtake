@@ -38,7 +38,7 @@ const Landing = ({ setPage }: PageProps, {ui}:plzwork) => ( //HOME(gallery), IMA
     <hstack onPress={() => { ui.showForm(imageForm) }} backgroundColor="PureGray-250" height="70px" width="70px"
     //Stack opens the submission form when clicked
     >
-    <button size="large" disabled={false} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
+    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
