@@ -1,7 +1,17 @@
-import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
+import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 
-export const ViewingPost = ({ setPage}: PageProps ) => (
+export type PostProps = {
+  identify: string; //ID, from redis?
+  image: string; //imageUrl, from redis?
+  description: string; //Description, from redis?
+  pageSetup: PageProps; //the actual page
+}
+
+const [imageUrl, setImageUrl] = useState('blank.png');
+const [identify, setIdentify] = useState(''); //ID, from redis?
+export const ViewingPost = ({ setPage }: PageProps ) => (  
+
     <vstack
     width="100%"
     height="100%"
@@ -9,12 +19,11 @@ export const ViewingPost = ({ setPage}: PageProps ) => (
     backgroundColor="white"
     gap="small"
     >
-      //Line with the back button and "what is this"
       <hstack  width="85%" height="25%" alignment="middle start"
       gap="large"
       > //Back button
         <hstack
-        onPress={() => console.log('clicked')}
+        onPress={() => setPage('gallery')}
         backgroundColor="PureGray-250" width="35px" height="35px"
         >
             <button icon="back" disabled={true} appearance="plain">
@@ -26,8 +35,7 @@ export const ViewingPost = ({ setPage}: PageProps ) => (
       </hstack>
       
       //This stack is for the image...it should be replaced
-      <hstack alignment="top center" width="85%" height="55%" backgroundColor="PureGray-250">
-      </hstack>
+      <image url={imageUrl} imageWidth={128} imageHeight={128} /> //Usestate may have to be updated using a function?
   
       //This stack is the button at the bottom
       //Don't forget to add text that updates based on every comment added
@@ -35,4 +43,4 @@ export const ViewingPost = ({ setPage}: PageProps ) => (
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>
     </vstack>
-  );
+);

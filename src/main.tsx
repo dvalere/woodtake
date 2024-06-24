@@ -28,7 +28,6 @@ export const Post = { //POST OBJECT
 //Maybe make every imagesquare in gallery a type which holds the key and imageurl, and then run a function when pressed which locates the post with the same key and url
 
 
-
 Devvit.addMenuItem({  
   location: 'subreddit',  
   label: 'Add woodID',  
@@ -47,7 +46,9 @@ Devvit.addMenuItem({
     });  
     ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
   },  
-});
+}); //Gallery states may have to be managed from here
+//Run a function which returns the new image URL
+//Or just manually update a variable and then enter it into the menuitem
 
 const imageForm = Devvit.createForm(
   {
