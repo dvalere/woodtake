@@ -27,30 +27,6 @@ export const Post = { //POST OBJECT
 
 //Maybe make every imagesquare in gallery a type which holds the key and imageurl, and then run a function when pressed which locates the post with the same key and url
 
-
-Devvit.addMenuItem({  
-  location: 'subreddit',  
-  label: 'Add woodID',  
-  onPress: async (_, context) => {  
-    const { reddit, ui } = context;  
-    const currentSubreddit = await reddit.getCurrentSubreddit();  
-    await reddit.submitPost({  
-      title: 'My woodID post',  
-      subredditName: 'chippitychop', 
-        
-      preview: (  
-        <vstack>  
-          <text>Loading...</text>  
-        </vstack>  
-      ),  
-    });  
-    ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
-  },  
-});
- //Gallery states may have to be managed from here
-//Run a function which returns the new image URL
-//Or just manually update a variable and then enter it into the menuitem
-
 const imageForm = Devvit.createForm(
   {
     title: 'Upload an image!',
@@ -76,6 +52,26 @@ const imageForm = Devvit.createForm(
     context.redis.set(holder, imageUrl, postDescription);
   } 
 );
+
+//POST ID GENERATION FUNCTION, EXPORTED TO GALLERY.TSX
+export function generateID(redis: RedisClient): string { 
+  const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+  let ID = '';
+  const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
+  ID = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    ID += chars[randomIndex];
+  }
+  const exists = redis.get(ID); //Uses get to check if the key exists already
+  if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
+    generateID(redis);
+  }
+   //If the key didn't exist, then return ID
+  return ID;
+}
+
 
 Devvit.addCustomPostType({
   name: 'woodID',
@@ -110,23 +106,29 @@ Devvit.addCustomPostType({
   }
 )
 
-//POST ID GENERATION FUNCTION, EXPORTED TO GALLERY.TSX
-export function generateID(redis: RedisClient): string { 
-  const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-  let ID = '';
-  const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
-  ID = '';
+Devvit.addMenuItem({  
+  location: 'subreddit',  
+  label: 'Add woodID',  
+  onPress: async (_, context) => {  
+    const { reddit, ui } = context;  
+    const currentSubreddit = await reddit.getCurrentSubreddit();  
+    await reddit.submitPost({  
+      title: 'My woodID post',  
+      subredditName: 'chippitychop', 
+        
+      preview: (  
+        <vstack>  
+          <text>Loading...</text>  
+        </vstack>  
+      ),  
+    });  
+    ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
+  },  
+});
+ //Gallery states may have to be managed from here
+//Run a function which returns the new image URL
+//Or just manually update a variable and then enter it into the menuitem
 
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    ID += chars[randomIndex];
-  }
-  const exists = redis.get(ID); //Uses get to check if the key exists already
-  if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
-    generateID(redis);
-  }
-   //If the key didn't exist, then return ID
-  return ID;
-}
+
 
 export default Devvit;
