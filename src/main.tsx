@@ -35,7 +35,7 @@ Devvit.addMenuItem({
     const { reddit, ui } = context;  
     const currentSubreddit = await reddit.getCurrentSubreddit();  
     await reddit.submitPost({  
-      title: 'My HELLO!? post',  
+      title: 'My woodID post',  
       subredditName: 'chippitychop', 
         
       preview: (  
@@ -46,7 +46,8 @@ Devvit.addMenuItem({
     });  
     ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
   },  
-}); //Gallery states may have to be managed from here
+});
+ //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
 //Or just manually update a variable and then enter it into the menuitem
 
@@ -77,7 +78,7 @@ const imageForm = Devvit.createForm(
 );
 
 Devvit.addCustomPostType({
-  name: 'HELLO!?',
+  name: 'woodID',
   description: 'Identify types of wood',
   height: 'tall',
 
