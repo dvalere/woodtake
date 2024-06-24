@@ -15,11 +15,7 @@ export type GallerySquare = {
   identify: string; //Holds the post ID
 }
 
-export const Post = { //POST OBJECT
-  identify: "", //Redis ID loaded into this
-  image: "", //Redis image url loaded into this, and then passed into the page prop to be loaded as the actual image
-  description: "" //Redis description loaded into this
-}; //Comments and post deletion will be figured out later on
+//Comments and post deletion will be figured out later on
 //All this info is already stored in redis so...
 //Might have to just do a manual function in the onPress event
 //That adds the info into the viewing post page
@@ -113,7 +109,7 @@ Devvit.addMenuItem({
     const { reddit, ui } = context;  
     const currentSubreddit = await reddit.getCurrentSubreddit();  
     await reddit.submitPost({  
-      title: 'My woodID post',  
+      title: 'woodID',  
       subredditName: 'chippitychop', 
         
       preview: (  
@@ -128,7 +124,6 @@ Devvit.addMenuItem({
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
 //Or just manually update a variable and then enter it into the menuitem
-
 
 
 export default Devvit;

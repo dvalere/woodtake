@@ -9,7 +9,7 @@ export type PostProps = {
 }
 
 export const ViewingPost = ({ setPage }: PageProps ) => {  
-  const [imageUrl, setImageUrl] = useState('blank.png');
+  const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState(''); 
   const [identify, setIdentify] = useState(''); 
 
