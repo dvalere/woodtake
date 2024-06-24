@@ -8,10 +8,12 @@ export type PostProps = {
   pageSetup: PageProps; //the actual page
 }
 
-const [imageUrl, setImageUrl] = useState('blank.png');
-const [identify, setIdentify] = useState(''); //ID, from redis?
-export const ViewingPost = ({ setPage }: PageProps ) => (  
+export const ViewingPost = ({ setPage }: PageProps ) => {  
+  const [imageUrl, setImageUrl] = useState('blank.png');
+  const [description, setDescription] = useState(''); 
+  const [identify, setIdentify] = useState(''); 
 
+  return (
     <vstack
     width="100%"
     height="100%"
@@ -43,4 +45,5 @@ export const ViewingPost = ({ setPage }: PageProps ) => (
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>
     </vstack>
-);
+  );
+};
