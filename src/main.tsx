@@ -102,7 +102,7 @@ Devvit.addCustomPostType({
 }
 );
 
-/** 
+
 Devvit.addMenuItem({  
   location: 'subreddit',  
   label: 'Add woodID',  
@@ -126,7 +126,7 @@ Devvit.addMenuItem({
       ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
-*/
+
 
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
