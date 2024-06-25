@@ -1,8 +1,6 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
-import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
 import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
-import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
 
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
@@ -102,25 +100,7 @@ Devvit.addCustomPostType({
 }
 );
 
-Devvit.addMenuItem({
-  label: 'Open woodID post',
-  location: 'subreddit',
-  onPress: async (_event, context) => {
-    const subreddit = await context.reddit.getCurrentSubreddit();
-    await context.reddit.submitPost({
-      title: 'Open woodID post',
-      subredditName: subreddit.name,
-      preview: (
-        <vstack>
-          <text>Loading...</text>
-        </vstack>
-      ),
-    });
-    context.ui.showToast('Opened woodID post!');
-  },
-});
 
-/** 
 Devvit.addMenuItem({  
   location: 'subreddit',  
   label: 'Add woodID',  
@@ -144,7 +124,7 @@ Devvit.addMenuItem({
       ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
-*/
+
 
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
