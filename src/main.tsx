@@ -107,19 +107,24 @@ Devvit.addMenuItem({
   onPress: async (_, context) => {  
     const { reddit, ui } = context;  
     const currentSubreddit = await reddit.getCurrentSubreddit();  
-    await reddit.submitPost({  
-      title: 'woodID',  
-      subredditName: 'chippitychop', 
-        
-      preview: (  
-        <vstack>  
-          <text>Loading...</text>  
-        </vstack>  
-      ),  
-    });  
-    ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
+
+    try {
+      await reddit.submitPost({  
+        title: 'woodID',  
+        subredditName: 'chippitychop', 
+        preview: (  
+          <vstack>  
+            <text>Loading...</text>  
+          </vstack>  
+        ),  
+      });  
+      ui.showToast(`Submitted woodID post to ${currentSubreddit.name}`);  
+    } catch (error) {
+      console.error(error);
+      ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
+
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
 //Or just manually update a variable and then enter it into the menuitem
