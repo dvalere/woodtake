@@ -41,16 +41,16 @@ const imageForm = Devvit.createForm(
       },
     ],
   },
-  (event, context) => {
+  async (event, context) => {
     const imageUrl = event.values.myImage; //retrieves image URL
     const postDescription = event.values.paragraph; //retrieves post description
-    const holder = generateID(context.redis); //generates ID
+    const holder = await generateID(context.redis); //generates ID
     context.redis.set(holder, imageUrl, postDescription);
-  } 
+  }
 );
 
 //POST ID GENERATION FUNCTION, EXPORTED TO GALLERY.TSX
-export function generateID(redis: RedisClient): string { 
+export async function generateID(redis: RedisClient): Promise<string> { 
   const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
   let ID = '';
   const length = 6 + Math.floor(Math.random() * 2); //Randomly choose between 6 or 7
@@ -60,9 +60,9 @@ export function generateID(redis: RedisClient): string {
     const randomIndex = Math.floor(Math.random() * chars.length);
     ID += chars[randomIndex];
   }
-  const exists = redis.get(ID); //Uses get to check if the key exists already
+  const exists = await redis.get(ID); //Uses get to check if the key exists already
   if (exists != null) {  //If get does not return null, that means a key with that ID exists already, so call the function again and generate a new key
-    generateID(redis);
+    return generateID(redis);
   }
    //If the key didn't exist, then return ID
   return ID;
@@ -72,7 +72,6 @@ export function generateID(redis: RedisClient): string {
 Devvit.addCustomPostType({
   name: 'woodID',
   description: 'Identify types of wood',
-  height: 'tall',
 
   render: context => {
     const { useState } = context;

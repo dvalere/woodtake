@@ -69,10 +69,10 @@ const imageForm = Devvit.createForm(
       },
     ],
   },
-  (event, context) => {
+    async (event, context) => {
     const imageUrl = event.values.myImage; //retrieves image URL
     const postDescription = event.values.paragraph; //retrieves post description
-    const holder = generateID(context.redis); //generates ID
+    const holder = await generateID(context.redis); //generates ID
     context.redis.set(holder, imageUrl, postDescription);
-  } 
+}
 );
