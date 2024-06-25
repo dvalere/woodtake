@@ -100,6 +100,14 @@ Devvit.addCustomPostType({
 }
 );
 
+Devvit.addMenuItem({
+  label: 'Say Hello',
+  location: 'post', // accepts 'post', 'comment', 'subreddit', or a combination as an array
+  forUserType: 'moderator', // restricts this action to moderators, leave blank for any user
+  onPress: (event, context) => {
+    context.ui.showToast(`Hello from a ${event.location}!`);
+  },
+});
 
 Devvit.addMenuItem({  
   location: 'subreddit',  
