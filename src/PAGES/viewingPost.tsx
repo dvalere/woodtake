@@ -1,9 +1,7 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 
-export const [imageUrl, setImageUrl] = useState('');
-export const [description, setDescription] = useState(''); 
-export const [identify, setIdentify] = useState(''); 
+
 
 export type PostProps = {
   identify: string; //ID, from redis?
@@ -14,6 +12,10 @@ export type PostProps = {
 
 
 export const ViewingPost = ({ setPage }: PageProps ) => {  
+  const [imageUrl, setImageUrl] = useState('');
+  const [description, setDescription] = useState(''); 
+  const [identify, setIdentify] = useState(''); 
+
   return (
     <vstack
     width="100%"

@@ -14,14 +14,6 @@ export type GallerySquare = {
   identify: string; //Holds the post ID
 }
 
-//Comments and post deletion will be figured out later on
-//All this info is already stored in redis so...
-//Might have to just do a manual function in the onPress event
-//That adds the info into the viewing post page
-//And then also adds the image to the gallery, and then makes the image clickable and open the post with the same key when clicked
-
-//Maybe make every imagesquare in gallery a type which holds the key and imageurl, and then run a function when pressed which locates the post with the same key and url
-
 
 //POST ID GENERATION FUNCTION, EXPORTED TO GALLERY.TSX
 export async function generateID(redis: RedisClient): Promise<string> { 
