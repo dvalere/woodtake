@@ -72,6 +72,7 @@ export async function generateID(redis: RedisClient): Promise<string> {
 Devvit.addCustomPostType({
   name: 'woodID',
   description: 'Identify types of wood',
+  height: 'tall',
 
   render: context => {
     const { useState } = context;
@@ -96,19 +97,12 @@ Devvit.addCustomPostType({
       <blocks>
         {currentPage}
       </blocks>
-    )
-  }
-  }
-)
-Devvit.addMenuItem({
-  label: 'Say Hello',
-  location: 'post', // accepts 'post', 'comment', 'subreddit', or a combination as an array
-  forUserType: 'moderator', // restricts this action to moderators, leave blank for any user
-  onPress: (event, context) => {
-    context.ui.showToast(`Hello from a ${event.location}!`);
-  },
-});
+  )
+}
+}
+);
 
+/** 
 Devvit.addMenuItem({  
   location: 'subreddit',  
   label: 'Add woodID',  
@@ -132,6 +126,7 @@ Devvit.addMenuItem({
       ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
+*/
 
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL
