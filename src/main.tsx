@@ -2,6 +2,7 @@ import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@d
 import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
+import { imageForm } from './OBJECTS/imageForm.js';
 
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
@@ -21,31 +22,6 @@ export type GallerySquare = {
 
 //Maybe make every imagesquare in gallery a type which holds the key and imageurl, and then run a function when pressed which locates the post with the same key and url
 
-const imageForm = Devvit.createForm(
-  {
-    title: 'Upload an image!',
-    fields: [
-      { //Image field
-        name: 'myImage',
-        type: 'image', // This tells the form to expect an image
-        label: 'Upload image',
-        required: true,
-      },
-
-      { //Description field
-        type: 'paragraph',
-        name: 'description',
-        label: 'Description',
-      },
-    ],
-  },
-  async (event, context) => {
-    const imageUrl = event.values.myImage; //retrieves image URL
-    const postDescription = event.values.paragraph; //retrieves post description
-    const holder = await generateID(context.redis); //generates ID
-    context.redis.set(holder, imageUrl, postDescription);
-  }
-);
 
 //POST ID GENERATION FUNCTION, EXPORTED TO GALLERY.TSX
 export async function generateID(redis: RedisClient): Promise<string> { 
@@ -98,16 +74,7 @@ Devvit.addCustomPostType({
   )
 }
 }
-);
-
-Devvit.addMenuItem({
-  label: 'Say Hello',
-  location: 'post', // accepts 'post', 'comment', 'subreddit', or a combination as an array
-  forUserType: 'moderator', // restricts this action to moderators, leave blank for any user
-  onPress: (event, context) => {
-    context.ui.showToast(`Hello from a ${event.location}!`);
-  },
-});
+); //Could make this work with a useState variable 
 
 Devvit.addMenuItem({  
   location: 'subreddit',  
@@ -132,7 +99,6 @@ Devvit.addMenuItem({
       ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
-
 
  //Gallery states may have to be managed from here
 //Run a function which returns the new image URL

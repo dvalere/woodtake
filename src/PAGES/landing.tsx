@@ -1,18 +1,9 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
 import { generateID } from '../main.js';
 import type { PageProps } from '../main.js';
-  
-export type plzwork = {
-  ui: {
-  showForm: (createForm: FormKey) => void;
-  };
-}
-  
-export type imageee = {
-  link: (imageUrl: (string)) => void;
-}
 
-export const Landing = ({ setPage }: PageProps, {ui}:plzwork, {link}:imageee) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
+
+export const Landing = ({ setPage }: PageProps) => ( //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small"> 
@@ -49,30 +40,4 @@ export const Landing = ({ setPage }: PageProps, {ui}:plzwork, {link}:imageee) =>
     </hstack>
   </hstack>
   </vstack>
-);
-
-const imageForm = Devvit.createForm(
-  {
-    title: 'Upload an image!',
-    fields: [
-      { //Image field
-        name: 'myImage',
-        type: 'image', // This tells the form to expect an image
-        label: 'Upload image',
-        required: true,
-      },
-
-      { //Description field
-        type: 'paragraph',
-        name: 'description',
-        label: 'Description',
-      },
-    ],
-  },
-    async (event, context) => {
-    const imageUrl = event.values.myImage; //retrieves image URL
-    const postDescription = event.values.paragraph; //retrieves post description
-    const holder = await generateID(context.redis); //generates ID
-    context.redis.set(holder, imageUrl, postDescription);
-}
 );

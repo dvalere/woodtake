@@ -1,18 +1,15 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 import { generateID } from '../main.js';
+import { imageForm } from '../OBJECTS/imageForm.js';
 
 export type plzwork = {
   ui: {
   showForm: (createForm: FormKey) => void;
   };
 }
-  
-export type imageee = {
-  link: (imageUrl: (string)) => void;
-}
 
-export const Guide = ({ setPage }: PageProps, {ui}:plzwork, {link}:imageee) => (
+export const Guide = ({ setPage }: PageProps, {ui}:plzwork) => (
     <vstack width = "100%" height = "100%" alignment="top" gap="medium" backgroundColor="white">
         <text size="large" weight="bold" wrap color = "black"> Submit wood for ID </text>
         <text size="small" wrap color ="black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>
@@ -32,31 +29,4 @@ export const Guide = ({ setPage }: PageProps, {ui}:plzwork, {link}:imageee) => (
           </hstack>
         </hstack>
       </vstack>
-  );
-
-
-  const imageForm = Devvit.createForm(
-    {
-      title: 'Upload an image!',
-      fields: [
-        { //Image field
-          name: 'myImage',
-          type: 'image', // This tells the form to expect an image
-          label: 'Upload image',
-          required: true,
-        },
-  
-        { //Description field
-          type: 'paragraph',
-          name: 'description',
-          label: 'Description',
-        },
-      ],
-    },
-    async (event, context) => {
-      const imageUrl = event.values.myImage; //retrieves image URL
-      const postDescription = event.values.paragraph; //retrieves post description
-      const holder = await generateID(context.redis); //generates ID
-      context.redis.set(holder, imageUrl, postDescription);
-    }
   );
