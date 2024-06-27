@@ -2,7 +2,7 @@ import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState 
 import type { PageProps } from '../main.js';
 import { global1, global2, global3 } from '../OBJECTS/imageForm.js';
 
-export const ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imageUrl: string; description: string; }) => {  
+export let ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imageUrl: string; description: string; }) => {  
   return (
     <vstack
     width="100%"

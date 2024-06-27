@@ -3,7 +3,7 @@ import { generateID } from '../utils/utils.js';
 import type { PageProps } from '../main.js';
 
 
-export let Landing = ({ setPage, setImageUrl, setDescription }: PageProps & { setImageUrl: (url: string) => void, setDescription: (desc: string) => void }) => (
+export const Landing = ({ setPage, setImageUrl, setDescription }: PageProps & { setImageUrl: (url: string) => void, setDescription: (desc: string) => void }) => (
   //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
   //First stack of 3
