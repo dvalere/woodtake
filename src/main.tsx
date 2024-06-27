@@ -1,8 +1,9 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
+import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
 import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
+import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
-import { imageForm } from './OBJECTS/imageForm.js';
 
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
@@ -10,45 +11,39 @@ export type PageProps = {
   setPage: (page: string) => void;
 }
 
-export type GallerySquare = {
-  identify: string; //Holds the post ID
-}
-
-
-
 
 Devvit.addCustomPostType({
   name: 'woodID',
   description: 'Identify types of wood',
   height: 'tall',
-
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
+    const [imageUrl, setImageUrl] = useState('');
+    const [description, setDescription] = useState('');
 
     let currentPage;
     switch (page) {
       case 'a':
-        currentPage = <Landing setPage={setPage}/>; 
+        currentPage = <Landing setPage={setPage} setImageUrl={setImageUrl} setDescription={setDescription} />; 
         break;
       case 'b':
-        currentPage = <Guide setPage={setPage}/>;
+        currentPage = <Guide setPage={setPage} />; 
         break;
-        case 'c':
-          currentPage = <ViewingPost setPage={setPage}/>;
-          break;
+      case 'c':
+        currentPage = <ViewingPost setPage={setPage} imageUrl={imageUrl} description={description} />;
+        break;
       default:
-        currentPage = <Landing setPage={setPage}/>;
+        currentPage = <Landing setPage={setPage} setImageUrl={setImageUrl} setDescription={setDescription} />;
     }
 
     return (
       <blocks>
         {currentPage}
       </blocks>
-  )
-}
-}
-); //Could make this work with a useState variable 
+    )
+  }
+});
 
 Devvit.addMenuItem({  
   location: 'subreddit',  
@@ -73,10 +68,5 @@ Devvit.addMenuItem({
       ui.showToast(`Failed to submit woodID post: ${(error as Error).message}`);}
   },  
 });
-
- //Gallery states may have to be managed from here
-//Run a function which returns the new image URL
-//Or just manually update a variable and then enter it into the menuitem
-
 
 export default Devvit;

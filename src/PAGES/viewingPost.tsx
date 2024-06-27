@@ -1,7 +1,8 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
+import { global1, global2, global3 } from '../OBJECTS/imageForm.js';
 
-export const ViewingPost = ({ setPage }: PageProps) => {  
+export const ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imageUrl: string; description: string; }) => {  
   return (
     <vstack
     width="100%"
@@ -24,9 +25,8 @@ export const ViewingPost = ({ setPage }: PageProps) => {
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      
-      <image url={url} imageWidth={128} imageHeight={128} /> 
-  
+      <image url={global2} imageWidth={128} imageHeight={128} /> 
+      <text size="medium" color="black"> {global3} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>
