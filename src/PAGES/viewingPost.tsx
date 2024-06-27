@@ -25,7 +25,7 @@ export const ViewingPost = ({ setPage, imageUrl, description }: PageProps & { im
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      <image url={global2} imageWidth={128} imageHeight={128} /> 
+      <image url={imageUrl} imageWidth={128} imageHeight={128} /> 
       <text size="medium" color="black"> {global3} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>

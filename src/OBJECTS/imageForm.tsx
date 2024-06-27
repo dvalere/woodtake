@@ -27,6 +27,7 @@ export const imageForm = Devvit.createForm(
   },
   async (event, context) => {
     const { redis, ui } = context;
+
     const [imageUrl, setImageUrl] = useState('');
     const [description, setDescription] = useState(''); 
     const [identify, setIdentify] = useState(''); 

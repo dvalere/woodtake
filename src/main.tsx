@@ -4,6 +4,7 @@ import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
 import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
+import { global2, global3 } from './OBJECTS/imageForm.js';
 
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
@@ -19,8 +20,8 @@ Devvit.addCustomPostType({
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('a');
-    const [imageUrl, setImageUrl] = useState('');
-    const [description, setDescription] = useState('');
+    const [imageUrl, setImageUrl] = useState(global2);
+    const [description, setDescription] = useState(global3);
 
     let currentPage;
     switch (page) {

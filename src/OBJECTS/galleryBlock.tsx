@@ -3,10 +3,6 @@ import { PageProps } from '../main.js';
 import { ViewingPost } from '../PAGES/viewingPost.js';
 
 export const galleryBlock = ({setPage}: PageProps) => {
-    const [imageUrl, setImageUrl] = useState('');
-    const [description, setDescription] = useState(''); 
-    const [identify, setIdentify] = useState(''); 
-
     <hstack onPress={() => setPage('c')} backgroundColor="PureGray-250" height="70px" width="70px">
     </hstack> //When clicked, it'll set the page to 'c' which is the ViewingPost page
     //I can add a useState variable to hold the image URL and description in this object
