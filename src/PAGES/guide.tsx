@@ -1,15 +1,15 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
-import { generateID } from '../main.js';
+import { generateID } from '../utils/utils.js';
 import { imageForm } from '../OBJECTS/imageForm.js';
 
-export type plzwork = {
+export interface uiType{
   ui: {
   showForm: (createForm: FormKey) => void;
   };
 }
 
-export const Guide = ({ setPage }: PageProps, {ui}:plzwork) => (
+export const Guide = ({ setPage }: PageProps, {ui}:uiType) => (
     <vstack width = "100%" height = "100%" alignment="top" gap="medium" backgroundColor="white">
         <text size="large" weight="bold" wrap color = "black"> Submit wood for ID </text>
         <text size="small" wrap color ="black">1. Clean up the wood with a plane (or chisel for the end grain) so that we can see the grain clearly</text>

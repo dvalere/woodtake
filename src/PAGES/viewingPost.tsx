@@ -1,21 +1,7 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 
-
-
-export type PostProps = {
-  identify: string; //ID, from redis?
-  image: string; //imageUrl, from redis?
-  description: string; //Description, from redis?
-  pageSetup: PageProps; //the actual page
-}
-
-
-export const ViewingPost = ({ setPage }: PageProps ) => {  
-  const [imageUrl, setImageUrl] = useState('');
-  const [description, setDescription] = useState(''); 
-  const [identify, setIdentify] = useState(''); 
-
+export const ViewingPost = ({ setPage }: PageProps) => {  
   return (
     <vstack
     width="100%"
@@ -39,11 +25,8 @@ export const ViewingPost = ({ setPage }: PageProps ) => {
         </hstack>
       </hstack>
       
-      //This stack is for the image...it should be replaced
-      <image url={imageUrl} imageWidth={128} imageHeight={128} /> //Usestate may have to be updated using a function?
+      <image url={url} imageWidth={128} imageHeight={128} /> 
   
-      //This stack is the button at the bottom
-      //Don't forget to add text that updates based on every comment added
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>

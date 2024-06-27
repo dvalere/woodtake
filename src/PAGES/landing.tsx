@@ -1,5 +1,5 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
-import { generateID } from '../main.js';
+import { generateID } from '../utils/utils.js';
 import type { PageProps } from '../main.js';
 
 

@@ -1,0 +1,27 @@
+image is submitted
+
+image goes to redis
+
+image is placed in gallery grid
+
+user is redirected to viewingPost
+
+viewingPost displays the image by using usestate
+
+imageblock objects or elements that hold viewingpage objects with the data of a post, they display the image of that post, and they’re clickable
+
+imageBlock→viewingPage(usestate declared here)[imageForm within viewingPage]→redis
+
+imageBlock elements can be placed on gallerypage just like it’s done in pixelary
+
+useState in galleryPage, which goes through redis and adds new
+
+```
+    <hstack gap="small">{myDrawings}</hstack>
+
+```
+
+Data flow:
+Landing at galllery page→guide page→image form→add to redis & update useState→viewingPost(relies on useState)
+
+Gallery→galleryblocks(access redis, load up viewingPost page when clicked)
