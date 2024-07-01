@@ -19,7 +19,7 @@ export const Guide = ({ setPage }: PageProps, {ui}:uiType) => (
         <hstack alignment="middle center" gap="small">
         <hstack backgroundColor="PureGray-250" height="45px" width="125px">
             <text weight="bold" alignment="middle center" color="black">
-              Continue
+              Cancel
             </text>
           </hstack>
           <hstack onPress={() => { ui.showForm(imageForm), setPage('c') }} backgroundColor="PureGray-250" height="45px" width="125px">

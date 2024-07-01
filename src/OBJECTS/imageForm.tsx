@@ -35,6 +35,7 @@ export const imageForm = Devvit.createForm(
     setImageUrl(event.values.myImage);
     setDescription(event.values.description);
     setIdentify(await generateID(redis));
+    
     global2 = imageUrl;
     global3 = description;
     
