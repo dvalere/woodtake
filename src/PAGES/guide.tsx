@@ -33,7 +33,7 @@ export const Guide = (props: GuideProps, context:Context): JSX.Element => {
           Cancel
         </text>
       </hstack>
-      <hstack onPress={() => { ui.showForm(imageForm) }} backgroundColor="PureGray-250" height="45px" width="125px">
+      <hstack onPress={() => { ui.showForm(imageForm), setPage('viewingpost')}} backgroundColor="PureGray-250" height="45px" width="125px">
         <text weight="bold" alignment="middle center" color="black">
         Continue
           </text>

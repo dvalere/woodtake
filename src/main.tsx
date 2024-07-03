@@ -43,13 +43,13 @@ Devvit.addCustomPostType({
       const { redis, ui } = context;
       const newID = await generateID(redis);
       setIdentify(newID);
-      setImageUrl(event.myImage);
-      setDescription(event.myDescription);
-      await redis.hset(identify, { url: event.myImage, desc: event.myDescription });
+      setImageUrl(event.values.myImage);
+      setDescription(event.values.myDescription);
+      await redis.hset(identify, { url: event.values.myImage, desc: event.values.myDescription });
       ui.showToast('Image uploaded successfully!');
-      setPage('viewingpost');
     });
  
+
     let currentPage;
     switch (page) {
       case 'landing':

@@ -26,3 +26,7 @@ export async function generateID(redis: RedisClient): Promise<string> {
     imageUrl: string;
     description: string;
   };
+
+  function getPostTypeById(){
+    
+  }
