@@ -1,8 +1,24 @@
-import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
+import { Context, Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
-import { global1, global2, global3 } from '../OBJECTS/imageForm.js';
+import type { postProp } from '../utils/utils.js';
+import type { pages } from '../utils/pages.js';
 
-export let ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imageUrl: string; description: string; }) => {  
+interface ViewingPostProps {
+  setPage: (page: pages) => void;
+  post: postProp;
+  username: string | null
+}
+
+
+export const ViewingPost = (props:ViewingPostProps, context: Context): JSX.Element => {  
+  const {
+    setPage,
+    post,
+    username,
+  } = props;
+  const { ui } = context;
+  const { author, id, imageUrl, description }:postProp = post;
+
   return (
     <vstack
     width="100%"
@@ -15,7 +31,7 @@ export let ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imag
       gap="large"
       > //Back button
         <hstack
-        onPress={() => setPage('gallery')}
+        onPress={() => setPage('landing')}
         backgroundColor="PureGray-250" width="35px" height="35px"
         >
             <button icon="back" disabled={true} appearance="plain">
@@ -25,8 +41,8 @@ export let ViewingPost = ({ setPage, imageUrl, description }: PageProps & { imag
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      <image url={global2} imageWidth={128} imageHeight={128} /> 
-      <text size="medium" color="black"> {global3} </text>
+      <image url={imageUrl} imageWidth={128} imageHeight={128} /> 
+      <text size="medium" color="black"> {description} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>

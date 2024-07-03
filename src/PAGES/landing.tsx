@@ -8,7 +8,7 @@ export const Landing = ({ setPage, setImageUrl, setDescription }: PageProps & { 
   <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small"> 
-    <hstack onPress={() => setPage('b')} backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
     </hstack>

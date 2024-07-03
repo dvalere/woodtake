@@ -1,4 +1,6 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
+import { ViewingPost } from '../PAGES/viewingPost.js';
+import { PageProps } from '../main.js';
 
 export async function generateID(redis: RedisClient): Promise<string> { 
     const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -17,3 +19,10 @@ export async function generateID(redis: RedisClient): Promise<string> {
      //If the key didn't exist, then return ID
     return ID;
   }
+
+  export type postProp = {
+    author: string;
+    id: string;
+    imageUrl: string;
+    description: string;
+  };

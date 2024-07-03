@@ -3,10 +3,9 @@ import { generateID } from '../utils/utils.js';
 import { PageProps } from '../main.js';
 import { ViewingPost } from '../PAGES/viewingPost.js';
 //import { setImageUrl, setDescription,setIdentify, imageUrl, description, identify } from '../PAGES/viewingPost.js';
-  
-export var global1 = '';
-export var global2 = '';
-export var global3 = '';
+
+ /** Disregard, moved to main.tsx
+
 
 export const imageForm = Devvit.createForm(
   {
@@ -35,7 +34,7 @@ export const imageForm = Devvit.createForm(
     setImageUrl(event.values.myImage);
     setDescription(event.values.description);
     setIdentify(await generateID(redis));
-    
+
     global2 = imageUrl;
     global3 = description;
     
@@ -44,3 +43,4 @@ export const imageForm = Devvit.createForm(
   }
 );
 
+*/ 
