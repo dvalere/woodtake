@@ -25,3 +25,15 @@ Data flow:
 Landing at galllery page→guide page→image form→add to redis & update useState→viewingPost(relies on useState)
 
 Gallery→galleryblocks(access redis, load up viewingPost page when clicked)
+
+
+
+1. refactor form to use context.useForm
+2. use post creation on form submission
+3. use redis to associate post type and image with post ID
+4. use data from redis to determine initial view
+
+
+Post creation: 
+Values are stored in redis
+When whatever button is clicked, a function stores the post values into a type, and the return value of that function is inputted into a viewingPost page

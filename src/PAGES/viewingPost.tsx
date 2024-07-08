@@ -1,23 +1,20 @@
 import { Context, Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
-import type { postProp } from '../utils/utils.js';
+import type { postProp } from '../utils/postProp.js';
 import type { pages } from '../utils/pages.js';
 
 interface ViewingPostProps {
   setPage: (page: pages) => void;
   post: postProp;
-  username: string | null
 }
 
 
-export const ViewingPost = (props:ViewingPostProps, context: Context): JSX.Element => {  
-  const {
+export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Element => {  
+  const { ui } = context;
+  const { 
     setPage,
     post,
-    username,
   } = props;
-  const { ui } = context;
-  const { author, id, imageUrl, description }:postProp = post;
 
   return (
     <vstack
@@ -41,8 +38,8 @@ export const ViewingPost = (props:ViewingPostProps, context: Context): JSX.Eleme
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      <image url={imageUrl} imageWidth={128} imageHeight={128} /> 
-      <text size="medium" color="black"> {description} </text>
+      <image url={post.imageUrl} imageWidth={128} imageHeight={128} /> 
+      <text size="medium" color="black"> {post.description} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>

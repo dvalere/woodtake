@@ -19,14 +19,3 @@ export async function generateID(redis: RedisClient): Promise<string> {
      //If the key didn't exist, then return ID
     return ID;
   }
-
-  export type postProp = {
-    author: string;
-    id: string;
-    imageUrl: string;
-    description: string;
-  };
-
-  function getPostTypeById(){
-    
-  }

@@ -5,13 +5,12 @@ import { Guide } from './PAGES/guide.js';
 import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
 import { generateID } from './utils/utils.js';
+import { getPost } from './utils/getPostTypeById.js';
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 export type PageProps = {
   setPage: (page: string) => void;
 }
-
-
 
 Devvit.addCustomPostType({
   name: 'woodID',
@@ -47,6 +46,8 @@ Devvit.addCustomPostType({
       setDescription(event.values.myDescription);
       await redis.hset(identify, { url: event.values.myImage, desc: event.values.myDescription });
       ui.showToast('Image uploaded successfully!');
+
+      setPage('viewingPost');
     });
  
 
@@ -65,15 +66,14 @@ Devvit.addCustomPostType({
         setPage={setPage}
         />; 
         break;
-      case 'viewingpost':
-        currentPage = <ViewingPost
-          setPage={setPage}
-          post={{ author: 'author', id: identify, imageUrl: imageURL, description: description }}
-          username={"THIS IS JUST A PLACEHOLDER STRING UNTIL I MAKE THE USERNAME RETRIEVAL FUNCTION...The username retrieval function should get the username while they're submitting the post"}
-          />;
-        break;
       case 'leaderboard':
         currentPage = <Leaderboard setPage={setPage} 
+        />;
+        break;
+      case 'viewingPost':
+        currentPage = <ViewingPost 
+        post={getPost("author", identify, imageURL, description)}
+        setPage={setPage}
         />;
         break;
       default:
