@@ -19,3 +19,4 @@ export async function generateID(redis: RedisClient): Promise<string> {
      //If the key didn't exist, then return ID
     return ID;
   }
+

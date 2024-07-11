@@ -37,3 +37,21 @@ Gallery→galleryblocks(access redis, load up viewingPost page when clicked)
 Post creation: 
 Values are stored in redis
 When whatever button is clicked, a function stores the post values into a type, and the return value of that function is inputted into a viewingPost page
+
+
+
+AFTER FORM SUBMISSION:
+-Create new "post" comment under the custom post:
+    Post:
+        Each comment is structured with the "viewingPost" page
+        When the imageForm is submitted, a comment is made with the info
+        Set enter the info into redis too, with the comment ID as the redis key
+        
+    Comments:
+        You can click "guess" on a post and it'll open a form to enter what type of wood you think it is
+        The guess will then show up on the comment of the original post as a reply
+        The comments section will show upvotes and show the highest upvoted comments
+
+Create a function that 
+
+//ADD REDIRECTING TO THE NEW POST

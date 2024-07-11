@@ -15,13 +15,15 @@ export type PageProps = {
 Devvit.addCustomPostType({
   name: 'woodID',
   description: 'Identify types of wood',
-  height: 'tall',
+  height: 'regular',
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('landing');
-    const [identify, setIdentify] = useState(''); 
-    const [imageURL, setImageUrl] = useState('');
-    const [description, setDescription] = useState('');
+
+    const [identify, setIdentify] = context.useState(''); 
+    const [imageURL, setImageUrl] = context.useState('');
+    const [description, setDescription] = context.useState('');
+    
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -39,17 +41,27 @@ Devvit.addCustomPostType({
         },
       ],
     }, async (event) => {
-      const { redis, ui } = context;
-      const newID = await generateID(redis);
-      setIdentify(newID);
-      setImageUrl(event.values.myImage);
-      setDescription(event.values.myDescription);
-      await redis.hset(identify, { url: event.values.myImage, desc: event.values.myDescription });
-      ui.showToast('Image uploaded successfully!');
+      try {
+        const { redis, ui } = context;
+        const response = await event.media.upload ({
+          url: event.values.myImage.url,
+          type: 'image'
+        });  
+        
+        //Comment creation
+        await context.reddit.submitComment({
+            id: event.targetId, 
+            richtext: new RichTextBuilder()
+              .image({ mediaId: response.mediaId})
+              .codeBlock({}, (cb) => cb.rawText('This comment was created from a Devvit App')),
 
-      setPage('viewingPost');
+        });
+      } catch (err) {
+        throw new Error(`Error uploading media: ${err}`);
+      }
     });
- 
+
+    
 
     let currentPage;
     switch (page) {
@@ -70,7 +82,7 @@ Devvit.addCustomPostType({
         currentPage = <Leaderboard setPage={setPage} 
         />;
         break;
-      case 'viewingPost':
+      case 'viewingpost':
         currentPage = <ViewingPost 
         post={getPost("author", identify, imageURL, description)}
         setPage={setPage}
