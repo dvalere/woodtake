@@ -40,27 +40,32 @@ Devvit.addCustomPostType({
           label: 'Description',
         },
       ],
-    }, async (event) => {
+    }, async (values) => {
       try {
-        const { redis, ui } = context;
-        const response = await event.media.upload ({
-          url: event.values.myImage.url,
-          type: 'image'
-        });  
+        const { redis, ui, media } = context;
+        console.log(values.myImage);
+
+        const response = await media.upload ({
+          url: values.myImage,
+          type: 'image',
+        });   //Extract ID from image URL
+
+        console.log(response);
         
         //Comment creation
         await context.reddit.submitComment({
-            id: event.targetId, 
+            id: context.postId!, //Likely doesn't exist
             richtext: new RichTextBuilder()
-              .image({ mediaId: response.mediaId})
-              .codeBlock({}, (cb) => cb.rawText('This comment was created from a Devvit App')),
-
+              .image({ mediaId: response.mediaId })
+              .codeBlock({}, (cb) => cb.rawText(values.myDescription)),
         });
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
+      setImageUrl(values.myImage);
+      setDescription(values.myDescription);
     });
-
+    //Set use states to the values
     
 
     let currentPage;
