@@ -1,4 +1,4 @@
-import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey } from '@devvit/public-api';
+import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, Comment } from '@devvit/public-api';
 import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
 import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
@@ -6,6 +6,7 @@ import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
 import { generateID } from './utils/utils.js';
 import { getPost } from './utils/getPostTypeById.js';
+import type { T1ID } from  '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 export type PageProps = {
@@ -19,11 +20,41 @@ Devvit.addCustomPostType({
   render: context => {
     const { useState } = context;
     const [page, setPage] = useState('landing');
-
     const [identify, setIdentify] = context.useState(''); 
     const [imageURL, setImageUrl] = context.useState('');
-    const [description, setDescription] = context.useState('');
+    const [description, setDescription] = context.useState('');  
+    const [currentPageNumber, setCurrentPageNumber] = useState(0);
+
+    function incrementCurrentPage(){ //For when someone clicks up in gallery
+      setCurrentPageNumber(currentPageNumber + 1);
+    }
     
+    function decrementCurrentPage(){ //For when someone clicks down in gallery
+      setCurrentPageNumber(currentPageNumber - 1);
+    }  
+
+    let availablePage = 0;
+    let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
+    let availableBlocks = 9;
+    function incrementAvailablePage(){
+      if (availablePage == 0) {
+        if (availableBlocksLanding > 0 ){
+          availableBlocksLanding--;
+        }
+        else { 
+          availablePage++; 
+        }
+      }
+      else { 
+        if (availableBlocks > 0){
+          availableBlocks--;
+        }
+        else { 
+          availablePage++; 
+          availableBlocks = 9; 
+        }
+      }
+    } //Should be ran AFTER the availablePage variable is used
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -53,19 +84,24 @@ Devvit.addCustomPostType({
         console.log(response);
         
         //Comment creation
-        await context.reddit.submitComment({
+        const submittedComment = await context.reddit.submitComment({
             id: context.postId!, //Likely doesn't exist
             richtext: new RichTextBuilder()
               .image({ mediaId: response.mediaId })
               .codeBlock({}, (cb) => cb.rawText(values.myDescription)),
         });
+        setIdentify(submittedComment.id);
+        setImageUrl(values.myImage);
+        setDescription(values.myDescription);
+        await redis.hset(submittedComment.id, {pagenum: JSON.stringify(availablePage), img: values.myImage, dsc: values.myDescription});
+        incrementAvailablePage();
+        //Use Number() on pagenum when retrieving, since it had to be turned into a string to be stored into redis
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
-      setImageUrl(values.myImage);
-      setDescription(values.myDescription);
     });
-    //Set use states to the values
+    //For gallery blocks, the data will be loaded through the submittedComment id
+    //Comments could be submitted through forms?
     
 
     let currentPage;
@@ -73,8 +109,9 @@ Devvit.addCustomPostType({
       case 'landing':
         currentPage = <Landing 
         setPage={setPage} 
-        setImageUrl={setImageUrl} 
-        setDescription={setDescription}
+        page={currentPageNumber}
+        incrementCurrentPage={incrementCurrentPage}
+        decrementCurrentPage={decrementCurrentPage}
         />; 
         break;
       case 'guide':
@@ -94,7 +131,7 @@ Devvit.addCustomPostType({
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} setImageUrl={setImageUrl} setDescription={setDescription} />;
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage}/>;
     }
 
     return (

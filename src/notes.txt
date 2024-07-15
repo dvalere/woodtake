@@ -55,3 +55,14 @@ AFTER FORM SUBMISSION:
 Create a function that 
 
 //ADD REDIRECTING TO THE NEW POST
+
+
+GALLERY PAGES:
+-I have a variable that holds the page number
+-Everytime someone clicks on the up or down buttons to change between pages, the variable is added to or subtracted from
+-The information for the image blocks are added into redis hsets with a "page number" value when they are inputted
+-The page object runs a function that searches redis, and finds every hset with a page number that matches the current page number variable, and displays them in the blocks. With this, the blocks won't have to be in every page, but the states can update. 
+
+variable in main that holds the amount of blocks available on the page
+function in main that checks how many blocks are availabe, and then returns the number of the page that has an available block(it will use the availablePages variable, )
+currentPage useState variable in main->
