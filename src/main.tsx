@@ -26,6 +26,17 @@ Devvit.addCustomPostType({
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
 
+    //gallery image block variables 
+    const [block1, setBlock1] = useState('');
+    const [block2, setBlock2] = useState('');
+    const [block3, setBlock3] = useState('');
+    const [block4, setBlock4] = useState('');
+    const [block5, setBlock5] = useState('');
+    const [block6, setBlock6] = useState('');
+    const [block7, setBlock7] = useState('');
+    const [block8, setBlock8] = useState('');
+    const [block9, setBlock9] = useState('');
+
     function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
       console.log(currentPageNumber);

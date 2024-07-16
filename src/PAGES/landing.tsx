@@ -6,6 +6,15 @@ interface landingProps {
   page: number;
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
+  one: string;
+  two: string;
+  three: string;
+  four: string;
+  five: string;
+  six: string;
+  seven: string;
+  eight: string;
+  nine: string;
 }
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
@@ -13,6 +22,15 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   const {
     setPage, 
     page,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
     incrementCurrentPage, 
     decrementCurrentPage,
   } = props;
@@ -23,21 +41,75 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small"> 
     <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
+      <image
+      url={one}
+      imageWidth={70}
+      imageHeight={70}
+      description="Generative artwork: Fuzzy Fingers"
+      />
     </hstack>
+      <image
+        url={two}
+        imageWidth={70}
+        imageHeight={70}
+        description="Generative artwork: Fuzzy Fingers"
+        />
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
   </hstack>
   //Second stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url={three}
+        imageWidth={70}
+        imageHeight={70}
+        description="Generative artwork: Fuzzy Fingers"
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url={four}
+        imageWidth={70}
+        imageHeight={70}
+        description="Generative artwork: Fuzzy Fingers"
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url={five}
+        imageWidth={70}
+        imageHeight={70}
+        description="Generative artwork: Fuzzy Fingers"
+        />
+    </hstack>
   </hstack>
   //Third stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+          url={six}
+          imageWidth={70}
+          imageHeight={70}
+          description="Generative artwork: Fuzzy Fingers"
+          />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+          url={seven}
+          imageWidth={70}
+          imageHeight={70}
+          description="Generative artwork: Fuzzy Fingers"
+          />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+          url={eight}
+          imageWidth={70}
+          imageHeight={70}
+          description="Generative artwork: Fuzzy Fingers"
+          />
+    </hstack>
   </hstack>
   //Up and down buttons
   <hstack gap="small">
@@ -54,3 +126,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   </vstack>
   );
 };
+
+//Create 9 useState variables
+//Put them in each image URL option
+//Have the variables updated in the

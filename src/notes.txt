@@ -66,3 +66,10 @@ GALLERY PAGES:
 variable in main that holds the amount of blocks available on the page
 function in main that checks how many blocks are availabe, and then returns the number of the page that has an available block(it will use the availablePages variable, )
 currentPage useState variable in main->
+
+
+IMPORTANT:
+-With the current structure of the gallery page navigation, it will have to be considered how the pages will update in tandem with redis when a post is deleted.
+-Add a function within the onsubmit section of the imageForm to retrieve the user's username or ID 
+-Add username value into redis hset
+-Maybe add something to make it so the image blocks are invisible until an image is loaded into them?
