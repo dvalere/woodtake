@@ -28,10 +28,12 @@ Devvit.addCustomPostType({
 
     function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
+      console.log(currentPageNumber);
     }
     
     function decrementCurrentPage(){ //For when someone clicks down in gallery
       setCurrentPageNumber(currentPageNumber - 1);
+      console.log(currentPageNumber);
     }  
 
     let availablePage = 0;

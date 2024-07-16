@@ -41,11 +41,20 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   </hstack>
   //Up and down buttons
   <hstack gap="small">
-    <hstack onPress={() => decrementCurrentPage() } 
+    <hstack onPress={() => {
+            if (page == 1){
+                decrementCurrentPage();
+                setPage('landing');
+            }
+            else{
+                decrementCurrentPage();
+            }
+            }}
+            
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
     >
     </hstack>
-    <hstack onPress={() => incrementCurrentPage() } 
+    <hstack onPress={() => incrementCurrentPage()} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Add something to check if the page number is 1 on the up button, because if it's 1, then we have to go back to the "landing" page with the camera button
