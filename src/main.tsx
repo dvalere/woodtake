@@ -6,6 +6,7 @@ import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
 import { generateID } from './utils/utils.js';
 import { getPost } from './utils/getPostTypeById.js';
+import { Gallery } from './PAGES/gallery.js';
 import type { T1ID } from  '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
@@ -85,7 +86,7 @@ Devvit.addCustomPostType({
         
         //Comment creation
         const submittedComment = await context.reddit.submitComment({
-            id: context.postId!, //Likely doesn't exist
+            id: context.postId!, 
             richtext: new RichTextBuilder()
               .image({ mediaId: response.mediaId })
               .codeBlock({}, (cb) => cb.rawText(values.myDescription)),
@@ -127,6 +128,13 @@ Devvit.addCustomPostType({
       case 'viewingpost':
         currentPage = <ViewingPost 
         post={getPost("author", identify, imageURL, description)}
+        setPage={setPage}
+        />;
+      case 'gallery':
+        currentPage = <Gallery
+        page={currentPageNumber}
+        incrementCurrentPage={incrementCurrentPage}
+        decrementCurrentPage={decrementCurrentPage}
         setPage={setPage}
         />;
         break;
