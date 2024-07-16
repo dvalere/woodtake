@@ -41,14 +41,14 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
-        url= "emptyblock.png"
+        url={one}
       imageWidth={70}
       imageHeight={70}
       />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url= "emptyblock.png"
+        url={two}
         imageWidth={70}
         imageHeight={70}
         />
@@ -58,21 +58,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url= "emptyblock.png"
+        url={three}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url= "emptyblock.png"
+        url={four}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url= "emptyblock.png"
+        url={five}
         imageWidth={70}
         imageHeight={70}
         />
@@ -82,21 +82,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url= "emptyblock.png"
+          url={six}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url= "emptyblock.png"
+          url={seven}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url= "emptyblock.png"
+          url={eight}
           imageWidth={70}
           imageHeight={70}
           />

@@ -27,15 +27,15 @@ Devvit.addCustomPostType({
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
 
     //gallery image block variables 
-    const [block1, setBlock1] = useState('');
-    const [block2, setBlock2] = useState('');
-    const [block3, setBlock3] = useState('');
-    const [block4, setBlock4] = useState('');
-    const [block5, setBlock5] = useState('');
-    const [block6, setBlock6] = useState('');
-    const [block7, setBlock7] = useState('');
-    const [block8, setBlock8] = useState('');
-    const [block9, setBlock9] = useState('');
+    const [block1, setBlock1] = useState("emptyblock.png");
+    const [block2, setBlock2] = useState("emptyblock.png");
+    const [block3, setBlock3] = useState("emptyblock.png");
+    const [block4, setBlock4] = useState("emptyblock.png");
+    const [block5, setBlock5] = useState("emptyblock.png");
+    const [block6, setBlock6] = useState("emptyblock.png");
+    const [block7, setBlock7] = useState("emptyblock.png");
+    const [block8, setBlock8] = useState("emptyblock.png");
+    const [block9, setBlock9] = useState("emptyblock.png");
 
     function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
