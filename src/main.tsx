@@ -47,6 +47,12 @@ Devvit.addCustomPostType({
       console.log(currentPageNumber);
     }  
 
+    function loadToGallery(){
+
+    }
+    //Create a new hash set: redis.hset(holder, {key: "empty string that will be disregarded, only thing we need is the key "})
+    //Iterate through that hash set, and then on every index within it, refer back to the redis database, which will have another hash set referring to each key, with the post values
+
     let availablePage = 0;
     let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
     let availableBlocks = 9;
@@ -69,6 +75,20 @@ Devvit.addCustomPostType({
         }
       }
     } //Should be ran AFTER the availablePage variable is used
+
+    function findAvailableBlock(){
+      if (availablePage == 0){
+        if (availableBlocksLanding > 0){
+          return availableBlocksLanding;
+        }
+        else {
+          return availableBlocks;
+        }
+      }
+    }
+
+    //create a separate redis set that holds the key of every hset 
+    //Have the key set as the parameter
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -107,7 +127,7 @@ Devvit.addCustomPostType({
         setIdentify(submittedComment.id);
         setImageUrl(values.myImage);
         setDescription(values.myDescription);
-        await redis.hset(submittedComment.id, {pagenum: JSON.stringify(availablePage), img: values.myImage, dsc: values.myDescription});
+        await redis.hset(submittedComment.id, {pagenum: JSON.stringify(availablePage), blocknum: JSON.stringify(findAvailableBlock), img: values.myImage, dsc: values.myDescription});
         incrementAvailability();
         //Use Number() on pagenum when retrieving, since it had to be turned into a string to be stored into redis
       } catch (err) {
