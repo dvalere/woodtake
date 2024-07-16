@@ -14,7 +14,6 @@ interface landingProps {
   six: string;
   seven: string;
   eight: string;
-  nine: string;
 }
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
@@ -30,7 +29,6 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     six,
     seven,
     eight,
-    nine,
     incrementCurrentPage, 
     decrementCurrentPage,
   } = props;
@@ -43,44 +41,40 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
-      url={one}
+        url= "emptyblock.png"
       imageWidth={70}
       imageHeight={70}
-      description="Generative artwork: Fuzzy Fingers"
       />
     </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={two}
+        url= "emptyblock.png"
         imageWidth={70}
         imageHeight={70}
-        description="Generative artwork: Fuzzy Fingers"
         />
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    </hstack>
   </hstack>
   //Second stack
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={three}
+        url= "emptyblock.png"
         imageWidth={70}
         imageHeight={70}
-        description="Generative artwork: Fuzzy Fingers"
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={four}
+        url= "emptyblock.png"
         imageWidth={70}
         imageHeight={70}
-        description="Generative artwork: Fuzzy Fingers"
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={five}
+        url= "emptyblock.png"
         imageWidth={70}
         imageHeight={70}
-        description="Generative artwork: Fuzzy Fingers"
         />
     </hstack>
   </hstack>
@@ -88,26 +82,23 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={six}
+          url= "emptyblock.png"
           imageWidth={70}
           imageHeight={70}
-          description="Generative artwork: Fuzzy Fingers"
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={seven}
+          url= "emptyblock.png"
           imageWidth={70}
           imageHeight={70}
-          description="Generative artwork: Fuzzy Fingers"
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={eight}
+          url= "emptyblock.png"
           imageWidth={70}
           imageHeight={70}
-          description="Generative artwork: Fuzzy Fingers"
           />
     </hstack>
   </hstack>

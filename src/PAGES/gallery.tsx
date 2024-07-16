@@ -4,6 +4,15 @@ import type { pages } from '../utils/pages.js';
 interface galleryProps {
   setPage: (page: pages) => void;
   page: number;
+  one: string;
+  two: string;
+  three: string;
+  four: string;
+  five: string;
+  six: string;
+  seven: string;
+  eight: string;
+  nine: string;
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
 }
@@ -13,31 +22,91 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   const {
     setPage, 
     page,
+    one,
+    two,
+    three,
+    four,
+    five,
+    six,
+    seven,
+    eight,
+    nine,
     incrementCurrentPage, 
     decrementCurrentPage,
   } = props;
   return(
-  //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small"> 
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+       <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
   </hstack>
   //Second stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
   </hstack>
   //Third stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"></hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url= "emptyblock.png"
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
   </hstack>
   //Up and down buttons
   <hstack gap="small">

@@ -50,7 +50,7 @@ Devvit.addCustomPostType({
     let availablePage = 0;
     let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
     let availableBlocks = 9;
-    function incrementAvailablePage(){
+    function incrementAvailability(){
       if (availablePage == 0) {
         if (availableBlocksLanding > 0 ){
           availableBlocksLanding--;
@@ -108,7 +108,7 @@ Devvit.addCustomPostType({
         setImageUrl(values.myImage);
         setDescription(values.myDescription);
         await redis.hset(submittedComment.id, {pagenum: JSON.stringify(availablePage), img: values.myImage, dsc: values.myDescription});
-        incrementAvailablePage();
+        incrementAvailability();
         //Use Number() on pagenum when retrieving, since it had to be turned into a string to be stored into redis
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
@@ -126,6 +126,14 @@ Devvit.addCustomPostType({
         page={currentPageNumber}
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
+        one={block1}
+        two={block2}
+        three={block3}
+        four={block4}
+        five={block5}
+        six={block6}
+        seven={block7}
+        eight={block8}
         />; 
         break;
       case 'guide':
@@ -146,13 +154,31 @@ Devvit.addCustomPostType({
       case 'gallery':
         currentPage = <Gallery
         page={currentPageNumber}
+        one={block1}
+        two={block2}
+        three={block3}
+        four={block4}
+        five={block5}
+        six={block6}
+        seven={block7}
+        eight={block8}
+        nine={block9}
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
         setPage={setPage}
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage}/>;
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage}
+        one={block1}
+        two={block2}
+        three={block3}
+        four={block4}
+        five={block5}
+        six={block6}
+        seven={block7}
+        eight={block8}
+        />;
     }
 
     return (
