@@ -106,6 +106,7 @@ Devvit.addCustomPostType({
               const firstHolder = holder[0];
               if (firstHolder) {{
                 console.log(`member: ${firstHolder.member}`);
+                setBlock1(firstHolder.member);
               }} else {{
                 console.error('No member found');
               }}
@@ -211,6 +212,7 @@ Devvit.addCustomPostType({
               const firstHolder = holder[0];
               if (firstHolder) {{
                 console.log(`Member: ${firstHolder.member}`);
+                setBlock1(firstHolder.member);
               }} else {{
                 console.error('No member found');
               }}
@@ -350,6 +352,7 @@ Devvit.addCustomPostType({
               const firstHolder = holder[0];
               if (firstHolder) {{
                 console.log(`Member: ${firstHolder.member}`);
+                setBlock1(firstHolder.member);
               }} else {{
                 console.error('No member found');
               }}
