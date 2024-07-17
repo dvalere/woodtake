@@ -36,6 +36,15 @@ Devvit.addCustomPostType({
     const [block7, setBlock7] = useState("emptyblock.png");
     const [block8, setBlock8] = useState("emptyblock.png");
     const [block9, setBlock9] = useState("emptyblock.png");
+    const [rangenum, addToRange]= useState(8);
+    
+    function incrementRange(){
+      addToRange(rangenum + 9);
+    }
+
+    function decrementRange(){
+      addToRange(rangenum - 9);
+    }
 
     function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
@@ -87,6 +96,276 @@ Devvit.addCustomPostType({
       }
     }
 
+    function assignBlock(){
+      if (currentPageNumber == 0){
+        for (let test = rangenum; test > (rangenum-8); test--){
+          if (test == (rangenum)){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-1){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-2){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-3){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-4){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-5){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-6){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-7){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+        }
+      }
+      else{
+        for (let test = rangenum; test > (rangenum-9); test--){
+          if (test == (rangenum)){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-1){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-2){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-3){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-4){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-5){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-6){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-7){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+          else if (test == rangenum-8){
+            context.redis.zRange('leaderboard', test, test)
+            .then(holder => {{
+              // holder is an array, get the first element
+              const firstHolder = holder[0];
+              if (firstHolder) {{
+                console.log(`Member: ${firstHolder.member}`);
+              }} else {{
+                console.error('No member found');
+              }}
+            }})
+            .catch(error => {{
+              console.error(error);
+            }});
+          }
+        }
+      }
+    }
+    //If available page == 0, 
+
+    //Else, for i = 0, while i < 9, i++, assign each redis hset to an image by referring to the sorted set, i++
+
+
     //create a separate redis set that holds the key of every hset 
     //Have the key set as the parameter
     
@@ -127,8 +406,13 @@ Devvit.addCustomPostType({
         setIdentify(submittedComment.id);
         setImageUrl(values.myImage);
         setDescription(values.myDescription);
-        await redis.hset(submittedComment.id, {pagenum: JSON.stringify(availablePage), blocknum: JSON.stringify(findAvailableBlock), img: values.myImage, dsc: values.myDescription});
+        await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
+        await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
         incrementAvailability();
+        //await redis.zAdd('sortedset', 'commentID', 'timecreated');
+        //Sorted sets start at index 0
+        //Still have to track page since the camera icon changes the number....orrrr I could just move it
+
         //Use Number() on pagenum when retrieving, since it had to be turned into a string to be stored into redis
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
@@ -183,6 +467,8 @@ Devvit.addCustomPostType({
         seven={block7}
         eight={block8}
         nine={block9}
+        incrementRange={incrementRange}
+        decrementRange={decrementRange}
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
         setPage={setPage}

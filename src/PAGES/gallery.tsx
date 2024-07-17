@@ -1,4 +1,4 @@
-import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, Context } from '@devvit/public-api';
+import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, Context, StateSetter } from '@devvit/public-api';
 import type { pages } from '../utils/pages.js';
 
 interface galleryProps {
@@ -15,6 +15,8 @@ interface galleryProps {
   nine: string;
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
+  incrementRange: Function;
+  decrementRange: Function;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -33,6 +35,8 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     nine,
     incrementCurrentPage, 
     decrementCurrentPage,
+    incrementRange,
+    decrementRange,
   } = props;
   return(
   <vstack gap="small" alignment="middle center">
@@ -113,17 +117,19 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     <hstack onPress={() => {
             if (page == 1){
                 decrementCurrentPage();
+                decrementRange();
                 setPage('landing');
             }
             else{
                 decrementCurrentPage();
+                decrementRange();
             }
             }}
             
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
     >
     </hstack>
-    <hstack onPress={() => incrementCurrentPage()} 
+    <hstack onPress={() => {incrementCurrentPage(); incrementRange();}} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Add something to check if the page number is 1 on the up button, because if it's 1, then we have to go back to the "landing" page with the camera button
