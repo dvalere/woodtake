@@ -100,12 +100,12 @@ Devvit.addCustomPostType({
       if (currentPageNumber == 0){
         for (let test = rangenum; test > (rangenum-8); test--){
           if (test == (rangenum)){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                console.log(`member: ${firstHolder.member}`);
               }} else {{
                 console.error('No member found');
               }}
@@ -115,7 +115,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-1){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -130,7 +130,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-2){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -145,7 +145,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-3){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -160,7 +160,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-4){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -175,7 +175,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-5){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -190,7 +190,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-6){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -205,7 +205,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-7){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -224,7 +224,7 @@ Devvit.addCustomPostType({
       else{
         for (let test = rangenum; test > (rangenum-9); test--){
           if (test == (rangenum)){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -239,7 +239,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-1){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -254,7 +254,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-2){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -269,7 +269,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-3){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -284,7 +284,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-4){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -299,7 +299,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-5){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -314,7 +314,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-6){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -329,7 +329,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-7){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -344,7 +344,7 @@ Devvit.addCustomPostType({
             }});
           }
           else if (test == rangenum-8){
-            context.redis.zRange('leaderboard', test, test)
+            context.redis.zRange('posts', test, test)
             .then(holder => {{
               // holder is an array, get the first element
               const firstHolder = holder[0];
@@ -409,6 +409,7 @@ Devvit.addCustomPostType({
         await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
         await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
         incrementAvailability();
+        assignBlock();
         //await redis.zAdd('sortedset', 'commentID', 'timecreated');
         //Sorted sets start at index 0
         //Still have to track page since the camera icon changes the number....orrrr I could just move it
