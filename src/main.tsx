@@ -105,8 +105,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`member: ${firstHolder.member}`);
-                setBlock1(firstHolder.member);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock8(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -121,7 +125,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock7(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -136,7 +145,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock6(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -151,7 +165,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock5(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -166,7 +185,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock4(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -181,7 +205,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock3(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -196,7 +225,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock2(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -211,7 +245,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock1(result!);
+                  }
+                });
                 setBlock1(firstHolder.member);
               }} else {{
                 console.error('No member found');
@@ -231,7 +270,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock9(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -246,7 +290,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock8(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -261,7 +310,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock7(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -276,7 +330,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock6(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -291,7 +350,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock5(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -306,7 +370,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock4(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -321,7 +390,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock3(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -336,7 +410,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock2(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -351,8 +430,12 @@ Devvit.addCustomPostType({
               // holder is an array, get the first element
               const firstHolder = holder[0];
               if (firstHolder) {{
-                console.log(`Member: ${firstHolder.member}`);
-                setBlock1(firstHolder.member);
+                context.redis.hget(firstHolder.member, 'img').then(result => {
+                  console.log(result);
+                  if (result) {
+                    setBlock1(result!);
+                  }
+                });
               }} else {{
                 console.error('No member found');
               }}
@@ -390,14 +473,11 @@ Devvit.addCustomPostType({
     }, async (values) => {
       try {
         const { redis, ui, media } = context;
-        console.log(values.myImage);
 
         const response = await media.upload ({
           url: values.myImage,
           type: 'image',
         });   //Extract ID from image URL
-
-        console.log(response);
         
         //Comment creation
         const submittedComment = await context.reddit.submitComment({
