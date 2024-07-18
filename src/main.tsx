@@ -37,6 +37,7 @@ Devvit.addCustomPostType({
     const [block8, setBlock8] = useState("emptyblock.png");
     const [block9, setBlock9] = useState("emptyblock.png");
     const [rangenum, addToRange]= useState(8);
+    const [currentSet, setSet] = useState('posts');
     
     function incrementRange(){
       addToRange(rangenum + 9);
@@ -56,11 +57,80 @@ Devvit.addCustomPostType({
       console.log(currentPageNumber);
     }  
 
-    function loadToGallery(){
+    async function Blocks(){ //Enter
+      const set = "posts";
+      let holder = rangenum;
+      let result = await context.redis.zRange(set, holder, holder);
+      let ting = await context.redis.hget(result[0].member, 'img');
+      console.log(`${ting}`);
+      if (currentPageNumber == 0){
+        setBlock8(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock7(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock6(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock5(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock4(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock3(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock2(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock1(ting!);
 
-    }
-    //Create a new hash set: redis.hset(holder, {key: "empty string that will be disregarded, only thing we need is the key "})
-    //Iterate through that hash set, and then on every index within it, refer back to the redis database, which will have another hash set referring to each key, with the post values
+      }
+      else{
+        setBlock9(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock8(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock7(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock6(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock5(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock4(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock3(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock2(ting!);
+        holder--;
+        result = await context.redis.zRange(set, holder, holder);
+        ting = await context.redis.hget(result[0].member, 'img');
+        setBlock1(ting!);
+      }
+    };
 
     let availablePage = 0;
     let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
@@ -83,377 +153,7 @@ Devvit.addCustomPostType({
           availableBlocks = 9; 
         }
       }
-    } //Should be ran AFTER the availablePage variable is used
-
-    function findAvailableBlock(){
-      if (availablePage == 0){
-        if (availableBlocksLanding > 0){
-          return availableBlocksLanding;
-        }
-        else {
-          return availableBlocks;
-        }
-      }
     }
-
-    function assignBlock(){
-      if (currentPageNumber == 0){
-        for (let test = rangenum; test > (rangenum-8); test--){
-          if (test == (rangenum)){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock8(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-1){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock7(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-2){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock6(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-3){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock5(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-4){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock4(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-5){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock3(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-6){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock2(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-7){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock1(result!);
-                  }
-                });
-                setBlock1(firstHolder.member);
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-        }
-      }
-      else{
-        for (let test = rangenum; test > (rangenum-9); test--){
-          if (test == (rangenum)){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock9(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-1){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock8(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-2){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock7(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-3){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock6(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-4){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock5(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-5){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock4(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-6){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock3(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-7){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock2(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-          else if (test == rangenum-8){
-            context.redis.zRange('posts', test, test)
-            .then(holder => {{
-              // holder is an array, get the first element
-              const firstHolder = holder[0];
-              if (firstHolder) {{
-                context.redis.hget(firstHolder.member, 'img').then(result => {
-                  console.log(result);
-                  if (result) {
-                    setBlock1(result!);
-                  }
-                });
-              }} else {{
-                console.error('No member found');
-              }}
-            }})
-            .catch(error => {{
-              console.error(error);
-            }});
-          }
-        }
-      }
-    }
-    //If available page == 0, 
-
-    //Else, for i = 0, while i < 9, i++, assign each redis hset to an image by referring to the sorted set, i++
-
-
-    //create a separate redis set that holds the key of every hset 
-    //Have the key set as the parameter
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -491,21 +191,22 @@ Devvit.addCustomPostType({
         setDescription(values.myDescription);
         await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
         await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
-        incrementAvailability();
-        assignBlock();
-        //await redis.zAdd('sortedset', 'commentID', 'timecreated');
-        //Sorted sets start at index 0
-        //Still have to track page since the camera icon changes the number....orrrr I could just move it
-
-        //Use Number() on pagenum when retrieving, since it had to be turned into a string to be stored into redis
+        
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
     });
-    //For gallery blocks, the data will be loaded through the submittedComment id
-    //Comments could be submitted through forms?
-    
 
+    //Maybe add a higher and lower range?
+    //Should be ran everytime the page is changed just like the other functions
+    //Could be ran inside incrementRange?
+
+
+    //Takes in sorted set as paramter
+    //uses zRange on set
+    //
+    
+    
     let currentPage;
     switch (page) {
       case 'landing':
@@ -522,6 +223,7 @@ Devvit.addCustomPostType({
         six={block6}
         seven={block7}
         eight={block8}
+        blocks={Blocks}
         />; 
         break;
       case 'guide':
@@ -556,10 +258,11 @@ Devvit.addCustomPostType({
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
         setPage={setPage}
+        blocks={Blocks}
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage}
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks}
         one={block1}
         two={block2}
         three={block3}

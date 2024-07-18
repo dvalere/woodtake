@@ -17,6 +17,7 @@ interface galleryProps {
   decrementCurrentPage: Function;
   incrementRange: Function;
   decrementRange: Function;
+  blocks: Function;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -37,6 +38,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     decrementCurrentPage,
     incrementRange,
     decrementRange,
+    blocks,
   } = props;
   return(
   <vstack gap="small" alignment="middle center">
@@ -119,17 +121,19 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
                 decrementCurrentPage();
                 decrementRange();
                 setPage('landing');
+                blocks();
             }
             else{
                 decrementCurrentPage();
                 decrementRange();
+                blocks();
             }
             }}
             
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
     >
     </hstack>
-    <hstack onPress={() => {incrementCurrentPage(); incrementRange();}} 
+    <hstack onPress={() => {incrementCurrentPage(); incrementRange(); blocks(); }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Add something to check if the page number is 1 on the up button, because if it's 1, then we have to go back to the "landing" page with the camera button
