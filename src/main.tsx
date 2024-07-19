@@ -57,7 +57,7 @@ Devvit.addCustomPostType({
       console.log(currentPageNumber);
     }  
 
-    async function Blocks(){ //Enter
+    async function Blocks(){
       const set = "posts";
       let holder = rangenum;
       let result = await context.redis.zRange(set, holder, holder);
