@@ -239,7 +239,8 @@ Devvit.addCustomPostType({
     //uses zRange on set
     //
     
-    
+    console.log(block1, block2, block3, block4, block5, block6, block7, block8, block9);
+
     let currentPage;
     switch (page) {
       case 'landing':

@@ -34,6 +34,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     decrementCurrentPage,
     blocks,
   } = props;
+  console.log(one, two, three, four, five, six, seven, eight);
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
