@@ -41,6 +41,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     blocks,
   } = props;
   return(
+ 
   <vstack gap="small" alignment="middle center">
   //First stack of 3
   <hstack gap="small"> 

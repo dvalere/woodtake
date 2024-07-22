@@ -38,6 +38,10 @@ Devvit.addCustomPostType({
     const [block9, setBlock9] = useState("emptyblock.png");
     const [rangenum, addToRange]= useState(8);
     const [currentSet, setSet] = useState('posts');
+    const [] = useState(async() :Promise<void> =>{
+      await Blocks();
+    })
+
     
     function incrementRange(){
       addToRange(rangenum + 9);
@@ -155,38 +159,21 @@ Devvit.addCustomPostType({
       console.log(currentPageNumber);
     };
 
-    function incrementCurrentPage(){ //For when someone clicks up in gallery
+    async function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
-      Blocks();
+        await Blocks();
     }
     
-    function decrementCurrentPage(){ //For when someone clicks down in gallery
+    async function decrementCurrentPage(){ //For when someone clicks down in gallery
       setCurrentPageNumber(currentPageNumber - 1);
-      Blocks();
+      useState(async() :Promise<void> =>{
+        await Blocks();
+      })
     }  
 
     let availablePage = 0;
     let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
     let availableBlocks = 9;
-    function incrementAvailability(){
-      if (availablePage == 0) {
-        if (availableBlocksLanding > 0 ){
-          availableBlocksLanding--;
-        }
-        else { 
-          availablePage++; 
-        }
-      }
-      else { 
-        if (availableBlocks > 0){
-          availableBlocks--;
-        }
-        else { 
-          availablePage++; 
-          availableBlocks = 9; 
-        }
-      }
-    }
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -205,7 +192,7 @@ Devvit.addCustomPostType({
       ],
     }, async (values) => {
       try {
-        const { redis, ui, media } = context;
+        const { redis, media } = context;
 
         const response = await media.upload ({
           url: values.myImage,

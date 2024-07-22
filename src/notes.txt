@@ -73,3 +73,8 @@ IMPORTANT:
 -Add a function within the onsubmit section of the imageForm to retrieve the user's username or ID 
 -Add username value into redis hset
 -Maybe add something to make it so the image blocks are invisible until an image is loaded into them?
+
+
+Current problem: 
+-First 2 pages show the images, but when you try to keep clicking, it doesnt go forward, which is good, but the incrementation still happens.
+-
