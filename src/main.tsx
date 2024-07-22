@@ -47,90 +47,123 @@ Devvit.addCustomPostType({
       addToRange(rangenum - 9);
     }
 
-    function incrementCurrentPage(){ //For when someone clicks up in gallery
-      setCurrentPageNumber(currentPageNumber + 1);
-      console.log(currentPageNumber);
-    }
-    
-    function decrementCurrentPage(){ //For when someone clicks down in gallery
-      setCurrentPageNumber(currentPageNumber - 1);
-      console.log(currentPageNumber);
-    }  
-
     async function Blocks(){
       const set = "posts";
       let holder = rangenum;
       let result = await context.redis.zRange(set, holder, holder);
       let ting = await context.redis.hget(result[0].member, 'img');
-      console.log(`${ting}`);
       if (currentPageNumber == 0){
+        console.log(`${ting}`);
+
         setBlock8(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock7(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock6(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock5(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock4(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock3(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock2(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        setBlock1(ting!);
+        console.log(`${ting}`);
 
+        setBlock1(ting!);
       }
       else{
+        console.log(`${ting}`);
+
         setBlock9(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock8(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock7(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock6(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock5(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock4(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock3(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock2(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
+        console.log(`${ting}`);
+
         setBlock1(ting!);
       }
+      console.log(currentPageNumber);
     };
+
+    function incrementCurrentPage(){ //For when someone clicks up in gallery
+      setCurrentPageNumber(currentPageNumber + 1);
+      Blocks();
+    }
+    
+    function decrementCurrentPage(){ //For when someone clicks down in gallery
+      setCurrentPageNumber(currentPageNumber - 1);
+      Blocks();
+    }  
 
     let availablePage = 0;
     let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
