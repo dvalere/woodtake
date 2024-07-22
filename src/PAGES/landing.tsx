@@ -34,7 +34,6 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     decrementCurrentPage,
     blocks,
   } = props;
-  console.log(one, two, three, four, five, six, seven, eight);
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
   <vstack gap="small" alignment="middle center">
@@ -109,7 +108,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
     </hstack>
-    <hstack onPress={() => { incrementCurrentPage(); setPage('gallery'); }} 
+    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage();  }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Somehow...these up and down buttons have to lead to new pages

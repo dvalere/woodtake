@@ -36,144 +36,106 @@ Devvit.addCustomPostType({
     const [block7, setBlock7] = useState("emptyblock.png");
     const [block8, setBlock8] = useState("emptyblock.png");
     const [block9, setBlock9] = useState("emptyblock.png");
-    const [rangenum, addToRange]= useState(8);
-    const [currentSet, setSet] = useState('posts');
+    const [rangenum, updateRange]= useState(8);
+    const [currentSet, setSet] = useState('posts'); 
     const [] = useState(async() :Promise<void> =>{
-      await Blocks();
+      await Blocks(); //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
+      //The 9th block on the 2nd page also doesn't work
     })
 
-    
     function incrementRange(){
-      addToRange(rangenum + 9);
+      updateRange(rangenum + 1);
     }
 
     function decrementRange(){
-      addToRange(rangenum - 9);
+      updateRange(rangenum - 1);
     }
-
+    //Rangenum has to reflect the accurate amount of posts
     async function Blocks(){
       const set = "posts";
       let holder = rangenum;
       let result = await context.redis.zRange(set, holder, holder);
       let ting = await context.redis.hget(result[0].member, 'img');
-      if (currentPageNumber == 0){
-        console.log(`${ting}`);
 
+      if (currentPageNumber == 0){
         setBlock8(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock7(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock6(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock5(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock4(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock3(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock2(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock1(ting!);
       }
       else{
-        console.log(`${ting}`);
-
         setBlock9(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock8(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock7(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock6(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock5(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock4(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock3(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock2(ting!);
         holder--;
         result = await context.redis.zRange(set, holder, holder);
         ting = await context.redis.hget(result[0].member, 'img');
-        console.log(`${ting}`);
-
         setBlock1(ting!);
       }
-      console.log(currentPageNumber);
     };
 
     async function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
+      console.log(currentPageNumber);
         await Blocks();
     }
     
     async function decrementCurrentPage(){ //For when someone clicks down in gallery
       setCurrentPageNumber(currentPageNumber - 1);
-      useState(async() :Promise<void> =>{
+      console.log(currentPageNumber);
         await Blocks();
-      })
     }  
-
-    let availablePage = 0;
-    let availableBlocksLanding = 8; //For the landing page, which has 8 blocks instead of 9
-    let availableBlocks = 9;
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -192,7 +154,7 @@ Devvit.addCustomPostType({
       ],
     }, async (values) => {
       try {
-        const { redis, media } = context;
+        const { redis, media, ui} = context;
 
         const response = await media.upload ({
           url: values.myImage,
@@ -211,6 +173,10 @@ Devvit.addCustomPostType({
         setDescription(values.myDescription);
         await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
         await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
+        ui.showToast(`Uploaded!`);
+        setPage('ViewingPost');
+        incrementRange();
+        await Blocks();
         
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
@@ -226,8 +192,6 @@ Devvit.addCustomPostType({
     //uses zRange on set
     //
     
-    console.log(block1, block2, block3, block4, block5, block6, block7, block8, block9);
-
     let currentPage;
     switch (page) {
       case 'landing':

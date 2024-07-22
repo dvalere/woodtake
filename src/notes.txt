@@ -76,5 +76,6 @@ IMPORTANT:
 
 
 Current problem: 
+-Images don't update when a new one is submitted
 -First 2 pages show the images, but when you try to keep clicking, it doesnt go forward, which is good, but the incrementation still happens.
--
+-Page numbers in console logs are kind of-
