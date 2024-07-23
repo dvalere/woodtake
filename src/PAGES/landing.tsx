@@ -6,15 +6,8 @@ interface landingProps {
   page: number;
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
-  one: string;
-  two: string;
-  three: string;
-  four: string;
-  five: string;
-  six: string;
-  seven: string;
-  eight: string;
   blocks: Function;
+  arr: Array<string>;
 }
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
@@ -22,17 +15,10 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   const {
     setPage, 
     page,
-    one,
-    two,
-    three,
-    four,
-    five,
-    six,
-    seven,
-    eight,
     incrementCurrentPage, 
     decrementCurrentPage,
     blocks,
+    arr
   } = props;
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
@@ -43,14 +29,14 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
-        url={one}
+        url={arr[0]}
       imageWidth={70}
       imageHeight={70}
       />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={two}
+        url={arr[1]}
         imageWidth={70}
         imageHeight={70}
         />
@@ -60,21 +46,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={three}
+        url={arr[2]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={four}
+        url={arr[3]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={five}
+        url={arr[4]}
         imageWidth={70}
         imageHeight={70}
         />
@@ -84,21 +70,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={six}
+          url={arr[5]}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={seven}
+          url={arr[6]}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={eight}
+          url={arr[7]}
           imageWidth={70}
           imageHeight={70}
           />

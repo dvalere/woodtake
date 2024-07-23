@@ -4,20 +4,13 @@ import type { pages } from '../utils/pages.js';
 interface galleryProps {
   setPage: (page: pages) => void;
   page: number;
-  one: string;
-  two: string;
-  three: string;
-  four: string;
-  five: string;
-  six: string;
-  seven: string;
-  eight: string;
-  nine: string;
+
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
   incrementRange: Function;
   decrementRange: Function;
   blocks: Function;
+  arr: Array<string>;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -25,20 +18,12 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   const {
     setPage, 
     page,
-    one,
-    two,
-    three,
-    four,
-    five,
-    six,
-    seven,
-    eight,
-    nine,
     incrementCurrentPage, 
     decrementCurrentPage,
     incrementRange,
     decrementRange,
     blocks,
+    arr,
   } = props;
   return(
  
@@ -47,21 +32,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small"> 
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={one}
+        url={arr[0]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
        <image
-        url={two}
+        url={arr[1]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={three}
+        url={arr[2]}
         imageWidth={70}
         imageHeight={70}
         />
@@ -71,21 +56,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={four}
+        url={arr[3]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={five}
+        url={arr[4]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={six}
+        url={arr[5]}
         imageWidth={70}
         imageHeight={70}
         />
@@ -95,21 +80,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={seven}
+        url={arr[6]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={eight}
+        url={arr[7]}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={nine}
+        url={arr[8]}
         imageWidth={70}
         imageHeight={70}
         />
@@ -121,12 +106,10 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
             if (page == 1){
                 setPage('landing');
                 decrementCurrentPage();
-                decrementRange();
                 blocks();
             }
             else{
                 decrementCurrentPage();
-                decrementRange();
                 blocks();
             }
             }}
@@ -134,7 +117,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
     >
     </hstack>
-    <hstack onPress={() => {incrementCurrentPage(); incrementRange(); }} 
+    <hstack onPress={() => {incrementCurrentPage(); }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Add something to check if the page number is 1 on the up button, because if it's 1, then we have to go back to the "landing" page with the camera button

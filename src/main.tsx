@@ -25,103 +25,94 @@ Devvit.addCustomPostType({
     const [imageURL, setImageUrl] = context.useState('');
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
+    const [arr, setArr] = useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
 
     //gallery image block variables 
-    const [block1, setBlock1] = useState("emptyblock.png");
-    const [block2, setBlock2] = useState("emptyblock.png");
-    const [block3, setBlock3] = useState("emptyblock.png");
-    const [block4, setBlock4] = useState("emptyblock.png");
-    const [block5, setBlock5] = useState("emptyblock.png");
-    const [block6, setBlock6] = useState("emptyblock.png");
-    const [block7, setBlock7] = useState("emptyblock.png");
-    const [block8, setBlock8] = useState("emptyblock.png");
-    const [block9, setBlock9] = useState("emptyblock.png");
-    const [rangenum, updateRange]= useState(8);
+
+    let actualrange = 0; //THis makes it not load because for some reason it's attempting to access nonexistent urls?
+    let rangenum: number; //This is what's causing only 8 blocks to show up
     const [currentSet, setSet] = useState('posts'); 
+
     const [] = useState(async() :Promise<void> =>{
       await Blocks(); //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
       //The 9th block on the 2nd page also doesn't work
     })
 
+    //Holder usestate array: has 8 indexes, represents the numbered blocks
+    //Blocks(): 
+    //actualrange: Doesn't work but I'll try again I guess
+
     function incrementRange(){
-      updateRange(rangenum + 1);
+      actualrange += 9;
     }
 
     function decrementRange(){
-      updateRange(rangenum - 1);
+      actualrange -= 9;
     }
     //Rangenum has to reflect the accurate amount of posts
-    async function Blocks(){
-      const set = "posts";
-      let holder = rangenum;
-      let result = await context.redis.zRange(set, holder, holder);
-      let ting = await context.redis.hget(result[0].member, 'img');
 
+    //Make rangenum a simple number that starts at 8
+    //Add and subtract 9 from it with every click using inc and dec range
+
+    async function Blocks(){
+      console.log(actualrange);
+      const set = "posts";
+      let holder = actualrange;
+      let result = await context.redis.zRange(set, holder, holder);
+      //The problem is, holder ALWAYS stays the same, since the function is re-called every time a new page is loaded
+      //Anddddd now the landing page down button doesn't change the page to gallery
       if (currentPageNumber == 0){
-        setBlock8(ting!);
+        let ting0 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock7(ting!);
+        let ting1 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock6(ting!);
+        let ting2 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock5(ting!);
+        let ting3 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock4(ting!);
+        let ting4 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock3(ting!);
+        let ting5 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock2(ting!);
+        let ting6 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock1(ting!);
+        let ting7 = await context.redis.hget(result[0].member, 'img');
+        setArr([ting0!, ting1!, ting2!, ting3!, ting4!, ting5!, ting6!, ting7!]);
       }
       else{
-        setBlock9(ting!);
+        let ting0 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock8(ting!);
+        let ting1 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock7(ting!);
+        let ting2 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock6(ting!);
+        let ting3 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock5(ting!);
+        let ting4 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock4(ting!);
+        let ting5 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock3(ting!);
+        let ting6 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock2(ting!);
+        let ting7 = await context.redis.hget(result[0].member, 'img');
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        ting = await context.redis.hget(result[0].member, 'img');
-        setBlock1(ting!);
+        let ting8 = await context.redis.hget(result[0].member, 'img');
+        setArr([ting0!, ting1!, ting2!, ting3!, ting4!, ting5!, ting6!, ting7!, ting8!]);
       }
     };
 
@@ -168,12 +159,10 @@ Devvit.addCustomPostType({
               .image({ mediaId: response.mediaId })
               .codeBlock({}, (cb) => cb.rawText(values.myDescription)),
         });
-        setIdentify(submittedComment.id);
-        setImageUrl(values.myImage);
-        setDescription(values.myDescription);
         await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
         await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
         ui.showToast(`Uploaded!`);
+
         setPage('ViewingPost');
         incrementRange();
         await Blocks();
@@ -200,15 +189,8 @@ Devvit.addCustomPostType({
         page={currentPageNumber}
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
-        one={block1}
-        two={block2}
-        three={block3}
-        four={block4}
-        five={block5}
-        six={block6}
-        seven={block7}
-        eight={block8}
         blocks={Blocks}
+        arr={arr}
         />; 
         break;
       case 'guide':
@@ -229,15 +211,7 @@ Devvit.addCustomPostType({
       case 'gallery':
         currentPage = <Gallery
         page={currentPageNumber}
-        one={block1}
-        two={block2}
-        three={block3}
-        four={block4}
-        five={block5}
-        six={block6}
-        seven={block7}
-        eight={block8}
-        nine={block9}
+        arr={arr}
         incrementRange={incrementRange}
         decrementRange={decrementRange}
         incrementCurrentPage={incrementCurrentPage}
@@ -247,15 +221,7 @@ Devvit.addCustomPostType({
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks}
-        one={block1}
-        two={block2}
-        three={block3}
-        four={block4}
-        five={block5}
-        six={block6}
-        seven={block7}
-        eight={block8}
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} arr={arr}
         />;
     }
 
