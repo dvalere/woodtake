@@ -15,6 +15,7 @@ interface galleryProps {
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   const { ui } = context;
+  const { arr } = props;
   const {
     setPage, 
     page,
@@ -23,7 +24,6 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     incrementRange,
     decrementRange,
     blocks,
-    arr,
   } = props;
   return(
  
@@ -32,21 +32,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small"> 
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[0]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
        <image
-        url={arr[1]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[2]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
@@ -56,21 +56,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[3]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[4]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[5]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
@@ -80,21 +80,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[6]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[7]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[8]}
+        url={'empty.png'}
         imageWidth={70}
         imageHeight={70}
         />

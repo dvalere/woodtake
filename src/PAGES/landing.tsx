@@ -12,13 +12,14 @@ interface landingProps {
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
   const { ui } = context;
+  const { arr } = props;
+
   const {
     setPage, 
     page,
     incrementCurrentPage, 
     decrementCurrentPage,
     blocks,
-    arr
   } = props;
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
@@ -94,7 +95,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
     </hstack>
-    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage();  }} 
+    <hstack onPress={() => { setPage('gallery'); console.log(`Did it work?`); incrementCurrentPage();  }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Somehow...these up and down buttons have to lead to new pages
