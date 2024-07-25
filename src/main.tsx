@@ -25,7 +25,17 @@ Devvit.addCustomPostType({
     const [imageURL, setImageUrl] = context.useState('');
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
-    const [arr, setArr] = useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
+    const [Block0, setBlock0] = useState('emptyblock.png');
+    const [Block1, setBlock1] = useState('emptyblock.png');
+    const [Block2, setBlock2] = useState('emptyblock.png');
+    const [Block3, setBlock3] = useState('emptyblock.png');
+    const [Block4, setBlock4] = useState('emptyblock.png');
+    const [Block5, setBlock5] = useState('emptyblock.png');
+    const [Block6, setBlock6] = useState('emptyblock.png');
+    const [Block7, setBlock7] = useState('emptyblock.png');
+    const [Block8, setBlock8] = useState('emptyblock.png');
+    //Ignoring this array for now, it was causing too many issues
+    const [arr, setArr] = context.useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
 
     //gallery image block variables 
 
@@ -55,66 +65,93 @@ Devvit.addCustomPostType({
     //Add and subtract 9 from it with every click using inc and dec range
 
     async function Blocks(){
-      console.log(actualrange);
       const set = "posts";
       let holder = actualrange;
       let result = await context.redis.zRange(set, holder, holder);
+      let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
       //The problem is, holder ALWAYS stays the same, since the function is re-called every time a new page is loaded
       //Anddddd now the landing page down button doesn't change the page to gallery
       if (currentPageNumber == 0){
-        let ting0 = await context.redis.hget(result[0].member, 'img');
+        if (result[0] && result[0].member) {
+        ting7 = await context.redis.hget(result[0].member, 'img');
+        }
         holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting1 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting6 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting2 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting5 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting3 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting4 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting4 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting3 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting5 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting2 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting6 = await context.redis.hget(result[0].member, 'img');
-        holder--;
+        if (result[0] && result[0].member) {
+          ting1 = await context.redis.hget(result[0].member, 'img');
+          }        holder--;
         result = await context.redis.zRange(set, holder, holder);
-        let ting7 = await context.redis.hget(result[0].member, 'img');
-        setArr([ting0!, ting1!, ting2!, ting3!, ting4!, ting5!, ting6!, ting7!]);
+        if (result[0] && result[0].member) {
+          ting0 = await context.redis.hget(result[0].member, 'img');
+          }        
+          setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!);
+          console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7);
       }
       else{
-        let ting0 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting1 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting2 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting3 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting4 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting5 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting6 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting7 = await context.redis.hget(result[0].member, 'img');
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        let ting8 = await context.redis.hget(result[0].member, 'img');
-        setArr([ting0!, ting1!, ting2!, ting3!, ting4!, ting5!, ting6!, ting7!, ting8!]);
+        if (currentPageNumber == 0){
+          if (result[0] && result[0].member) {
+          ting8 = await context.redis.hget(result[0].member, 'img');
+          }
+          holder--;
+        if (currentPageNumber == 0){
+          if (result[0] && result[0].member) {
+          ting7 = await context.redis.hget(result[0].member, 'img');
+          }
+          holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting6 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting5 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting4 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting3 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting2 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting1 = await context.redis.hget(result[0].member, 'img');
+            }        holder--;
+          result = await context.redis.zRange(set, holder, holder);
+          if (result[0] && result[0].member) {
+            ting0 = await context.redis.hget(result[0].member, 'img');
+            }  
+        setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
+        console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7, ting8);
+        }
       }
-    };
+    }
+  };
 
     async function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
@@ -166,20 +203,14 @@ Devvit.addCustomPostType({
         setPage('ViewingPost');
         incrementRange();
         await Blocks();
-        
+        let holder = actualrange;
+        let result = await context.redis.zRange("posts", holder, holder);
+        console.log(await context.redis.hget(result[0].member, 'img'));
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
     });
 
-    //Maybe add a higher and lower range?
-    //Should be ran everytime the page is changed just like the other functions
-    //Could be ran inside incrementRange?
-
-
-    //Takes in sorted set as paramter
-    //uses zRange on set
-    //
     
     let currentPage;
     switch (page) {
@@ -190,7 +221,15 @@ Devvit.addCustomPostType({
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
         blocks={Blocks}
-        arr={arr}
+        block0={Block0}
+        block1={Block1}
+        block2={Block2}
+        block3={Block3}
+        block4={Block4}
+        block5={Block5}
+        block6={Block6}
+        block7={Block7}
+        block8={Block8}
         />; 
         break;
       case 'guide':
@@ -211,7 +250,15 @@ Devvit.addCustomPostType({
       case 'gallery':
         currentPage = <Gallery
         page={currentPageNumber}
-        arr={arr}
+        block0={Block0}
+        block1={Block1}
+        block2={Block2}
+        block3={Block3}
+        block4={Block4}
+        block5={Block5}
+        block6={Block6}
+        block7={Block7}
+        block8={Block8}
         incrementRange={incrementRange}
         decrementRange={decrementRange}
         incrementCurrentPage={incrementCurrentPage}
@@ -221,7 +268,7 @@ Devvit.addCustomPostType({
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} arr={arr}
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8}
         />;
     }
 
@@ -243,7 +290,7 @@ Devvit.addMenuItem({
     try {
       await reddit.submitPost({  
         title: 'woodID',  
-        subredditName: 'chippitychop', 
+        subredditName: `${currentSubreddit.name}`, 
         preview: (  
           <vstack>  
             <text>Loading...</text>  

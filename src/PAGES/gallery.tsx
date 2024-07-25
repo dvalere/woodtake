@@ -4,18 +4,24 @@ import type { pages } from '../utils/pages.js';
 interface galleryProps {
   setPage: (page: pages) => void;
   page: number;
-
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
   incrementRange: Function;
   decrementRange: Function;
   blocks: Function;
-  arr: Array<string>;
+  block0: string;
+  block1: string;
+  block2: string;
+  block3: string;
+  block4: string;
+  block5: string;
+  block6: string;
+  block7: string;
+  block8: string;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   const { ui } = context;
-  const { arr } = props;
   const {
     setPage, 
     page,
@@ -24,6 +30,15 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     incrementRange,
     decrementRange,
     blocks,
+    block0,
+    block1,
+    block2,
+    block3,
+    block4,
+    block5,
+    block6,
+    block7,
+    block8,
   } = props;
   return(
  
@@ -32,21 +47,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small"> 
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block0}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
        <image
-        url={'empty.png'}
+        url={block1}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block2}
         imageWidth={70}
         imageHeight={70}
         />
@@ -56,21 +71,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block3}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block4}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block5}
         imageWidth={70}
         imageHeight={70}
         />
@@ -80,21 +95,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block6}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block7}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={'empty.png'}
+        url={block8}
         imageWidth={70}
         imageHeight={70}
         />

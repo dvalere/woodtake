@@ -7,12 +7,19 @@ interface landingProps {
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
   blocks: Function;
-  arr: Array<string>;
+  block0: string;
+  block1: string;
+  block2: string;
+  block3: string;
+  block4: string;
+  block5: string;
+  block6: string;
+  block7: string;
+  block8: string;
 }
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
   const { ui } = context;
-  const { arr } = props;
 
   const {
     setPage, 
@@ -20,6 +27,15 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     incrementCurrentPage, 
     decrementCurrentPage,
     blocks,
+    block0,
+    block1,
+    block2,
+    block3,
+    block4,
+    block5,
+    block6,
+    block7,
+    block8,
   } = props;
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
@@ -30,14 +46,14 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
-        url={arr[0]}
+        url={block0}
       imageWidth={70}
       imageHeight={70}
       />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[1]}
+        url={block1}
         imageWidth={70}
         imageHeight={70}
         />
@@ -47,21 +63,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[2]}
+        url={block2}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[3]}
+        url={block3}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-        url={arr[4]}
+        url={block4}
         imageWidth={70}
         imageHeight={70}
         />
@@ -71,21 +87,21 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={arr[5]}
+          url={block5}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={arr[6]}
+          url={block6}
           imageWidth={70}
           imageHeight={70}
           />
     </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
-          url={arr[7]}
+          url={block7}
           imageWidth={70}
           imageHeight={70}
           />
@@ -95,7 +111,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
     </hstack>
-    <hstack onPress={() => { setPage('gallery'); console.log(`Did it work?`); incrementCurrentPage();  }} 
+    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage();  }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Somehow...these up and down buttons have to lead to new pages

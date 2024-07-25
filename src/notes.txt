@@ -83,3 +83,10 @@ Current problem:
 
 Testing Page navigation:
 -The 0 logs, so the console.log(pagenum) executes
+-The reason the page doesn't change from gallery to landing is because arr is "undefined"...
+-Console does log a png when I try to access to member within the imageForm onsubmit function....
+-The problem must come from Blocks() being before the onsubmit
+-Load up blocks and onsubmit blocks show different results
+-There is no redis info to access at the start, so that will have to be considered, or the app wont load
+
+        subredditName: `${currentSubreddit.name}`, 
