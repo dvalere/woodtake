@@ -48,7 +48,7 @@ Devvit.addCustomPostType({
     const [currentSet, setSet] = useState('posts'); 
 
     const [] = useState(async() :Promise<void> =>{
-      await Blocks();
+      await Blocks(currentPageNumber);
        //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
       //The 9th block on the 2nd page also doesn't work
     })
@@ -69,16 +69,20 @@ Devvit.addCustomPostType({
     //Make rangenum a simple number that starts at 8
     //Add and subtract 9 from it with every click using inc and dec range
     const [rng, setRange] = useState(8);
-    async function Blocks(){ //Need a global variable that keeps the range, because the range edits within this function are remade everytime it's re-ran
+
+    async function Blocks(pageNumber: number){ 
       const set = "posts";
       let holder = (await logZCard());
       let range;
 
-      if (currentPageNumber == 0) {
+      if (pageNumber == 0){
         range = (holder-holder) + (7);
       }
+      else if (pageNumber == 1){
+        range = 7 + (holder-holder) + ((7*pageNumber)+1);
+      }
       else{
-        range = (holder-holder) + (7*currentPageNumber);
+        range = 7 + (holder-holder) + ((7*pageNumber)+1);
       }
       let result; 
       let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
@@ -115,20 +119,23 @@ Devvit.addCustomPostType({
           ting1 = await context.redis.hget(result[0].member, 'img');
           }  console.log(`1: ${range}`);      
         setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
-          logZCard();
+        console.log(`${Block1}, ${Block2}, ${Block3}, ${Block4}, ${Block5}, ${Block6}, ${Block7}, ${Block8}`);
       };
 
-    async function incrementCurrentPage(){ //For when someone clicks up in gallery
-      setCurrentPageNumber(currentPageNumber + 1);
-      console.log(currentPageNumber);
-        await Blocks();
-    }
-    
-    async function decrementCurrentPage(){ //For when someone clicks down in gallery
-      setCurrentPageNumber(currentPageNumber - 1);
-      console.log(currentPageNumber);
-        await Blocks();
-    }  
+      
+      async function incrementCurrentPage(){ 
+        const newPageNumber = currentPageNumber + 1;
+        setCurrentPageNumber(newPageNumber);
+        console.log(newPageNumber);
+        await Blocks(newPageNumber);
+      }
+      
+      async function decrementCurrentPage(){ 
+        const newPageNumber = currentPageNumber - 1;
+        setCurrentPageNumber(newPageNumber);
+        console.log(newPageNumber);
+        await Blocks(newPageNumber);
+      }
     
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -166,7 +173,7 @@ Devvit.addCustomPostType({
         ui.showToast(`Uploaded!`);
 
         setPage('ViewingPost');
-        await Blocks();
+        await Blocks(currentPageNumber);
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
