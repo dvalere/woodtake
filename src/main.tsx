@@ -34,12 +34,12 @@ Devvit.addCustomPostType({
     const [Block6, setBlock6] = useState('emptyblock.png');
     const [Block7, setBlock7] = useState('emptyblock.png');
     const [Block8, setBlock8] = useState('emptyblock.png');
+    const [actualrange, setActualRange] = useState(9);
     //Ignoring this array for now, it was causing too many issues
     const [arr, setArr] = context.useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
 
     //gallery image block variables 
 
-    let actualrange = 0; //THis makes it not load because for some reason it's attempting to access nonexistent urls?
     let rangenum: number; //This is what's causing only 8 blocks to show up
     const [currentSet, setSet] = useState('posts'); 
 
@@ -53,11 +53,11 @@ Devvit.addCustomPostType({
     //actualrange: Doesn't work but I'll try again I guess
 
     function incrementRange(){
-      actualrange += 9;
+      setActualRange(actualrange + 9);
     }
 
     function decrementRange(){
-      actualrange -= 9;
+      setActualRange(actualrange - 9);
     }
     //Rangenum has to reflect the accurate amount of posts
 
@@ -66,43 +66,42 @@ Devvit.addCustomPostType({
 
     async function Blocks(){
       const set = "posts";
-      let holder = actualrange;
+      let holder = actualrange - 9;
       let result = await context.redis.zRange(set, holder, holder);
       let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
       //The problem is, holder ALWAYS stays the same, since the function is re-called every time a new page is loaded
       //Anddddd now the landing page down button doesn't change the page to gallery
       if (currentPageNumber == 0){
         if (result[0] && result[0].member) {
-        ting7 = await context.redis.hget(result[0].member, 'img');
-        }
-        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting6 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting5 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting4 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting3 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting2 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
+        ting0 = await context.redis.hget(result[0].member, 'img');
+        }         holder++;
         result = await context.redis.zRange(set, holder, holder);
         if (result[0] && result[0].member) {
           ting1 = await context.redis.hget(result[0].member, 'img');
-          }        holder--;
+          }       holder++;
         result = await context.redis.zRange(set, holder, holder);
         if (result[0] && result[0].member) {
-          ting0 = await context.redis.hget(result[0].member, 'img');
+          ting2 = await context.redis.hget(result[0].member, 'img');
+          }       holder++;
+        result = await context.redis.zRange(set, holder, holder);
+        if (result[0] && result[0].member) {
+          ting3 = await context.redis.hget(result[0].member, 'img');
+          }       holder++;
+        result = await context.redis.zRange(set, holder, holder);
+        if (result[0] && result[0].member) {
+          ting4 = await context.redis.hget(result[0].member, 'img');
+          }       holder++;
+        result = await context.redis.zRange(set, holder, holder);
+        if (result[0] && result[0].member) {
+          ting5 = await context.redis.hget(result[0].member, 'img');
+          }        holder++;
+        result = await context.redis.zRange(set, holder, holder);
+        if (result[0] && result[0].member) {
+          ting6 = await context.redis.hget(result[0].member, 'img');
+          }       holder++;
+        result = await context.redis.zRange(set, holder, holder);
+        if (result[0] && result[0].member) {
+          ting7 = await context.redis.hget(result[0].member, 'img');
           }        
           setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!);
           console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7);
@@ -115,39 +114,41 @@ Devvit.addCustomPostType({
           holder--;
         if (currentPageNumber == 0){
           if (result[0] && result[0].member) {
-          ting7 = await context.redis.hget(result[0].member, 'img');
-          }
-          holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting6 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting5 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting4 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting3 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting2 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
-            ting1 = await context.redis.hget(result[0].member, 'img');
-            }        holder--;
-          result = await context.redis.zRange(set, holder, holder);
-          if (result[0] && result[0].member) {
             ting0 = await context.redis.hget(result[0].member, 'img');
-            }  
-        setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
-        console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7, ting8);
+            }         holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting1 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting2 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting3 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting4 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting5 = await context.redis.hget(result[0].member, 'img');
+              }        holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting6 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            result = await context.redis.zRange(set, holder, holder);
+            if (result[0] && result[0].member) {
+              ting7 = await context.redis.hget(result[0].member, 'img');
+              }       holder++;
+            if (result[0] && result[0].member) {
+              ting8 = await context.redis.hget(result[0].member, 'img');
+              }            
+              setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
+              console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7), ting8;
         }
       }
     }
@@ -201,11 +202,7 @@ Devvit.addCustomPostType({
         ui.showToast(`Uploaded!`);
 
         setPage('ViewingPost');
-        incrementRange();
         await Blocks();
-        let holder = actualrange;
-        let result = await context.redis.zRange("posts", holder, holder);
-        console.log(await context.redis.hget(result[0].member, 'img'));
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }
