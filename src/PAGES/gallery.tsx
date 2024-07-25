@@ -43,31 +43,26 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   return(
  
   <vstack gap="small" alignment="middle center">
-  //First stack of 3
-  <hstack gap="small"> 
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block0}
+    //First stack of 3
+    <hstack gap="small"> 
+      <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
+      <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
+      <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
+        <image
+          url={block1}
         imageWidth={70}
         imageHeight={70}
         />
+      </hstack>
+      <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+        <image
+          url={block2}
+          imageWidth={70}
+          imageHeight={70}
+          />
+      </hstack>
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
-       <image
-        url={block1}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block2}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-  </hstack>
-  //Second stack
+    //Second stack
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image

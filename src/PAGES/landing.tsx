@@ -46,21 +46,11 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
-        url={block0}
+        url={block1}
       imageWidth={70}
       imageHeight={70}
       />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block1}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-  </hstack>
-  //Second stack
-  <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block2}
@@ -68,6 +58,9 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
         imageHeight={70}
         />
     </hstack>
+  </hstack>
+  //Second stack
+  <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block3}
@@ -82,16 +75,16 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
         imageHeight={70}
         />
     </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+        url={block5}
+        imageWidth={70}
+        imageHeight={70}
+        />
+    </hstack>
   </hstack>
   //Third stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-          url={block5}
-          imageWidth={70}
-          imageHeight={70}
-          />
-    </hstack>
     <hstack backgroundColor="PureGray-250" height="70px" width="70px">
       <image
           url={block6}
@@ -106,12 +99,19 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
           imageHeight={70}
           />
     </hstack>
+    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <image
+          url={block8}
+          imageWidth={70}
+          imageHeight={70}
+          />
+    </hstack>
   </hstack>
   //Up and down buttons
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
     </hstack>
-    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage();  }} 
+    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage(); }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Somehow...these up and down buttons have to lead to new pages

@@ -34,6 +34,10 @@ Devvit.addCustomPostType({
     const [Block6, setBlock6] = useState('emptyblock.png');
     const [Block7, setBlock7] = useState('emptyblock.png');
     const [Block8, setBlock8] = useState('emptyblock.png');
+    async function logZCard() {
+      const result = await context.redis.zCard('posts');
+      return result;
+    }
     const [actualrange, setActualRange] = useState(9);
     //Ignoring this array for now, it was causing too many issues
     const [arr, setArr] = context.useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
@@ -44,7 +48,8 @@ Devvit.addCustomPostType({
     const [currentSet, setSet] = useState('posts'); 
 
     const [] = useState(async() :Promise<void> =>{
-      await Blocks(); //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
+      await Blocks();
+       //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
       //The 9th block on the 2nd page also doesn't work
     })
 
@@ -53,106 +58,65 @@ Devvit.addCustomPostType({
     //actualrange: Doesn't work but I'll try again I guess
 
     function incrementRange(){
-      setActualRange(actualrange + 9);
+      //setActualRange(actualrange + 9);
     }
 
     function decrementRange(){
-      setActualRange(actualrange - 9);
+      //setActualRange(actualrange - 9);
     }
     //Rangenum has to reflect the accurate amount of posts
 
     //Make rangenum a simple number that starts at 8
     //Add and subtract 9 from it with every click using inc and dec range
-
-    async function Blocks(){
+    const [rng, setRange] = useState(8);
+    async function Blocks(){ //Need a global variable that keeps the range, because the range edits within this function are remade everytime it's re-ran
       const set = "posts";
-      let holder = actualrange - 9;
-      let result = await context.redis.zRange(set, holder, holder);
-      let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
-      //The problem is, holder ALWAYS stays the same, since the function is re-called every time a new page is loaded
-      //Anddddd now the landing page down button doesn't change the page to gallery
-      if (currentPageNumber == 0){
-        if (result[0] && result[0].member) {
-        ting0 = await context.redis.hget(result[0].member, 'img');
-        }         holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting1 = await context.redis.hget(result[0].member, 'img');
-          }       holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting2 = await context.redis.hget(result[0].member, 'img');
-          }       holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting3 = await context.redis.hget(result[0].member, 'img');
-          }       holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting4 = await context.redis.hget(result[0].member, 'img');
-          }       holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting5 = await context.redis.hget(result[0].member, 'img');
-          }        holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting6 = await context.redis.hget(result[0].member, 'img');
-          }       holder++;
-        result = await context.redis.zRange(set, holder, holder);
-        if (result[0] && result[0].member) {
-          ting7 = await context.redis.hget(result[0].member, 'img');
-          }        
-          setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!);
-          console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7);
+      let holder = (await logZCard());
+      let range;
+
+      if (currentPageNumber == 0) {
+        range = (holder-holder) + (7);
       }
       else{
-        if (currentPageNumber == 0){
-          if (result[0] && result[0].member) {
-          ting8 = await context.redis.hget(result[0].member, 'img');
-          }
-          holder--;
-        if (currentPageNumber == 0){
-          if (result[0] && result[0].member) {
-            ting0 = await context.redis.hget(result[0].member, 'img');
-            }         holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting1 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting2 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting3 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting4 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting5 = await context.redis.hget(result[0].member, 'img');
-              }        holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting6 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            result = await context.redis.zRange(set, holder, holder);
-            if (result[0] && result[0].member) {
-              ting7 = await context.redis.hget(result[0].member, 'img');
-              }       holder++;
-            if (result[0] && result[0].member) {
-              ting8 = await context.redis.hget(result[0].member, 'img');
-              }            
-              setBlock0(ting0!); setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
-              console.log(ting0, ting1, ting2, ting3, ting4, ting5, ting6, ting7), ting8;
-        }
+        range = (holder-holder) + (7*currentPageNumber);
       }
-    }
-  };
+      let result; 
+      let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
+
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting8 = await context.redis.hget(result[0].member, 'img');
+          } console.log(`8: ${range}`);      range--; 
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting7 = await context.redis.hget(result[0].member, 'img');
+          } console.log(`7: ${range}`);      range--; 
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting6 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`6: ${range}`);     range--;  
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting5 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`5: ${range}`);     range--;  
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting4 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`4: ${range}`);      range--; 
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting3 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`3: ${range}`);     range--;  
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          ting2 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`2: ${range}`);     range--;  
+        if (result[0] && result[0].member) {
+          ting1 = await context.redis.hget(result[0].member, 'img');
+          }  console.log(`1: ${range}`);      
+        setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
+          logZCard();
+      };
 
     async function incrementCurrentPage(){ //For when someone clicks up in gallery
       setCurrentPageNumber(currentPageNumber + 1);
