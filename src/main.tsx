@@ -115,9 +115,11 @@ Devvit.addCustomPostType({
         if (result[0] && result[0].member) {
           ting2 = await context.redis.hget(result[0].member, 'img');
           }  console.log(`2: ${range}`);     range--;  
+        result = await context.redis.zRange(set, range, range);
         if (result[0] && result[0].member) {
           ting1 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`1: ${range}`);      
+          }  console.log(`1: ${range}`);   
+
         setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
         console.log(`${Block1}, ${Block2}, ${Block3}, ${Block4}, ${Block5}, ${Block6}, ${Block7}, ${Block8}`);
       };
