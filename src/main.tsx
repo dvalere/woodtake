@@ -23,7 +23,7 @@ Devvit.addCustomPostType({
     const set = 'post_' + context.postId!;
     const [page, setPage] = useState('landing');
     const [identify, setIdentify] = context.useState(''); 
-    const [imageURL, setImageUrl] = context.useState('');
+    const [imageURL, setImageUrl] = context.useState('emptyblock.png');
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [Block0, setBlock0] = useState('emptyblock.png');
@@ -35,6 +35,15 @@ Devvit.addCustomPostType({
     const [Block6, setBlock6] = useState('emptyblock.png');
     const [Block7, setBlock7] = useState('emptyblock.png');
     const [Block8, setBlock8] = useState('emptyblock.png');
+
+    const [Block1Dsc, setBlock1Dsc] = useState('');
+    const [Block2Dsc, setBlock2Dsc] = useState('');
+    const [Block3Dsc, setBlock3Dasc] = useState('');
+    const [Block4Dsc, setBlock4Dsc] = useState('');
+    const [Block5Dsc, setBlock5Dsc] = useState('');
+    const [Block6Dsc, setBlock6Dsc] = useState('');
+    const [Block7Dsc, setBlock7Dsc] = useState('');
+    const [Block8Dsc, setBlock8Dsc] = useState('');
     async function logZCard() {
       const result = await context.redis.zCard(set);
       return result;
@@ -100,34 +109,44 @@ Devvit.addCustomPostType({
       try{ //Images still don't update with the page number...
         for (range; range < (goal); range++){
           console.log({range});
-          if (goal > setsize){
+          console.log({goal});
+          console.log({setsize});
+          if (goal < setsize){
           if (await context.redis.zRange(set, range, range)){
           let result = await context.redis.zRange(set, range, range);
           if (result){
           parsed = JSON.parse(test[range].member);
           if (range == goal-8){
             setBlock1(parsed.img);
+            setBlock1Dsc(parsed.dsc);
           }
           else if (range == goal-7){
             setBlock2(parsed.img);
+            setBlock2Dsc(parsed.dsc);
           }
           else if (range == goal-6){
             setBlock3(parsed.img);
+            setBlock3Dasc(parsed.dsc);
           }
           else if (range == goal-5){
             setBlock4(parsed.img);
+            setBlock4Dsc(parsed.dsc);
           }
           else if (range == goal-4){
             setBlock5(parsed.img);
+            setBlock5Dsc(parsed.dsc);
           }
           else if (range == goal-3){
             setBlock6(parsed.img);
+            setBlock6Dsc(parsed.dsc);
           }
           else if (range == goal-2){
             setBlock7(parsed.img);
+            setBlock7Dsc(parsed.dsc);
           }
           else if (range == goal-1){
             setBlock8(parsed.img);
+            setBlock8Dsc(parsed.dsc);
           }
         }
       }
@@ -149,14 +168,19 @@ Devvit.addCustomPostType({
         const newPageNumber = currentPageNumber + 1;
         setCurrentPageNumber(newPageNumber);
         //console.log(newPageNumber);
-        await Blocks(newPageNumber);
+        //await Blocks(newPageNumber);
       }
       
       async function decrementCurrentPage(){ 
         const newPageNumber = currentPageNumber - 1;
         setCurrentPageNumber(newPageNumber);
         //console.log(newPageNumber);
-        await Blocks(newPageNumber);
+        //await Blocks(newPageNumber);
+      }
+      
+      async function redirectFunction(url: string, desc: string){
+        setImageUrl(url);
+        setDescription(desc);
       }
     
     const imageForm = context.useForm({
@@ -219,6 +243,15 @@ Devvit.addCustomPostType({
         block6={Block6}
         block7={Block7}
         block8={Block8}
+        dsc1={Block1Dsc}
+        dsc2={Block2Dsc}
+        dsc3={Block3Dsc}
+        dsc4={Block4Dsc}
+        dsc5={Block5Dsc}
+        dsc6={Block6Dsc}
+        dsc7={Block7Dsc}
+        dsc8={Block8Dsc}
+        redirect={redirectFunction}
         />; 
         break;
       case 'guide':
@@ -233,7 +266,8 @@ Devvit.addCustomPostType({
         break;
       case 'viewingpost':
         currentPage = <ViewingPost 
-        post={getPost("author", identify, imageURL, description)}
+        image={imageURL}
+        description={description}
         setPage={setPage}
         />;
       case 'gallery':
@@ -248,16 +282,23 @@ Devvit.addCustomPostType({
         block6={Block6}
         block7={Block7}
         block8={Block8}
-        incrementRange={incrementRange}
-        decrementRange={decrementRange}
+        dsc1={Block1Dsc}
+        dsc2={Block2Dsc}
+        dsc3={Block3Dsc}
+        dsc4={Block4Dsc}
+        dsc5={Block5Dsc}
+        dsc6={Block6Dsc}
+        dsc7={Block7Dsc}
+        dsc8={Block8Dsc}
         incrementCurrentPage={incrementCurrentPage}
         decrementCurrentPage={decrementCurrentPage}
         setPage={setPage}
         blocks={Blocks}
+        redirect={redirectFunction}
         />;
         break;
       default:
-        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8}
+        currentPage = <Landing setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8} redirect={redirectFunction} dsc1={Block1Dsc} dsc2={Block2Dsc} dsc3={Block3Dsc} dsc4={Block4Dsc} dsc5={Block5Dsc} dsc6={Block6Dsc} dsc7={Block7Dsc} dsc8={Block8Dsc}
         />;
     }
 

@@ -16,6 +16,15 @@ interface landingProps {
   block6: string;
   block7: string;
   block8: string;
+  dsc1: string;
+  dsc2: string;
+  dsc3: string;
+  dsc4: string;
+  dsc5: string;
+  dsc6: string;
+  dsc7: string;
+  dsc8: string;
+  redirect: Function;
 }
 
 export const Landing = (props: landingProps, context: Context): JSX.Element => {
@@ -36,6 +45,15 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     block6,
     block7,
     block8,
+    dsc1,
+    dsc2,
+    dsc3,
+    dsc4,
+    dsc5,
+    dsc6,
+    dsc7,
+    dsc8,
+    redirect,
   } = props;
   return(
   //HOME(gallery), IMAGE UPLOAD OPTIONS
@@ -44,7 +62,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small"> 
     <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
     <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
+    <hstack onPress={() => {redirect(block1, dsc1); setPage('viewingpost'); console.log({block1}, {dsc1})}} backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
         url={block1}
       imageWidth={70}
@@ -111,7 +129,7 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
     </hstack>
-    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage(); }} 
+    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage(); blocks(page); }} 
     backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
     > 
     //Somehow...these up and down buttons have to lead to new pages

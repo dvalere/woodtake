@@ -5,7 +5,8 @@ import type { pages } from '../utils/pages.js';
 
 interface ViewingPostProps {
   setPage: (page: pages) => void;
-  post: postProp;
+  image: string;
+  description: string;
 }
 
 
@@ -13,7 +14,8 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
   const { ui } = context;
   const { 
     setPage,
-    post,
+    image,
+    description,
   } = props;
 
   return (
@@ -38,8 +40,8 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      <image url={post.imageUrl} imageWidth={128} imageHeight={128} /> 
-      <text size="medium" color="black"> {post.description} </text>
+      <image url={image} imageWidth={128} imageHeight={128} /> 
+      <text size="medium" color="black"> {description} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
           <button icon="comments" disabled={true} appearance="plain"></button>
       </hstack>

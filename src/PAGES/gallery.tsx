@@ -6,8 +6,6 @@ interface galleryProps {
   page: number;
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
-  incrementRange: Function;
-  decrementRange: Function;
   blocks: Function;
   block0: string;
   block1: string;
@@ -18,6 +16,15 @@ interface galleryProps {
   block6: string;
   block7: string;
   block8: string;
+  dsc1: string;
+  dsc2: string;
+  dsc3: string;
+  dsc4: string;
+  dsc5: string;
+  dsc6: string;
+  dsc7: string;
+  dsc8: string;
+  redirect: Function;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -27,8 +34,6 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     page,
     incrementCurrentPage, 
     decrementCurrentPage,
-    incrementRange,
-    decrementRange,
     blocks,
     block0,
     block1,
@@ -39,6 +44,15 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     block6,
     block7,
     block8,
+    dsc1,
+    dsc2,
+    dsc3,
+    dsc4,
+    dsc5,
+    dsc6,
+    dsc7,
+    dsc8,
+    redirect,
   } = props;
   return(
  
@@ -47,7 +61,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     <hstack gap="small"> 
       <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
       <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
-      <hstack backgroundColor="PureGray-250" height="70px" width="70px"> 
+      <hstack onPress={() => {redirect(block1, dsc1); setPage('viewingpost');}} backgroundColor="PureGray-250" height="70px" width="70px"> 
         <image
           url={block1}
         imageWidth={70}
@@ -116,11 +130,11 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
             if (page == 1){
                 decrementCurrentPage();
                 setPage('landing');
-                blocks();
+                blocks(page);
             }
             else{
                 decrementCurrentPage();
-                blocks();
+                blocks(page);
             }
             }}
             
