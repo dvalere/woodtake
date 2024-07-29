@@ -90,3 +90,13 @@ Testing Page navigation:
 -There is no redis info to access at the start, so that will have to be considered, or the app wont load
 
         subredditName: `${currentSubreddit.name}`, 
+
+
+Different zsets for each postJson.stringify for hsets in each zset
+
+
+//Create new zset using the post ID
+//Check if the current post ID matches everytime zAdd is used
+//Add a "try" and error method for when there's no posts yet
+
+The redis retrieval works, and the "ting" variables receive the new values

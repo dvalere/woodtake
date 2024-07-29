@@ -20,6 +20,7 @@ Devvit.addCustomPostType({
   height: 'regular',
   render: context => {
     const { useState } = context;
+    const set = 'post_' + context.postId!;
     const [page, setPage] = useState('landing');
     const [identify, setIdentify] = context.useState(''); 
     const [imageURL, setImageUrl] = context.useState('');
@@ -35,7 +36,7 @@ Devvit.addCustomPostType({
     const [Block7, setBlock7] = useState('emptyblock.png');
     const [Block8, setBlock8] = useState('emptyblock.png');
     async function logZCard() {
-      const result = await context.redis.zCard('posts');
+      const result = await context.redis.zCard(set);
       return result;
     }
     const [actualrange, setActualRange] = useState(9);
@@ -48,14 +49,16 @@ Devvit.addCustomPostType({
     const [currentSet, setSet] = useState('posts'); 
 
     const [] = useState(async() :Promise<void> =>{
-      await Blocks(currentPageNumber);
+      try{
+     await Blocks();
+    } catch (err) { console.error(`An error occurred: ${err}`); }
+    //The setBlock() lines break it for some reason?
+    //The app doesn't load because of the await at the start, if I remove await, it works, so something in the function must be causing the app to freeze
+     //App doesn't load when this function is called at the start...
        //It's using 8 for the first 2 pages, and not allowing the user to see a third page, or anything after that
       //The 9th block on the 2nd page also doesn't work
-    })
+    }) 
 
-    //Holder usestate array: has 8 indexes, represents the numbered blocks
-    //Blocks(): 
-    //actualrange: Doesn't work but I'll try again I guess
 
     function incrementRange(){
       //setActualRange(actualrange + 9);
@@ -70,58 +73,151 @@ Devvit.addCustomPostType({
     //Add and subtract 9 from it with every click using inc and dec range
     const [rng, setRange] = useState(8);
 
-    async function Blocks(pageNumber: number){ 
-      const set = "posts";
-      let holder = (await logZCard());
-      let range;
+    async function Blocks(){
+      let setsize = (await logZCard());
+      let parsed;
+      let goal;
 
-      if (pageNumber == 0){
-        range = (holder-holder) + (7);
+      if (currentPageNumber == 0){
+        goal = (setsize-setsize) + (7);
       }
-      else if (pageNumber == 1){
-        range = 7 + (holder-holder) + ((7*pageNumber)+1);
+      if (currentPageNumber == 1){
+        goal = 7 + (setsize-setsize) + ((7*currentPageNumber)+1);
       }
       else{
-        range = 7 + (holder-holder) + ((7*pageNumber)+1);
+        goal = 7 + (setsize-setsize) + ((7*currentPageNumber)+1);
+      }
+      let range = goal-8;
+
+      try{
+          for (range; range < (goal); range++){
+            if (range == goal-8){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock1(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-7){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock2(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-6){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock3(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-5){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock4(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-4){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock5(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-3){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock6(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-2){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock7(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+            if (range == goal-1){
+              let result = await context.redis.zRange(set, range, range);
+              parsed = JSON.parse(result[0].member);
+              setBlock8(parsed.img);
+              console.log(`8: ${range}`); console.log({Block8});     range++; 
+            }
+          }
+      } catch (err) { console.error(`An error occurred: ${err}`); }
+    }
+    //Takes page number
+    //Gets the range using the page number
+    //Updates states
+    
+
+    async function BlocksRETIRED(){  //The original blocks function..which doesn't work, so I created a new one
+      let holder = (await logZCard());
+      let range;
+      let parsed;
+
+      if (currentPageNumber == 0){
+        range = (holder-holder) + (7);
+      }
+      if (currentPageNumber == 1){
+        range = 7 + (holder-holder) + ((7*currentPageNumber)+1);
+      }
+      else{
+        range = 7 + (holder-holder) + ((7*currentPageNumber)+1);
       }
       let result; 
-      let ting8, ting7, ting6, ting5, ting4, ting3, ting2, ting1, ting0;
+      let ting8 = 'emptyblock.png', ting7 = 'emptyblock.png', ting6 = 'emptyblock.png', ting5 = 'emptyblock.png', ting4 = 'emptyblock.png', ting3 = 'emptyblock.png', ting2 = 'emptyblock.png', ting1 = 'emptyblock.png', ting0 = 'emptyblock.png';
+      try{
+        result = await context.redis.zRange(set, range, range);
+        if (result[0] && result[0].member) {
+          parsed = JSON.parse(result[0].member);
+          setBlock8(parsed.img);
+          console.log(`8: ${range}`); console.log({Block8});     range--; 
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock7(parsed.img);
+          console.log(`7: ${range}`);  console.log({Block7});    range--; 
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock6(parsed.img);
+          console.log(`6: ${range}`);  console.log({Block6});   range--;  
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock5(parsed.img);
+          console.log(`5: ${range}`);  console.log({Block5});  range--;  
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock4(parsed.img);
+          console.log(`4: ${range}`);  console.log({Block4});    range--; 
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock3(parsed.img);
+          console.log(`3: ${range}`);  console.log({Block3});   range--;  
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
+          parsed = JSON.parse(result[0].member);
+          setBlock2(parsed.img);
+          console.log(`2: ${range}`);  console.log({Block2});   range--;  
+        }
+        else if (result[0] && result[0].member) {
+          result = await context.redis.zRange(set, range, range);
 
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting8 = await context.redis.hget(result[0].member, 'img');
-          } console.log(`8: ${range}`);      range--; 
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting7 = await context.redis.hget(result[0].member, 'img');
-          } console.log(`7: ${range}`);      range--; 
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting6 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`6: ${range}`);     range--;  
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting5 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`5: ${range}`);     range--;  
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting4 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`4: ${range}`);      range--; 
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting3 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`3: ${range}`);     range--;  
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting2 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`2: ${range}`);     range--;  
-        result = await context.redis.zRange(set, range, range);
-        if (result[0] && result[0].member) {
-          ting1 = await context.redis.hget(result[0].member, 'img');
-          }  console.log(`1: ${range}`);   
-
-        setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
-        console.log(`${Block1}, ${Block2}, ${Block3}, ${Block4}, ${Block5}, ${Block6}, ${Block7}, ${Block8}`);
+          parsed = JSON.parse(result[0].member);
+          setBlock1(parsed.img);
+          console.log(`1: ${range}`);  console.log({Block1});
+        }
+      } catch (err) { console.error(`An error occurred: ${err}`); }
+        //setBlock1(ting1!); setBlock2(ting2!); setBlock3(ting3!); setBlock4(ting4!); setBlock5(ting5!); setBlock6(ting6!); setBlock7(ting7!); setBlock8(ting8!);
+        //console.log(`${Block1}, ${Block2}, ${Block3}, ${Block4}, ${Block5}, ${Block6}, ${Block7}, ${Block8}`);
+        const debug = await context.redis.zRange(set, 0, 30);
+       // console.log({debug}, {ting1});
       };
 
       
@@ -129,14 +225,14 @@ Devvit.addCustomPostType({
         const newPageNumber = currentPageNumber + 1;
         setCurrentPageNumber(newPageNumber);
         console.log(newPageNumber);
-        await Blocks(newPageNumber);
+        await Blocks();
       }
       
       async function decrementCurrentPage(){ 
         const newPageNumber = currentPageNumber - 1;
         setCurrentPageNumber(newPageNumber);
         console.log(newPageNumber);
-        await Blocks(newPageNumber);
+        await Blocks();
       }
     
     const imageForm = context.useForm({
@@ -170,12 +266,11 @@ Devvit.addCustomPostType({
               .image({ mediaId: response.mediaId })
               .codeBlock({}, (cb) => cb.rawText(values.myDescription)),
         });
-        await redis.hset(submittedComment.id, {img: values.myImage, dsc: values.myDescription});
-        await redis.zAdd('posts', {member: submittedComment.id, score: Date.now()});
-        ui.showToast(`Uploaded!`);
+        await redis.zAdd(set, {member: JSON.stringify({commentId: submittedComment.id, img: values.myImage, dsc: values.myDescription}), score: Date.now()}); //Use the postID as the name of the sorted set. This way, posts from other custom posts won't show.
 
-        setPage('ViewingPost');
-        await Blocks(currentPageNumber);
+        ui.showToast(`Uploaded!`);
+        await Blocks(); //Update the blocks
+        setPage('ViewingPost'); //Set the page to the new post
       } catch (err) {
         throw new Error(`Error uploading media: ${err}`);
       }

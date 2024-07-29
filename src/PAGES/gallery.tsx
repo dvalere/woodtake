@@ -114,8 +114,8 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   <hstack gap="small">
     <hstack onPress={() => {
             if (page == 1){
-                setPage('landing');
                 decrementCurrentPage();
+                setPage('landing');
                 blocks();
             }
             else{
