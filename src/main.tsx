@@ -83,34 +83,26 @@ Devvit.addCustomPostType({
     const [rng, setRange] = useState(8);
 
     async function Blocks(pagenum: number){
-      console.log({pagenum});
+      console.log("RUNNING");
       let setsize = (await logZCard());
       let test = await context.redis.zRange(set, 0, -1);
       test = test.reverse();
       let parsed;
       let goal;
-      let ting8 = 'emptyblock.png', ting7 = 'emptyblock.png', ting6 = 'emptyblock.png', ting5 = 'emptyblock.png', ting4 = 'emptyblock.png', ting3 = 'emptyblock.png', ting2 = 'emptyblock.png', ting1 = 'emptyblock.png', ting0 = 'emptyblock.png';
 
       if (pagenum == 0){
-        goal = (setsize-setsize) + (7);
+        goal = (7);
       }
       if (pagenum == 1){
-        goal = 7 + (setsize-setsize) + ((7*pagenum)+1);
+        goal = 7 + ((7*pagenum)+pagenum);
       }
       else{
-        goal = 7 + (setsize-setsize) + ((7*pagenum)+1);
+        goal = 7 + ((7*pagenum)+pagenum);
       }
       let range = goal-8;
-    let options: ZRangeOptions = {
-        reverse: true,
-        by: "rank"
-      };
   
       try{ //Images still don't update with the page number...
         for (range; range < (goal); range++){
-          console.log({range});
-          console.log({goal});
-          console.log({setsize});
           if (goal < setsize){
           if (await context.redis.zRange(set, range, range)){
           let result = await context.redis.zRange(set, range, range);
@@ -179,8 +171,10 @@ Devvit.addCustomPostType({
       }
       
       async function redirectFunction(url: string, desc: string){
+        //Add something to check if the blocks actually have a "post" in them
         setImageUrl(url);
         setDescription(desc);
+        setPage('viewingPost');
       }
     
     const imageForm = context.useForm({

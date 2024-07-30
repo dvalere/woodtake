@@ -61,7 +61,8 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   //First stack of 3
   <hstack gap="small"> 
     <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
-    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
+    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button>
+    </hstack>
     <hstack onPress={() => {redirect(block1, dsc1); setPage('viewingpost'); console.log({block1}, {dsc1})}} backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
         url={block1}
