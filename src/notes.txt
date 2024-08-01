@@ -101,6 +101,14 @@ Different zsets for each postJson.stringify for hsets in each zset
 
 The redis retrieval works, and the "ting" variables receive the new values
 
-Image onPress:
--setPage viewingPost
--
+//Comment button clicked
+//Comment submitted through form
+//Form onsubmit event uses the ID, which is in the identify useState variable, to create or add to a separate zset, which uses the ID as the key. The zset will hold the comments and rank them by the amount of upvotes
+//The ID of the newly made comment will have to be added too
+//Comment button->commentForm
+
+
+//Leaderboard also uses the zset
+//Have the userID on posts and comments, and when someone receives an upvote, add it to their score. Display the top 10 on the leaderboard. 
+
+Now that their structures are basically equal....the "gallery" page can be removed/merged with landing, they're pretty much the same thing now

@@ -24,6 +24,14 @@ interface galleryProps {
   dsc6: string;
   dsc7: string;
   dsc8: string;
+  id1: string;
+  id2: string;
+  id3: string;
+  id4: string;
+  id5: string;
+  id6: string;
+  id7: string;
+  id8: string;
   redirect: Function;
 }
 
@@ -52,6 +60,14 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     dsc6,
     dsc7,
     dsc8,
+    id1,
+    id2,
+    id3,
+    id4,
+    id5,
+    id6,
+    id7,
+    id8,
     redirect,
   } = props;
   return(
@@ -126,30 +142,18 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   </hstack>
   //Up and down buttons
   <hstack gap="small">
-    <hstack onPress={() => {
-            if (page == 1){
-                decrementCurrentPage();
-                setPage('landing');
-                blocks(page);
-            }
-            else{
+    <button onPress={() => {
+              if (page != 0){
                 decrementCurrentPage();
                 blocks(page);
-            }
+              }
             }}
-            
-    backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button
-    >
-    </hstack>
-    <hstack onPress={() => {incrementCurrentPage(); }} 
-    backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
-    > 
-    //Add something to check if the page number is 1 on the up button, because if it's 1, then we have to go back to the "landing" page with the camera button
-    //Somehow...these up and down buttons have to lead to new pages
-    //And somehow...new Landing pages have to be formed with new images...Somehow!
-    //And somehow...We need to connect the user ID or username to their in-app posts...
-    </hstack>
+        size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
+    </button>
+    <text alignment='center bottom' size="large" color="black">{page}</text>
+    <button onPress={() => { setPage('gallery'); incrementCurrentPage(); blocks(page); }} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
   </hstack>
   </vstack>
   );
 };
+

@@ -7,6 +7,11 @@ interface landingProps {
   incrementCurrentPage: Function;
   decrementCurrentPage: Function;
   blocks: Function;
+  blockArray: {
+    img: string;
+    dsc: string;
+    id: string;
+  }[];
   block0: string;
   block1: string;
   block2: string;
@@ -24,6 +29,14 @@ interface landingProps {
   dsc6: string;
   dsc7: string;
   dsc8: string;
+  id1: string;
+  id2: string;
+  id3: string;
+  id4: string;
+  id5: string;
+  id6: string;
+  id7: string;
+  id8: string;
   redirect: Function;
 }
 
@@ -53,6 +66,14 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
     dsc6,
     dsc7,
     dsc8,
+    id1,
+    id2,
+    id3,
+    id4,
+    id5,
+    id6,
+    id7,
+    id8,
     redirect,
   } = props;
   return(
@@ -61,9 +82,9 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   //First stack of 3
   <hstack gap="small"> 
     <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
-    <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button>
+    <button size="large" disabled={true} appearance="plain" icon="camera" width="70px" height="100%"></button>
     </hstack>
-    <hstack onPress={() => {redirect(block1, dsc1); setPage('viewingpost'); console.log({block1}, {dsc1})}} backgroundColor="PureGray-250" height="70px" width="70px"> 
+    <hstack onPress={() => {redirect(id1, block1, dsc1); setPage('viewingpost'); console.log({block1}, {dsc1})}} backgroundColor="PureGray-250" height="70px" width="70px"> 
       <image
         url={block1}
       imageWidth={70}
@@ -128,20 +149,9 @@ export const Landing = (props: landingProps, context: Context): JSX.Element => {
   </hstack>
   //Up and down buttons
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-up" width="100%" height="100%"></button>
-    </hstack>
-    <hstack onPress={() => { setPage('gallery'); incrementCurrentPage(); blocks(page); }} 
-    backgroundColor="PureGray-250" height="45px" width="125px"> <button size="large" disabled={true} appearance="plain" icon="caret-down" width="100%" height="100%"></button
-    > 
-    //Somehow...these up and down buttons have to lead to new pages
-    //And somehow...new Landing pages have to be formed with new images...Somehow!
-    //And somehow...We need to connect the user ID or username to their in-app posts...
-    </hstack>
+       <button onPress={() => { setPage('gallery'); decrementCurrentPage(); blocks(page); }} size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px"  ></button>
+       <button onPress={() => { setPage('gallery'); incrementCurrentPage(); blocks(page); }} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button> 
   </hstack>
   </vstack>
   );
 };
-
-//Create 9 useState variables
-//Put them in each image URL option
-//Have the variables updated in the

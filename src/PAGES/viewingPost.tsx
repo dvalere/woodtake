@@ -7,6 +7,8 @@ interface ViewingPostProps {
   setPage: (page: pages) => void;
   image: string;
   description: string;
+  id: string;
+  commentForm: FormKey;
 }
 
 
@@ -16,6 +18,8 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
     setPage,
     image,
     description,
+    id,
+    commentForm,
   } = props;
 
   return (
@@ -43,8 +47,10 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
       <image url={image} imageWidth={128} imageHeight={128} /> 
       <text size="medium" color="black"> {description} </text>
       <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
-          <button icon="comments" disabled={true} appearance="plain"></button>
+          <button onPress={() => ui.showForm(commentForm)} icon="comments" disabled={true} appearance="plain"></button>
       </hstack>
     </vstack>
   );
 };
+
+//redirect(id, image, description)

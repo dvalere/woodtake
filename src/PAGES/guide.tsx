@@ -2,11 +2,6 @@ import { Devvit, FormKey, Context } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 import type { pages } from '../utils/pages.js';
 
-export interface uiType{
-  ui: {
-  showForm: (createForm: FormKey) => void;
-  };
-} //May not need
 
 interface GuideProps {
   setPage: (PageProps: pages) => void;
