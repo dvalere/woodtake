@@ -145,13 +145,12 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     <button onPress={() => {
               if (page != 0){
                 decrementCurrentPage();
-                blocks(page);
               }
             }}
         size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
     </button>
     <text alignment='center bottom' size="large" color="black">{page}</text>
-    <button onPress={() => { setPage('gallery'); incrementCurrentPage(); blocks(page); }} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
+    <button onPress={() => { setPage('gallery'); incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
   </hstack>
   </vstack>
   );

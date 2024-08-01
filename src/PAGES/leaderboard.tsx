@@ -20,7 +20,5 @@ export const Leaderboard = ({ setPage }: PageProps) => (
       <text size="medium" color = "black">4.</text>
       //username stuff goes here
   
-      //There's DEFINITELY a more precise way to add the ranks, but this will be a placeholder for now. The leaderboard will go up to the top 10-20
-      //The "YardMarkers" on the Football Field example can be a great start
     </vstack>
   );

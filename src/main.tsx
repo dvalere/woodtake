@@ -38,7 +38,7 @@ Devvit.addCustomPostType({
     
     const [Block1Dsc, setBlock1Dsc] = useState('');
     const [Block2Dsc, setBlock2Dsc] = useState('');
-    const [Block3Dsc, setBlock3Dasc] = useState('');
+    const [Block3Dsc, setBlock3Dsc] = useState('');
     const [Block4Dsc, setBlock4Dsc] = useState('');
     const [Block5Dsc, setBlock5Dsc] = useState('');
     const [Block6Dsc, setBlock6Dsc] = useState('');
@@ -66,101 +66,149 @@ Devvit.addCustomPostType({
       { img: 'emptyblock.png', dsc: '', id: '' },
       { img: 'emptyblock.png', dsc: '', id: '' },
     ]);
-
-    async function logZCard() {
-      const result = await context.redis.zCard(set);
-      return result;
-    }
     //Ignoring this array for now, it was causing too many issues
     const [arr, setArr] = context.useState(["emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png", "emptyblock.png"]); //Array of image variables
 
 
     const [] = useState(async() :Promise<void> =>{
       try{
-     await Blocks(currentPageNumber);
+        await Blocks(0);
     } catch (err) { console.error(`An error occurred: ${err}`); }
     }) 
 
+    async function logZCard() {
+      const result = await context.redis.zCard(set);
+      return result;
+    }
+
+    function updateBlock1(url: string, dsc: string, id: string){
+       setBlock1(url);
+       setBlock1Dsc(dsc);
+       setBlock1ID(id);
+    }
     async function Blocks(pagenum: number){
       console.log("Running Blocks...");
       let setsize = (await logZCard());
       let test = await context.redis.zRange(set, 0, -1);
       test = test.reverse();
-      let parsed;
-      let goal;
+      let goal = 0;
 
       if (pagenum == 0){
-        goal = (7);
-      }
-      if (pagenum == 1){
-        goal = 7 + ((7*pagenum)+1); // change the second pagenums to 1 and it'll work...
+        console.log(`first log, pagenum: ${pagenum}`);
+        goal = 8;
+        console.log({goal});
       }
       else{
+        console.log(`another log, pagenum: ${pagenum}`);
         goal = 7 + ((7*pagenum)+pagenum);
-      }
+        console.log({goal});
+      } //so for some reason, the first if statement runs, 
+
       let range = goal-8;
-      
-      try{ //Images still don't update with the page number...
+      let parsed;
+
+      try{//Images still don't update with the page number...
         for (range; range < (goal); range++){
-          if (goal < setsize){
             if (await context.redis.zRange(set, range, range)){
               let result = await context.redis.zRange(set, range, range);
               if (test){ //For some reason,it's accessing the same numbers
-                parsed = JSON.parse(test[range].member);
                 if (range == goal-8){
                   //let cloneArray = [...blockArray]; 
                   //cloneArray[1] = { img: parsed.img, dsc: parsed.dsc, id: parsed.commendId}; 
                   //setBlocks(cloneArray);
                   //This doesn't work...^ Put aside for now
+                  try{
+                  parsed = (await JSON.parse(test[range].member));
+                  console.log(`Range: ${range}`);
                   setBlock1(parsed.img);
                   setBlock1Dsc(parsed.dsc);
                   setBlock1ID(parsed.commentId);
                   console.log(`Block 1: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log(`ACTUAL VALUES...Blockstate: ${Block1}, Dscstate: ${Block1Dsc}, IDstate: ${Block1ID}`);
+                  console.log({range});
+                  //PLan for after lunch: create a function to set all 3 of the values at once
+                  } catch (err) { console.error(`An error occurred on the first block: ${err}`); }
                 }
                 else if (range == goal-7){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock2(parsed.img);
                   setBlock2Dsc(parsed.dsc);
                   setBlock2ID(parsed.commentId);
                   console.log(`Block 2: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log(`ACTUAL VALUES...Blockstate: ${Block2}, Dscstate: ${Block2Dsc}, IDstate: ${Block2ID}`);
+                  console.log({range});
+
+                } catch (err) { console.error(`An error occurred on the second block: ${err}`); }
                 }
                 else if (range == goal-6){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock3(parsed.img);
-                  setBlock3Dasc(parsed.dsc);
+                  setBlock3Dsc(parsed.dsc);
                   setBlock3ID(parsed.commentId);
                   console.log(`Block 3: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log(`ACTUAL VALUES...Blockstate: ${Block3}, Dscstate: ${Block3Dsc}, IDstate: ${Block3ID}`);
+                  console.log({range});
+
+                } catch (err) { console.error(`An error occurred on the third block: ${err}`); }
                 }
                 else if (range == goal-5){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock4(parsed.img);
                   setBlock4Dsc(parsed.dsc);
                   setBlock4ID(parsed.commentId);
                   console.log(`Block 4: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log(`ACTUAL VALUES...Blockstate: ${Block4}, Dscstate: ${Block4Dsc}, IDstate: ${Block4ID}`);
+                  console.log({range});
+                } catch (err) { console.error(`An error occurred on the fourth block: ${err}`); }
                 }
                 else if (range == goal-4){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock5(parsed.img);
                   setBlock5Dsc(parsed.dsc);
                   setBlock5ID(parsed.commentId);
                   console.log(`Block 5: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log(`ACTUAL VALUES...Blockstate: ${Block5}, Dscstate: ${Block5Dsc}, IDstate: ${Block5ID}`);
+                  console.log({range});
+                } catch (err) { console.error(`An error occurred on the fifth block: ${err}`); }
                 }
                 else if (range == goal-3){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock6(parsed.img);
                   setBlock6Dsc(parsed.dsc);
                   setBlock6ID(parsed.commentId);
                   console.log(`Block 6: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log({range});
+
+                } catch (err) { console.error(`An error occurred on the sixth block: ${err}`); }
                 }
                 else if (range == goal-2){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock7(parsed.img);
                   setBlock7Dsc(parsed.dsc);
                   setBlock7ID(parsed.comment);
                   console.log(`Block 7: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log({range});
+
+                } catch (err) { console.error(`An error occurred on the seventh block: ${err}`); }
                 }
                 else if (range == goal-1){
+                  try{
+                    parsed = await JSON.parse(test[range].member);
                   setBlock8(parsed.img);
                   setBlock8Dsc(parsed.dsc);
                   setBlock8ID(parsed.commentId);
                   console.log(`Block 8: ${parsed.img}, ${parsed.dsc}, ${parsed.commentId}`);
+                  console.log({range});
+
+                } catch (err) { console.error(`An error occurred on the eighth block: ${err}`); }
                 }
               }
-            }
           } else{
               console.log('No image found');
           }
@@ -173,17 +221,20 @@ Devvit.addCustomPostType({
     //Gets the range using the page number
     //Updates states
 
+    //Take in page number
+    //Create a range variable
+    //If page number  is 0, range is size-size+7
+    //Else, range is size - size +7*page number
+
     async function incrementCurrentPage(){ 
       const newPageNumber = currentPageNumber + 1;
       setCurrentPageNumber(newPageNumber);
-      //console.log(newPageNumber);
       await Blocks(newPageNumber);
     }
     
     async function decrementCurrentPage(){ 
       const newPageNumber = currentPageNumber - 1;
       setCurrentPageNumber(newPageNumber);
-      //console.log(newPageNumber);
       await Blocks(newPageNumber);
     }
       
@@ -197,6 +248,10 @@ Devvit.addCustomPostType({
     async function deletePost(id: string){
       await context.redis.zRem(set, [id]);
       await Blocks(currentPageNumber);
+    }
+
+    async function upvoteComment(){
+
     }
 
     const imageForm = context.useForm({
