@@ -216,6 +216,12 @@ Devvit.addCustomPostType({
       } catch (err) { console.error(`An error occurred: ${err}`); }
       const debug = await context.redis.zRange(set, 0, 30);
       //console.log({debug});
+      
+      if (pagenum == 1){
+        setBlock1('emptyblock.png');
+      }
+      //This if statement doesn't change the image...
+      //The problem is definitely coming from the useState not being able to be updated from this function twice...
     }
     //Takes page number
     //Gets the range using the page number
