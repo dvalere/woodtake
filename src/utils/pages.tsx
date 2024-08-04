@@ -1,6 +1,5 @@
 export type pages =
-| 'landing'
-| 'viewingpost'
+| 'viewing'
 | 'guide'
 | 'leaderboard'
 | 'gallery'

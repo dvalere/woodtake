@@ -112,3 +112,5 @@ The redis retrieval works, and the "ting" variables receive the new values
 //Have the userID on posts and comments, and when someone receives an upvote, add it to their score. Display the top 10 on the leaderboard. 
 
 Now that their structures are basically equal....the "gallery" page can be removed/merged with landing, they're pretty much the same thing now
+
+//Comment page will be just like gallery, comments will be held in redis, and you will have to click a button to traverse

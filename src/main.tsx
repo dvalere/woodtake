@@ -1,6 +1,5 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, Comment, ZRangeOptions } from '@devvit/public-api';
 import { RenderContext } from '@devvit/public-api/devvit/internals/blocks/handler/RenderContext.js';
-import { Landing } from './PAGES/landing.js';
 import { Guide } from './PAGES/guide.js';
 import { Leaderboard } from './PAGES/leaderboard.js';
 import { ViewingPost } from './PAGES/viewingPost.js';
@@ -55,7 +54,7 @@ Devvit.addCustomPostType({
     const [Block8ID, setBlock8ID] = useState('');
 
     //All these block variables will definitely be condensed into an array for each block later
-    const [blockArray, setBlocks] = useState([
+    const [blockArray, setBlockArray] = useState([
       { img: 'emptyblock.png', dsc: '', id: '' },
       { img: 'emptyblock.png', dsc: '', id: '' },
       { img: 'emptyblock.png', dsc: '', id: '' },
@@ -113,10 +112,6 @@ Devvit.addCustomPostType({
               let result = await context.redis.zRange(set, range, range);
               if (test){ //For some reason,it's accessing the same numbers
                 if (range == goal-8){
-                  //let cloneArray = [...blockArray]; 
-                  //cloneArray[1] = { img: parsed.img, dsc: parsed.dsc, id: parsed.commendId}; 
-                  //setBlocks(cloneArray);
-                  //This doesn't work...^ Put aside for now
                   try{
                   parsed = (await JSON.parse(test[range].member));
                   console.log(`Range: ${range}`);
@@ -232,6 +227,23 @@ Devvit.addCustomPostType({
     //If page number  is 0, range is size-size+7
     //Else, range is size - size +7*page number
 
+
+    async function Blocks2(pagenum: number) {
+      console.log("Running Blocks...");
+      let setsize = (await logZCard());
+      let itemsOnThePage = await context.redis.zRange(set, pagenum * 8, pagenum * 8 + 7, {
+          reverse: false,
+          by: 'score'
+      });
+      /*
+      page 0: 0-7
+      page 1: 8-15
+      page 2: 16-23
+       */
+
+      setBlockArray(itemsOnThePage.map(item => JSON.parse(item.member)));
+    }
+
     async function incrementCurrentPage(){ 
       const newPageNumber = currentPageNumber + 1;
       setCurrentPageNumber(newPageNumber);
@@ -249,6 +261,7 @@ Devvit.addCustomPostType({
       setIdentify(id);
       setImageUrl(url);
       setDescription(desc);
+      setPage('viewing');
     }
 
     async function deletePost(id: string){
@@ -256,10 +269,13 @@ Devvit.addCustomPostType({
       await Blocks(currentPageNumber);
     }
 
-    async function upvoteComment(){
-
+    async function upvoteComment(){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
+       
     }
 
+    async function removeUpvote(){ //Subtract 1 from the score of the comment
+
+    }
     const imageForm = context.useForm({
       title: 'Upload an image!',
       fields: [
@@ -329,42 +345,6 @@ Devvit.addCustomPostType({
     
     let currentPage;
     switch (page) {
-      case 'landing':
-        currentPage = <Landing 
-        setPage={setPage} 
-        page={currentPageNumber}
-        incrementCurrentPage={incrementCurrentPage}
-        decrementCurrentPage={decrementCurrentPage}
-        blockArray={blockArray}
-        blocks={Blocks}
-        block0={Block0}
-        block1={Block1}
-        block2={Block2}
-        block3={Block3}
-        block4={Block4}
-        block5={Block5}
-        block6={Block6}
-        block7={Block7}
-        block8={Block8}
-        dsc1={Block1Dsc}
-        dsc2={Block2Dsc}
-        dsc3={Block3Dsc}
-        dsc4={Block4Dsc}
-        dsc5={Block5Dsc}
-        dsc6={Block6Dsc}
-        dsc7={Block7Dsc}
-        dsc8={Block8Dsc}
-        id1={Block1ID}
-        id2={Block2ID}
-        id3={Block3ID}
-        id4={Block4ID}
-        id5={Block5ID}
-        id6={Block6ID}
-        id7={Block7ID}
-        id8={Block8ID}
-        redirect={redirectFunction}
-        />; 
-        break;
       case 'guide':
         currentPage = <Guide 
         imageForm={imageForm} 
@@ -375,7 +355,7 @@ Devvit.addCustomPostType({
         currentPage = <Leaderboard setPage={setPage} 
         />;
         break;
-      case 'viewingpost':
+      case 'viewing':
         currentPage = <ViewingPost 
         image={imageURL}
         description={description}
@@ -383,6 +363,7 @@ Devvit.addCustomPostType({
         commentForm={commentForm}
         setPage={setPage}
         />;
+        break;
       case 'gallery':
         currentPage = <Gallery
         page={currentPageNumber}
@@ -418,6 +399,7 @@ Devvit.addCustomPostType({
         redirect={redirectFunction}
         />;
         break;
+
       default:
         currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8} redirect={redirectFunction} dsc1={Block1Dsc} dsc2={Block2Dsc} dsc3={Block3Dsc} dsc4={Block4Dsc} dsc5={Block5Dsc} dsc6={Block6Dsc} dsc7={Block7Dsc} dsc8={Block8Dsc} id1={Block1ID} id2={Block2ID} id3={Block3ID} id4={Block4ID} id5={Block5ID} id6={Block6ID} id7={Block7ID} id8={Block8ID}
         />;

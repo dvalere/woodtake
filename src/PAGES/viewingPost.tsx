@@ -32,22 +32,24 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
     >
       <hstack  width="85%" height="25%" alignment="middle start"
       gap="large"
-      > //Back button
+      > 
         <hstack
-        onPress={() => setPage('landing')}
+        onPress={() => setPage('gallery')}
         backgroundColor="PureGray-250" width="35px" height="35px"
         >
             <button icon="back" disabled={true} appearance="plain">
           </button>
+
+          <button icon='delete' appearance='secondary' width="35px" height="35px" >  </button>
         </hstack>
-        <hstack width="45%" height="12%" alignment="middle end">
+        <hstack width="45%" height="15%" alignment="middle end">
         <text weight="bold" alignment="top center" color="black" > What is this? </text>
         </hstack>
       </hstack>
-      <image url={image} imageWidth={128} imageHeight={128} /> 
+      <image url={image} imageWidth={128} imageHeight={128}/> 
       <text size="medium" color="black"> {description} </text>
-      <hstack alignment="top center" width="85%" height="15%" backgroundColor="PureGray-250">
-          <button onPress={() => ui.showForm(commentForm)} icon="comments" disabled={true} appearance="plain"></button>
+      <hstack  alignment="top center" width="85%" height="15%" >
+          <button onPress={() => ui.showForm(commentForm)} icon="comments" disabled={false} appearance="secondary" height="100%" width="100%" ></button>
       </hstack>
     </vstack>
   );

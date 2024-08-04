@@ -4,8 +4,8 @@ import type { pages } from '../utils/pages.js';
 interface galleryProps {
   setPage: (page: pages) => void;
   page: number;
-  incrementCurrentPage: Function;
-  decrementCurrentPage: Function;
+  incrementCurrentPage: ()=>Promise<void>;
+  decrementCurrentPage: ()=>Promise<void>;
   blocks: Function;
   block0: string;
   block1: string;
@@ -70,21 +70,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     id8,
     redirect,
   } = props;
+
   return(
- 
   <vstack gap="small" alignment="middle center">
     //First stack of 3
     <hstack gap="small"> 
       <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
       <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
-      <hstack onPress={() => {redirect(block1, dsc1); setPage('viewingpost');}} backgroundColor="PureGray-250" height="70px" width="70px"> 
+      <hstack onPress={async() =>{await redirect(id1, block1, dsc1);}} backgroundColor="PureGray-250" height="70px" width="70px"> 
         <image
           url={block1}
         imageWidth={70}
         imageHeight={70}
         />
       </hstack>
-      <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+      <hstack onPress={async() =>{await redirect(id2, block2, dsc2);}} backgroundColor="PureGray-250" height="70px" width="70px">
         <image
           url={block2}
           imageWidth={70}
@@ -94,21 +94,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     </hstack>
     //Second stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id3, block3, dsc3);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block3}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id4, block4, dsc4);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block4}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id5, block5, dsc5);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block5}
         imageWidth={70}
@@ -118,21 +118,21 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   </hstack>
   //Third stack
   <hstack gap="small">
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id6, block6, dsc6);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block6}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id7, block7, dsc7);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block7}
         imageWidth={70}
         imageHeight={70}
         />
     </hstack>
-    <hstack backgroundColor="PureGray-250" height="70px" width="70px">
+    <hstack onPress={async() =>{await redirect(id8, block8, dsc8);}} backgroundColor="PureGray-250" height="70px" width="70px">
       <image
         url={block8}
         imageWidth={70}
@@ -142,15 +142,15 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
   </hstack>
   //Up and down buttons
   <hstack gap="small">
-    <button onPress={() => {
+    <button onPress={async() => {
               if (page != 0){
-                decrementCurrentPage();
+                await decrementCurrentPage();
               }
             }}
         size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
     </button>
     <text alignment='center bottom' size="large" color="black">{page}</text>
-    <button onPress={() => { setPage('gallery'); incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
+    <button onPress={async() => { setPage('gallery'); await incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
   </hstack>
   </vstack>
   );
