@@ -80,12 +80,7 @@ Devvit.addCustomPostType({
       return result;
     }
 
-    function updateBlock1(url: string, dsc: string, id: string){
-       setBlock1(url);
-       setBlock1Dsc(dsc);
-       setBlock1ID(id);
-    }
-    async function Blocks(pagenum: number){
+    async function Blocks2(pagenum: number){
       console.log("Running Blocks...");
       let setsize = (await logZCard());
       let test = await context.redis.zRange(set, 0, -1);
@@ -228,13 +223,15 @@ Devvit.addCustomPostType({
     //Else, range is size - size +7*page number
 
 
-    async function Blocks2(pagenum: number) {
+    async function Blocks(pagenum: number) {
       console.log("Running Blocks...");
       let setsize = (await logZCard());
       let itemsOnThePage = await context.redis.zRange(set, pagenum * 8, pagenum * 8 + 7, {
-          reverse: false,
-          by: 'score'
+        reverse: true,
+        by: 'rank',
       });
+      console.log(pagenum);
+      console.log({setsize});
       /*
       page 0: 0-7
       page 1: 8-15
@@ -242,6 +239,7 @@ Devvit.addCustomPostType({
        */
 
       setBlockArray(itemsOnThePage.map(item => JSON.parse(item.member)));
+      console.log({itemsOnThePage});
     }
 
     async function incrementCurrentPage(){ 
@@ -258,10 +256,14 @@ Devvit.addCustomPostType({
       
     async function redirectFunction(id: string, url: string, desc: string){
       //Also, add something to check if the blocks actually have a "post" in them
+      if (url == 'emptyblock.png'){
+        return;
+      }else{
       setIdentify(id);
       setImageUrl(url);
       setDescription(desc);
       setPage('viewing');
+      }
     }
 
     async function deletePost(id: string){
@@ -397,11 +399,12 @@ Devvit.addCustomPostType({
         setPage={setPage}
         blocks={Blocks}
         redirect={redirectFunction}
+        blockArray={blockArray}
         />;
         break;
 
       default:
-        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8} redirect={redirectFunction} dsc1={Block1Dsc} dsc2={Block2Dsc} dsc3={Block3Dsc} dsc4={Block4Dsc} dsc5={Block5Dsc} dsc6={Block6Dsc} dsc7={Block7Dsc} dsc8={Block8Dsc} id1={Block1ID} id2={Block2ID} id3={Block3ID} id4={Block4ID} id5={Block5ID} id6={Block6ID} id7={Block7ID} id8={Block8ID}
+        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} block0={Block0} block1={Block1} block2={Block2} block3={Block3} block4={Block4} block5={Block5} block6={Block6} block7={Block7} block8={Block8} redirect={redirectFunction} dsc1={Block1Dsc} dsc2={Block2Dsc} dsc3={Block3Dsc} dsc4={Block4Dsc} dsc5={Block5Dsc} dsc6={Block6Dsc} dsc7={Block7Dsc} dsc8={Block8Dsc} id1={Block1ID} id2={Block2ID} id3={Block3ID} id4={Block4ID} id5={Block5ID} id6={Block6ID} id7={Block7ID} id8={Block8ID} blockArray={blockArray}
         />;
     }
 

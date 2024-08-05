@@ -1,6 +1,12 @@
 import { Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, Context, StateSetter } from '@devvit/public-api';
 import type { pages } from '../utils/pages.js';
 
+interface Block {
+  img: string;
+  dsc: string;
+  id: string;
+}
+
 interface galleryProps {
   setPage: (page: pages) => void;
   page: number;
@@ -33,6 +39,7 @@ interface galleryProps {
   id7: string;
   id8: string;
   redirect: Function;
+  blockArray: Block[];
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -69,90 +76,91 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     id7,
     id8,
     redirect,
+    blockArray = [],  // Provide a default empty array if blockArray is not set
   } = props;
 
-  return(
-  <vstack gap="small" alignment="middle center">
-    //First stack of 3
-    <hstack gap="small"> 
-      <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
-      <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button> </hstack>
-      <hstack onPress={async() =>{await redirect(id1, block1, dsc1);}} backgroundColor="PureGray-250" height="70px" width="70px"> 
-        <image
-          url={block1}
-        imageWidth={70}
-        imageHeight={70}
-        />
-      </hstack>
-      <hstack onPress={async() =>{await redirect(id2, block2, dsc2);}} backgroundColor="PureGray-250" height="70px" width="70px">
-        <image
-          url={block2}
-          imageWidth={70}
-          imageHeight={70}
+  return (
+    <vstack gap="small" alignment="middle center">
+      //First stack of 3
+      <hstack gap="small"> 
+        <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
+          <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button>
+        </hstack>
+        <hstack onPress={async() => {await redirect(blockArray[0].id, blockArray[0].img, blockArray[0].dsc);}} backgroundColor="PureGray-250" height="70px" width="70px"> 
+          <image
+            url={blockArray[0]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
           />
+        </hstack>
+        <hstack onPress={async() => {await redirect(blockArray[1].id, blockArray[1].img, blockArray[1].dsc);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[1]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
       </hstack>
-    </hstack>
-    //Second stack
-  <hstack gap="small">
-    <hstack onPress={async() =>{await redirect(id3, block3, dsc3);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block3}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-    <hstack onPress={async() =>{await redirect(id4, block4, dsc4);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block4}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-    <hstack onPress={async() =>{await redirect(id5, block5, dsc5);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block5}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-  </hstack>
-  //Third stack
-  <hstack gap="small">
-    <hstack onPress={async() =>{await redirect(id6, block6, dsc6);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block6}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-    <hstack onPress={async() =>{await redirect(id7, block7, dsc7);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block7}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-    <hstack onPress={async() =>{await redirect(id8, block8, dsc8);}} backgroundColor="PureGray-250" height="70px" width="70px">
-      <image
-        url={block8}
-        imageWidth={70}
-        imageHeight={70}
-        />
-    </hstack>
-  </hstack>
-  //Up and down buttons
-  <hstack gap="small">
-    <button onPress={async() => {
-              if (page != 0){
+      //Second stack
+      <hstack gap="small">
+        <hstack onPress={async() => {await redirect(id3, block3, dsc3);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[2]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+        <hstack onPress={async() => {await redirect(id4, block4, dsc4);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[3]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+        <hstack onPress={async() => {await redirect(id5, block5, dsc5);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[4]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+      </hstack>
+      //Third stack
+      <hstack gap="small">
+        <hstack onPress={async() => {await redirect(id6, block6, dsc6);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[5]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+        <hstack onPress={async() => {await redirect(id7, block7, dsc7);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[6]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+        <hstack onPress={async() => {await redirect(id8, block8, dsc8);}} backgroundColor="PureGray-250" height="70px" width="70px">
+          <image
+            url={blockArray[7]?.img || 'emptyblock.png'}
+            imageWidth={70}
+            imageHeight={70}
+          />
+        </hstack>
+      </hstack>
+      //Up and down buttons
+      <hstack gap="small">
+        <button onPress={async() => {
+              if (page !== 0){
                 await decrementCurrentPage();
               }
             }}
-        size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
-    </button>
-    <text alignment='center bottom' size="large" color="black">{page}</text>
-    <button onPress={async() => { setPage('gallery'); await incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
-  </hstack>
-  </vstack>
+            size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
+        </button>
+        <text alignment='center bottom' size="large" color="black">{page}</text>
+        <button onPress={async() => { setPage('gallery'); await incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
+      </hstack>
+    </vstack>
   );
 };
-
