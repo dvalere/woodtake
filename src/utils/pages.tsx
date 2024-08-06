@@ -3,4 +3,5 @@ export type pages =
 | 'guide'
 | 'leaderboard'
 | 'gallery'
+| 'comments'
 ;

@@ -22,3 +22,5 @@ export const Leaderboard = ({ setPage }: PageProps) => (
   
     </vstack>
   );
+
+  //Very outdated, will be updated soon
