@@ -1,6 +1,7 @@
 import { Context, Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, useState } from '@devvit/public-api';
 import type { PageProps } from '../main.js';
 import type { postProp } from '../utils/postProp.js';
+import type { Block } from '../utils/block.js';
 import type { pages } from '../utils/pages.js';
 
 interface ViewingPostProps {
@@ -8,7 +9,9 @@ interface ViewingPostProps {
   image: string;
   description: string;
   id: string;
+  currentBlock: Block;
   commentForm: FormKey;
+  loadComments: Function;
 }
 
 
@@ -19,7 +22,9 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
     image,
     description,
     id,
+    currentBlock,
     commentForm,
+    loadComments,
   } = props;
 
   return (
@@ -30,13 +35,14 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
           <button icon='delete' appearance='secondary'></button>
       </hstack>
       <vstack width="150px" height="175px" alignment="top center" gap="small"> 
-        <image url={image} imageWidth={128} imageHeight={128}/> 
-        <text size="medium" color="black"> {description}</text>
+        <image url={currentBlock.img} imageWidth={128} imageHeight={128}/> 
+        <text size="medium" color="black"> {currentBlock.dsc}</text>
       </vstack>
       <hstack  alignment="bottom center" width="85%" height="15%">
-          <button onPress={() => setPage('comments')} icon="comments" disabled={false} appearance="secondary" height="100%" width="100%" ></button>
+          <button onPress={async() => {await loadComments(currentBlock); setPage('comments');}} icon="comments" disabled={false} appearance="secondary" height="100%" width="100%" ></button>
       </hstack>
     </vstack>
   );
 };
 
+//Problem is; ID isn't there....

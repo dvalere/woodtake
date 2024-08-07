@@ -31,14 +31,14 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
         <hstack onPress={() => setPage('guide')} backgroundColor="PureGray-250" height="70px" width="70px">
           <button size="large" disabled={true} appearance="plain" icon="camera" width="100%" height="100%"></button>
         </hstack>
-        <hstack onPress={async() => {await redirect(blockArray[0]);}} backgroundColor="PureGray-250" height="70px" width="70px"> 
+        <hstack onPress={async() => {await redirect(blockArray[0]); console.log(blockArray[0]);}} backgroundColor="PureGray-250" height="70px" width="70px"> 
           <image
             url={blockArray[0]?.img || 'emptyblock.png'}
             imageWidth={70}
             imageHeight={70}
           />
         </hstack>
-        <hstack onPress={async() => {await redirect(blockArray[2]);}} backgroundColor="PureGray-250" height="70px" width="70px">
+        <hstack onPress={async() => {await redirect(blockArray[1]);}} backgroundColor="PureGray-250" height="70px" width="70px">
           <image
             url={blockArray[1]?.img || 'emptyblock.png'}
             imageWidth={70}
