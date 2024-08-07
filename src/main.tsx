@@ -25,24 +25,24 @@ Devvit.addCustomPostType({
     const [imageURL, setImageUrl] = context.useState('emptyblock.png');
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
-    const [currentBlock, setCurrentBlock] = useState({commentID: '', img: 'emptyblock.png', dsc: ''});
+    const [currentBlock, setCurrentBlock] = useState({commentId: '', img: 'emptyblock.png', dsc: ''});
     const [blockArray, setBlockArray] = useState([
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
-      { img: 'emptyblock.png', dsc: '', commentID: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: '' },
     ]);
 
     const [commentArray, setCommentArray] = useState([
-      { commentID: '', text: ''},
-      { commentID: '', text: ''},
-      { commentID: '', text: ''},
-      { commentID: '', text: '' },
+      { commentId: '', text: ''},
+      { commentId: '', text: ''},
+      { commentId: '', text: ''},
+      { commentId: '', text: '' },
     ]);
     //Four comments for each page
 
@@ -87,12 +87,13 @@ Devvit.addCustomPostType({
     async function loadComments(theBlock: Block){
       console.log({theBlock});
       // Check if theBlock.commentID is a sorted set
-      const type = await context.redis.type(theBlock.commentID);
+      const type = await context.redis.type(theBlock.commentId);
+      const type2 = await context.redis.type(set);
       if (type !== 'zset') {
-        console.error(`Expected a sorted set, but got ${type}`);
+        console.error(`Expected a sorted set, but got ${type}`); //It's getting a "hash" for some reason?
         return;
       }
-      const comments = await context.redis.zRange(theBlock.commentID, 0, 3);
+      const comments = await context.redis.zRange(theBlock.commentId, 0, 3);
       setCommentArray(comments.map(comment => JSON.parse(comment.member)));
     };
 
@@ -191,7 +192,7 @@ Devvit.addCustomPostType({
           const location = context.reddit.getCommentById(identify);
           const theReply = (await location).reply({text: `{newComment}`}); //Creating the reply to the post
           const theID = (await theReply).id;
-          await redis.zAdd(currentBlock.commentID, {member: JSON.stringify({commentID: theID, comment: values.myComment}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
+          await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           ui.showToast(`Comment submitted!`);
         } catch (err) {
           throw new Error(`Error submitting comment: ${err}`);
