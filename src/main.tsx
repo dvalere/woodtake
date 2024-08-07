@@ -7,6 +7,7 @@ import { Gallery } from './PAGES/gallery.js';
 import { Comments } from './PAGES/comments.js';
 import { Block } from './utils/block.js';
 import type { T1ID } from  '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
+import type { T_PREFIX } from '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
 
 export type PageProps = {
@@ -52,20 +53,11 @@ Devvit.addCustomPostType({
     } catch (err) { console.error(`An error occurred: ${err}`); }
     }) 
 
+
     async function logZCard() {
       const result = await context.redis.zCard(set);
       return result;
     }
-
-    //Takes page number
-    //Gets the range using the page number
-    //Updates states
-
-    //Take in page number
-    //Create a range variable
-    //If page number  is 0, range is size-size+7
-    //Else, range is size - size +7*page number
-
 
     async function Blocks(pagenum: number) {
       console.log("Running Blocks...");
@@ -189,9 +181,10 @@ Devvit.addCustomPostType({
       }, async (values) => {
         try {
           const { reddit, ui, redis } = context;
-          const location = context.reddit.getCommentById(identify);
-          const theReply = (await location).reply({text: `{newComment}`}); //Creating the reply to the post
-          const theID = (await theReply).id;
+          console.log(currentBlock.commentId);
+          const location = await context.reddit.getCommentById(currentBlock.commentId);
+          const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
+          const theID = theReply.id;
           await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           ui.showToast(`Comment submitted!`);
         } catch (err) {
