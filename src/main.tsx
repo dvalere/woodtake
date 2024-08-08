@@ -6,6 +6,7 @@ import { ViewingPost } from './PAGES/viewingPost.js';
 import { Gallery } from './PAGES/gallery.js';
 import { Comments } from './PAGES/comments.js';
 import { Block } from './utils/block.js';
+import { comment } from './utils/comment.js';
 import type { T1ID } from  '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
 import type { T_PREFIX } from '/Users/darius.valere/devapps/woodtake/node_modules/@devvit/shared-types/tid.d.ts';
 Devvit.configure({ media: true, redditAPI: true, redis: true,});
@@ -41,10 +42,10 @@ Devvit.addCustomPostType({
     ]);
 
     const [commentArray, setCommentArray] = useState([
-      { commentId: '', comment: ''},
-      { commentId: '', comment: ''},
-      { commentId: '', comment: ''},
-      { commentId: '', comment: '' },
+      { commentId: '', comment: '', authorId: '' },
+      { commentId: '', comment: '', authorId: '' },
+      { commentId: '', comment: '', authorId: ''},
+      { commentId: '', comment: '', authorId: '' },
     ]);
     //Four comments for each page
 
@@ -125,13 +126,21 @@ Devvit.addCustomPostType({
       await loadComments(currentBlock);
     }
 
-    async function upvoteComment(){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
-       
-    }
+    async function upvoteComment(current: comment){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
+      const newScore = await context.redis.zScore((currentBlock.commentId), current.commentId) + 1;
+      await context.redis.zAdd((currentBlock.commentId), {member: JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: context.userId}), score: newScore});
+      await loadComments(currentBlock); 
+    } 
 
-    async function removeUpvote(){ //Subtract 1 from the score of the comment
+    async function removeUpvote(current: comment){ //Subtract 1 from the score of the comment
 
+      const newScore = await context.redis.zScore((currentBlock.commentId), current.commentId) - 1;
+      await context.redis.zAdd((currentBlock.commentId), {member: JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: context.userId}), score: newScore});
+      await loadComments(currentBlock); 
     }
+    //When comment is submitted, submit their userID to the leaderboard zset
+    //When a comment is upvoted or downvoted, access the score of the comment creator
+    //User ID is gonna have to be added to the comment object
 
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -193,7 +202,7 @@ Devvit.addCustomPostType({
           const location = await reddit.getCommentById(currentBlock.commentId);
           const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
           const theID = theReply.id;
-          await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
+          await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           await loadComments(currentBlock); //Update the comments
           ui.showToast(`Comment submitted!`);
         } catch (err) {

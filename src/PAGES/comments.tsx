@@ -2,13 +2,13 @@ import { Context, Devvit, RichTextBuilder, useForm, Form, RedisClient, FormKey, 
 import type { PageProps } from '../main.js';
 import type { postProp } from '../utils/postProp.js';
 import type { pages } from '../utils/pages.js';
-import type { Comment } from '../utils/comment.js';
+import type { comment } from '../utils/comment.js';
 
 interface CommentProps {
   setPage: (page: pages) => void;
   currentPost: string; //post ID
   commentForm: FormKey;
-  commentArray: Comment[];
+  commentArray: comment[];
   incrementCommentPage: ()=>Promise<void>;
   decrementCommentPage: ()=>Promise<void>;
   commentPage: number;
