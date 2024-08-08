@@ -26,6 +26,7 @@ Devvit.addCustomPostType({
     const [imageURL, setImageUrl] = context.useState('emptyblock.png');
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
+    const [commentpagenum, setCommentPageNum] = useState(0);
     const [currentBlock, setCurrentBlock] = useState({commentId: '', img: 'emptyblock.png', dsc: ''});
     const [blockArray, setBlockArray] = useState([
       { img: 'emptyblock.png', dsc: '', commentId: '' },
@@ -40,10 +41,10 @@ Devvit.addCustomPostType({
     ]);
 
     const [commentArray, setCommentArray] = useState([
-      { commentId: '', text: ''},
-      { commentId: '', text: ''},
-      { commentId: '', text: ''},
-      { commentId: '', text: '' },
+      { commentId: '', comment: ''},
+      { commentId: '', comment: ''},
+      { commentId: '', comment: ''},
+      { commentId: '', comment: '' },
     ]);
     //Four comments for each page
 
@@ -66,28 +67,8 @@ Devvit.addCustomPostType({
         reverse: true,
         by: 'rank',
       });
-      /*
-      page 0: 0-7
-      page 1: 8-15
-      page 2: 16-23
-       */
-
       setBlockArray(itemsOnThePage.map(item => JSON.parse(item.member)));
-      //console.log({blockArray});
-    } //Successfully retrieves ID...
-
-    async function loadComments(theBlock: Block){
-      console.log({theBlock});
-      // Check if theBlock.commentID is a sorted set
-      const type = await context.redis.type(theBlock.commentId);
-      const type2 = await context.redis.type(set);
-      if (type !== 'zset') {
-        console.error(`Expected a sorted set, but got ${type}`); //It's getting a "hash" for some reason?
-        return;
-      }
-      const comments = await context.redis.zRange(theBlock.commentId, 0, 3);
-      setCommentArray(comments.map(comment => JSON.parse(comment.member)));
-    };
+    } 
 
     async function incrementCurrentPage(){ 
       const newPageNumber = currentPageNumber + 1;
@@ -119,6 +100,31 @@ Devvit.addCustomPostType({
       await Blocks(currentPageNumber);
     }
 
+    async function loadComments(theBlock: Block){
+      const type = await context.redis.type(theBlock.commentId);
+      if (type !== 'zset') {
+        console.error(`Expected a sorted set, but got ${type}`); //It's getting a "hash" for some reason?
+        return;
+      }
+      //Add a fallback for if there are zero comments
+      const comments = await context.redis.zRange(theBlock.commentId, commentpagenum * 4, commentpagenum * 4 + 3 );
+      console.log({comments});
+      setCommentArray(comments.map(comment => JSON.parse(comment.member)));
+      console.log({commentArray});
+    };
+
+    async function incrementCommentPage(){ 
+      const newPageNumber = commentpagenum + 1;
+      setCommentPageNum(newPageNumber);
+      await loadComments(currentBlock);
+    }
+    
+    async function decrementCommentPage(){ 
+      const newPageNumber = commentpagenum - 1;
+      setCommentPageNum(newPageNumber);
+      await loadComments(currentBlock);
+    }
+
     async function upvoteComment(){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
        
     }
@@ -126,6 +132,7 @@ Devvit.addCustomPostType({
     async function removeUpvote(){ //Subtract 1 from the score of the comment
 
     }
+
     const imageForm = context.useForm({
       title: 'Upload an image!',
       fields: [
@@ -182,10 +189,12 @@ Devvit.addCustomPostType({
         try {
           const { reddit, ui, redis } = context;
           console.log(currentBlock.commentId);
-          const location = await context.reddit.getCommentById(currentBlock.commentId);
+          console.log(`comment: ${values.myComment}`);
+          const location = await reddit.getCommentById(currentBlock.commentId);
           const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
           const theID = theReply.id;
           await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
+          await loadComments(currentBlock); //Update the comments
           ui.showToast(`Comment submitted!`);
         } catch (err) {
           throw new Error(`Error submitting comment: ${err}`);
@@ -234,6 +243,9 @@ Devvit.addCustomPostType({
         currentPost={identify}
         commentForm={commentForm}
         commentArray={commentArray}
+        incrementCommentPage={incrementCommentPage}
+        decrementCommentPage={decrementCommentPage}
+        commentPage={commentpagenum}
         />;
         break;
       default:

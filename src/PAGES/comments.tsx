@@ -9,6 +9,9 @@ interface CommentProps {
   currentPost: string; //post ID
   commentForm: FormKey;
   commentArray: Comment[];
+  incrementCommentPage: ()=>Promise<void>;
+  decrementCommentPage: ()=>Promise<void>;
+  commentPage: number;
 }
 
 export const Comments = (props: CommentProps, context: Context,): JSX.Element => {  
@@ -18,6 +21,9 @@ export const Comments = (props: CommentProps, context: Context,): JSX.Element =>
     currentPost,
     commentForm,
     commentArray,
+    incrementCommentPage,
+    decrementCommentPage,
+    commentPage,
   } = props;
 
   return (
@@ -31,15 +37,19 @@ export const Comments = (props: CommentProps, context: Context,): JSX.Element =>
             </hstack>
         </hstack>
         <vstack width="150px" height="175px" alignment="top center" gap="small"> 
-            <text size="medium" color="black">{commentArray[0].text!}</text>
-            <text size="medium" color="black">{commentArray[1].text!}</text>
-            <text size="medium" color="black">{commentArray[2].text!}</text>
-            <text size="medium" color="black">{commentArray[3].text!}</text>
+            <text size="medium" color="black">{commentArray[0]?.comment}</text>
+            <text size="medium" color="black">{commentArray[1]?.comment}</text>
+            <text size="medium" color="black">{commentArray[2]?.comment}</text>
+            <text size="medium" color="black">{commentArray[3]?.comment}</text>
         </vstack>
         <hstack  alignment="bottom center" width="85%" height="15%">
-            <button onPress={() => ui.showForm(commentForm)} icon="caret-up" disabled={false} appearance="secondary" height="100%" width="30%"></button>
+            <button onPress={async() => {
+                                            if (commentPage !== 0){
+                                                await decrementCommentPage();
+                                            }}}
+                icon="caret-up" disabled={false} appearance="secondary" height="100%" width="30%"></button>
             <button onPress={() => ui.showForm(commentForm)} disabled={false} appearance="secondary" height="100%" width="30%">Leave a comment!</button>
-            <button onPress={() => ui.showForm(commentForm)} icon="caret-down" disabled={false} appearance="secondary" height="100%" width="30%"></button>
+            <button onPress={async() => { await incrementCommentPage();}} icon="caret-down" disabled={false} appearance="secondary" height="100%" width="30%"></button>
         </hstack>
     </vstack>
   );
