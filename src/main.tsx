@@ -157,6 +157,7 @@ Devvit.addCustomPostType({
 
     async function loadLeaderboard(){
       //Returns top 20 users to an array
+      setPage('leaderboard');
     }
     //When comment is submitted, submit their userID to the leaderboard zset
     //When a comment is upvoted or downvoted, access the score of the comment creator
@@ -233,9 +234,9 @@ Devvit.addCustomPostType({
           //Check if the user is in the leaderboard
           const itExists = await redis.zRank(leaderboard, JSON.stringify(context.userId));
           if (itExists !== null) {
-            //console.log('The member exists in the sorted set.');
+            console.log('The member exists in the sorted set.');
           } else {
-            //console.log('The member does not exist in the sorted set.');
+            console.log('The member does not exist in the sorted set.');
             await redis.zAdd(leaderboard, {member: JSON.stringify(context.userId), score: 0});
           }
           ui.showToast(`Comment submitted!`);
