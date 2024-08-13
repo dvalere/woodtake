@@ -22,6 +22,7 @@ Devvit.addCustomPostType({
   render: context => {
     const { useState } = context;
     const set = 'post_' + context.postId!;
+    const leaderboard = 'leaderboard_' + context.postId!;
     const [page, setPage] = useState('gallery');
     const [identify, setIdentify] = context.useState(''); 
     const [imageURL, setImageUrl] = context.useState('emptyblock.png');
@@ -30,7 +31,7 @@ Devvit.addCustomPostType({
     const [commentpagenum, setCommentPageNum] = useState(0);
     const [currentBlock, setCurrentBlock] = useState({commentId: '', img: 'emptyblock.png', dsc: ''});
     const [blockArray, setBlockArray] = useState([
-      { img: 'emptyblock.png', dsc: '', commentId: '' },
+      { img: 'emptyblock.png', dsc: '', commentId: ''},
       { img: 'emptyblock.png', dsc: '', commentId: '' },
       { img: 'emptyblock.png', dsc: '', commentId: '' },
       { img: 'emptyblock.png', dsc: '', commentId: '' },
@@ -42,12 +43,22 @@ Devvit.addCustomPostType({
     ]);
 
     const [commentArray, setCommentArray] = useState([
-      { commentId: '', comment: '', authorId: '' },
-      { commentId: '', comment: '', authorId: '' },
       { commentId: '', comment: '', authorId: ''},
-      { commentId: '', comment: '', authorId: '' },
+      { commentId: '', comment: '', authorId: ''},
+      { commentId: '', comment: '', authorId: ''},
+      { commentId: '', comment: '', authorId: ''},
     ]);
+
+    const [upvoteArray, setUpvoteArray] = useState([
+      0, 0, 0, 0
+    ]);
+
     //Four comments for each page
+
+
+    const [LeaderboardArray, setLeaderboardArray] = useState([
+      '', '', '', '', '', '', '', '', '', '',  '', '', '', '', '', '', '', '', '', ''
+    ]); //Top 20 users
 
     const [] = useState(async() :Promise<void> =>{
       try{
@@ -62,7 +73,7 @@ Devvit.addCustomPostType({
     }
 
     async function Blocks(pagenum: number) {
-      console.log("Running Blocks...");
+      //console.log("Running Blocks...");
       let setsize = (await logZCard());
       let itemsOnThePage = await context.redis.zRange(set, pagenum * 8, pagenum * 8 + 7, {
         reverse: true,
@@ -104,15 +115,22 @@ Devvit.addCustomPostType({
     async function loadComments(theBlock: Block){
       const type = await context.redis.type(theBlock.commentId);
       if (type !== 'zset') {
-        console.error(`Expected a sorted set, but got ${type}`); //It's getting a "hash" for some reason?
+        console.error(`Expected a sorted set, but got ${type}`);
         return;
       }
-      //Add a fallback for if there are zero comments
-      const comments = await context.redis.zRange(theBlock.commentId, commentpagenum * 4, commentpagenum * 4 + 3 );
+      const comments = await context.redis.zRange(theBlock.commentId, 0, commentpagenum * 4 + 3 );
       console.log({comments});
-      setCommentArray(comments.map(comment => JSON.parse(comment.member)));
-      console.log({commentArray});
-    };
+
+      setCommentArray(comments.map(comment => {
+        const parsedComment = JSON.parse(comment.member);
+        if (parsedComment && parsedComment.commentId && parsedComment.comment) {
+          return parsedComment;
+        } else {
+          console.error('Comment member does not match the expected structure');
+          return null;
+        }
+      }).filter(comment => comment !== null));
+};
 
     async function incrementCommentPage(){ 
       const newPageNumber = commentpagenum + 1;
@@ -124,23 +142,33 @@ Devvit.addCustomPostType({
       const newPageNumber = commentpagenum - 1;
       setCommentPageNum(newPageNumber);
       await loadComments(currentBlock);
+    }//Set the upvote numbers from here
+
+    async function upvoteFunction(current: comment){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
+      if (await context.redis.hget(current.commentId, context.userId!) == 'upvoted'){ //Hset which uses the comment ID as the key, and the user IDs of upvoters as values
+        await context.redis.hdel(current.commentId, [context.userId!]); //If the person has upvoted, and they just clicked the upvote button again, then remove their upvote, and subtract 1 from the comment's upvotes
+        await context.redis.zIncrBy((currentBlock.commentId), current.commentId, -1);
+      }
+      else{ //Else, add their upvote to the hset, and add and 1 to the comments upvotes 
+        await context.redis.hset(current.commentId, {[context.userId!]: 'upvoted'});
+        await context.redis.zIncrBy((currentBlock.commentId), current.commentId, 1);
+      }
+      console.log(`Upvotes: ${await context.redis.zScore((currentBlock.commentId), current.commentId)}`);
+      await loadComments(currentBlock); 
     }
 
-    async function upvoteComment(current: comment){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
-      const newScore = await context.redis.zScore((currentBlock.commentId), current.commentId) + 1;
-      await context.redis.zAdd((currentBlock.commentId), {member: JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: context.userId}), score: newScore});
-      await loadComments(currentBlock); 
-    } 
-
-    async function removeUpvote(current: comment){ //Subtract 1 from the score of the comment
-
-      const newScore = await context.redis.zScore((currentBlock.commentId), current.commentId) - 1;
-      await context.redis.zAdd((currentBlock.commentId), {member: JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: context.userId}), score: newScore});
-      await loadComments(currentBlock); 
+    async function loadLeaderboard(){
+      //Returns top 20 users to an array
     }
     //When comment is submitted, submit their userID to the leaderboard zset
     //When a comment is upvoted or downvoted, access the score of the comment creator
     //User ID is gonna have to be added to the comment object
+    //zset with overarching comment ID as the name
+    //members have the "comment" IDs, upvoters and author ID, scores are the upvotes
+    //When someone upvotes, their vote is added to a list of pairs. When they downvote, the number is removed.
+    //i.e. context.redis.zAdd((currentBlock.commendId), {member: JSON.stringify({commentID: current.commentId, comment: current.comment, authorId: context.userId, upvoters: [user1, user2, user3]}), score: newScore});
+    //If they click on the upvote button, it will check if their ID is in the upvoters array. If it is, it will remove it. If it isn't, it will add it.
+  
 
     const imageForm = context.useForm({
       title: 'Upload an image!',
@@ -197,13 +225,21 @@ Devvit.addCustomPostType({
       }, async (values) => {
         try {
           const { reddit, ui, redis } = context;
-          console.log(currentBlock.commentId);
-          console.log(`comment: ${values.myComment}`);
+          //console.log(currentBlock.commentId);
+          //console.log(`comment: ${values.myComment}`);
           const location = await reddit.getCommentById(currentBlock.commentId);
           const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
           const theID = theReply.id;
           await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           await loadComments(currentBlock); //Update the comments
+          //Check if the user is in the leaderboard
+          const itExists = await redis.zRank(leaderboard, JSON.stringify(context.userId));
+          if (itExists !== null) {
+            //console.log('The member exists in the sorted set.');
+          } else {
+            //console.log('The member does not exist in the sorted set.');
+            await redis.zAdd(leaderboard, {member: JSON.stringify(context.userId), score: 0});
+          }
           ui.showToast(`Comment submitted!`);
         } catch (err) {
           throw new Error(`Error submitting comment: ${err}`);
@@ -255,6 +291,8 @@ Devvit.addCustomPostType({
         incrementCommentPage={incrementCommentPage}
         decrementCommentPage={decrementCommentPage}
         commentPage={commentpagenum}
+        upvoteFunction={upvoteFunction}
+        upvoteArray={upvoteArray}
         />;
         break;
       default:
