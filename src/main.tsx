@@ -113,24 +113,21 @@ Devvit.addCustomPostType({
     }
 
     async function loadComments(theBlock: Block){
+      //console.log('loading comments')
+      //console.log(await context.redis.hget(theBlock.commentId, context.userId!));
       const type = await context.redis.type(theBlock.commentId);
       if (type !== 'zset') {
-        console.error(`Expected a sorted set, but got ${type}`);
+        console.error(`Expected a sorted set, but got ${type}`); //It's getting a "hash" for some reason?
         return;
       }
-      const comments = await context.redis.zRange(theBlock.commentId, 0, commentpagenum * 4 + 3 );
+      const comments = await context.redis.zRange(theBlock.commentId, commentpagenum * 4, commentpagenum * 4 + 3 );
       console.log({comments});
+    
+      setCommentArray(comments.map(comment => JSON.parse(comment.member)));
+      setUpvoteArray(comments.map(comment => comment.score));
+      //console.log({commentArray});
+    };
 
-      setCommentArray(comments.map(comment => {
-        const parsedComment = JSON.parse(comment.member);
-        if (parsedComment && parsedComment.commentId && parsedComment.comment) {
-          return parsedComment;
-        } else {
-          console.error('Comment member does not match the expected structure');
-          return null;
-        }
-      }).filter(comment => comment !== null));
-};
 
     async function incrementCommentPage(){ 
       const newPageNumber = commentpagenum + 1;
@@ -147,11 +144,12 @@ Devvit.addCustomPostType({
     async function upvoteFunction(current: comment){ //Add 1 to the score of the comment, also connect the user ID to the value, so they can't upvote the same comment multiple times
       if (await context.redis.hget(current.commentId, context.userId!) == 'upvoted'){ //Hset which uses the comment ID as the key, and the user IDs of upvoters as values
         await context.redis.hdel(current.commentId, [context.userId!]); //If the person has upvoted, and they just clicked the upvote button again, then remove their upvote, and subtract 1 from the comment's upvotes
-        await context.redis.zIncrBy((currentBlock.commentId), current.commentId, -1);
+        await context.redis.zIncrBy((currentBlock.commentId), JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: current.authorId}), -1);
+        //await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
       }
       else{ //Else, add their upvote to the hset, and add and 1 to the comments upvotes 
         await context.redis.hset(current.commentId, {[context.userId!]: 'upvoted'});
-        await context.redis.zIncrBy((currentBlock.commentId), current.commentId, 1);
+        await context.redis.zIncrBy((currentBlock.commentId), JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: current.authorId}), 1);
       }
       console.log(`Upvotes: ${await context.redis.zScore((currentBlock.commentId), current.commentId)}`);
       await loadComments(currentBlock); 
@@ -333,3 +331,7 @@ Devvit.addMenuItem({
 });
 
 export default Devvit;
+
+
+//Make it so comments update when you switch posts....
+//UPVOTE BUTTON BREAKS IT
