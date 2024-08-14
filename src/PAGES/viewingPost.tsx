@@ -12,6 +12,8 @@ interface ViewingPostProps {
   currentBlock: Block;
   commentForm: FormKey;
   loadComments: Function;
+  blocks: Function;
+  currentpage: number;
 }
 
 
@@ -25,52 +27,25 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
     currentBlock,
     commentForm,
     loadComments,
+    blocks,
+    currentpage,
   } = props;
 
   return (
-    <vstack width = "100%" height = "100%" alignment = "center middle" gap = "medium" backgroundColor = "white" padding="xsmall">
-      <hstack width="100%">
-        <button icon="back" disabled={false} appearance="secondary"></button>     
-        <hstack width="100%" alignment="center middle">
-          <text color="black" size="large" style="heading" > Leaderboard </text>
-        </hstack>     
+    <vstack width="100%" height="100%" alignment="top center" backgroundColor="white" gap="medium">
+      <hstack width="85%" height="20%" alignment="top center"gap="large"> 
+          <button onPress={async() => { setPage('gallery'); blocks(currentpage); }} icon="back" disabled={false} appearance="secondary"></button>
+          <text alignment="bottom center" weight="bold" color="black" > What is this? </text>
+          <button icon='delete' appearance='secondary'></button>
       </hstack>
-
-    <vstack width="100%" gap="small" alignment= "start middle">
-      <hstack>
-        <text size="xxlarge" color = "black">1.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
-      </hstack>
-      <hstack>
-        <text size="xxlarge" color = "black">2.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
-      </hstack>
-      <hstack>
-        <text size="xxlarge" color = "black">3.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
-      </hstack>
-      <hstack>
-        <text size="xxlarge" color = "black">4.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
-      </hstack>
-      <hstack>
-        <text size="xxlarge" color = "black">5.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
+      <vstack width="150px" height="175px" alignment="top center" gap="small"> 
+        <image url={currentBlock.img} imageWidth={128} imageHeight={128}/> 
+        <text size="medium" color="black"> {currentBlock.dsc}</text>
+      </vstack>
+      <hstack  alignment="bottom center" width="85%" height="15%">
+          <button onPress={async() => {await loadComments(currentBlock); setPage('comments');}} icon="comments" disabled={false} appearance="secondary" height="100%" width="100%" ></button>
       </hstack>
     </vstack>
-
-    
-    <hstack gap="small">
-      <button size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px"></button>
-      <text alignment='center bottom' size="large" color="black">{0}</text>
-      <button size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
-    </hstack>
-  </vstack>
   );
 };
 

@@ -58,7 +58,11 @@ Devvit.addCustomPostType({
 
     const [LeaderboardArray, setLeaderboardArray] = useState([
       '', '', '', '', '', '', '', '', '', '',  '', '', '', '', '', '', '', '', '', ''
-    ]); //Top 20 users
+    ]); //Top 20 usernames
+
+    const [ScoreArray, setScoreArray] = useState([
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ]);
 
     const [] = useState(async() :Promise<void> =>{
       try{
@@ -128,7 +132,6 @@ Devvit.addCustomPostType({
       //console.log({commentArray});
     };
 
-
     async function incrementCommentPage(){ 
       const newPageNumber = commentpagenum + 1;
       setCommentPageNum(newPageNumber);
@@ -158,6 +161,9 @@ Devvit.addCustomPostType({
     async function loadLeaderboard(){
       //Returns top 20 users to an array
       setPage('leaderboard');
+      let board = await context.redis.zRange(leaderboard, 0, 19);
+      //setLeaderboardArray(await context.redis.zRange(leaderboard, 0, 19));
+      //setLeaderboardArray(board.map(spot => await context.reddit.getUserById((spot.member))));
     }
     //When comment is submitted, submit their userID to the leaderboard zset
     //When a comment is upvoted or downvoted, access the score of the comment creator
@@ -256,7 +262,11 @@ Devvit.addCustomPostType({
         />; 
         break;
       case 'leaderboard':
-        currentPage = <Leaderboard setPage={setPage} 
+        currentPage = <Leaderboard 
+        setPage={setPage}
+        blocks={Blocks}
+        currentpage={currentPageNumber}
+
         />;
         break;
       case 'viewing':
@@ -268,6 +278,8 @@ Devvit.addCustomPostType({
         commentForm={commentForm}
         setPage={setPage}
         loadComments={loadComments}
+        blocks={Blocks}
+        currentpage={currentPageNumber}
         />;
         break;
       case 'gallery':
