@@ -157,14 +157,16 @@ Devvit.addCustomPostType({
       console.log(`Upvotes: ${await context.redis.zScore((currentBlock.commentId), current.commentId)}`);
       await loadComments(currentBlock); 
     }
-
+    
     async function loadLeaderboard(){
       //Returns top 20 users to an array
       setPage('leaderboard');
       let board = await context.redis.zRange(leaderboard, 0, 19);
-      //setLeaderboardArray(await context.redis.zRange(leaderboard, 0, 19));
-      //setLeaderboardArray(board.map(spot => await context.reddit.getUserById((spot.member))));
+      let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
+      setLeaderboardArray(usernames.map(user => user.username));
     }
+
+
     //When comment is submitted, submit their userID to the leaderboard zset
     //When a comment is upvoted or downvoted, access the score of the comment creator
     //User ID is gonna have to be added to the comment object
