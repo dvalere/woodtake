@@ -9,7 +9,6 @@ interface LeaderboardProps {
   blocks: Function;
   currentpage: number;
 
-
   //Create a leaderboard spot interface, array, and function
 }
 

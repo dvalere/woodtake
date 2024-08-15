@@ -159,11 +159,27 @@ Devvit.addCustomPostType({
     }
     
     async function loadLeaderboard(){
-      //Returns top 20 users to an array
-      setPage('leaderboard');
-      let board = await context.redis.zRange(leaderboard, 0, 19);
-      let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
-      setLeaderboardArray(usernames.map(user => user.username));
+      try {
+        //Returns top 20 users to an array
+        let board = await context.redis.zRange(leaderboard, 0, 19);
+        console.log(board);
+        //console.log({board});
+        let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
+        //console.log({usernames});
+        setLeaderboardArray(usernames.map(user => user.username));
+        //console.log({LeaderboardArray});
+        setPage('leaderboard');
+      } catch (error) {
+        console.error(error);
+      }
+
+      /*
+          const location = await reddit.getCommentById(currentBlock.commentId);
+          const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
+          const theID = theReply.id;
+          await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
+          await loadComments(currentBlock); //Update the comments
+          **/
     }
 
 
@@ -240,12 +256,17 @@ Devvit.addCustomPostType({
           await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           await loadComments(currentBlock); //Update the comments
           //Check if the user is in the leaderboard
-          const itExists = await redis.zRank(leaderboard, JSON.stringify(context.userId));
-          if (itExists !== null) {
+          let itExists = await redis.zScore(leaderboard, context.userId!);
+          console.log({itExists});
+          let thewhatever = await redis.zRange(leaderboard, 0, 0);
+          if (thewhatever !== null){
             console.log('The member exists in the sorted set.');
+            await context.redis.zRem(leaderboard, [context.userId!]);
+            console.log(`amount of users in the leaderboard: ${await redis.zCard(leaderboard)}`);
           } else {
             console.log('The member does not exist in the sorted set.');
-            await redis.zAdd(leaderboard, {member: JSON.stringify(context.userId), score: 0});
+            await redis.zAdd(leaderboard, {member: context.userId!, score: 0});
+            console.log(`this ran`);
           }
           ui.showToast(`Comment submitted!`);
         } catch (err) {
@@ -293,6 +314,7 @@ Devvit.addCustomPostType({
         blocks={Blocks}
         redirect={redirectFunction}
         blockArray={blockArray}
+        toLeaderboard={loadLeaderboard}
         />;
         break;
       case 'comments':
@@ -309,7 +331,7 @@ Devvit.addCustomPostType({
         />;
         break;
       default:
-        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} redirect={redirectFunction} blockArray={blockArray}
+        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} redirect={redirectFunction} blockArray={blockArray} toLeaderboard={loadLeaderboard}
         />;
     }
 

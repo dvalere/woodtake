@@ -10,6 +10,7 @@ interface galleryProps {
   blocks: Function;
   redirect: Function;
   blockArray: Block[];
+  toLeaderboard: Function;
 }
 
 export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
@@ -22,6 +23,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
     blocks,
     redirect,
     blockArray = [],  // Provide a default empty array if blockArray is not set
+    toLeaderboard,
   } = props;
 
   return (
@@ -103,7 +105,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
             }}
             size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
         </button>
-        <button onPress={async() => { setPage('leaderboard'); }} size="medium">Leaderboard</button>
+        <button onPress={async() => { toLeaderboard(); }} size="medium">Leaderboard</button>
         <button onPress={async() => { setPage('gallery'); await incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
       </hstack>
     </vstack>
