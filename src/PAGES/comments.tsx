@@ -44,22 +44,22 @@ export const Comments = (props: CommentProps, context: Context,): JSX.Element =>
             <hstack>
               <text size="medium" color="black">{commentArray[0]?.comment}</text>
               <button onPress={(async) => upvoteFunction(commentArray[0])}  icon='caret-up' appearance='secondary' height="10px" width="10px"></button>
-              <text size="medium" color="black"> Upvotes: {JSON.stringify(upvoteArray ? upvoteArray[0] : 0)}</text>
+              <text size="medium" color="black"> {JSON.stringify(upvoteArray ? upvoteArray[0] : 0)} Upvotes</text>
             </hstack>
             <hstack>
-              <text size="medium" color="black"> Upvotes: {commentArray[1]?.comment}</text>
+              <text size="medium" color="black">{commentArray[1]?.comment}</text>
               <button onPress={(async) => upvoteFunction(commentArray[1])} icon='caret-up' appearance='secondary' height="10px" width="10px"></button>
-              <text size="medium" color="black"> Upvotes: {JSON.stringify(upvoteArray ? upvoteArray[1] : 0)}</text>
+              <text size="medium" color="black"> {JSON.stringify(upvoteArray ? upvoteArray[1] : 0)} Upvotes</text>
             </hstack>
             <hstack>
-              <text size="medium" color="black"> Upvotes: {commentArray[2]?.comment}</text>
+              <text size="medium" color="black">{commentArray[2]?.comment}</text>
               <button onPress={(async) => upvoteFunction(commentArray[2])} icon='caret-up' appearance='secondary' height="10px" width="10px"></button>
-              <text size="medium" color="black"> Upvotes: {JSON.stringify(upvoteArray ? upvoteArray[2] : 0)}</text>
+              <text size="medium" color="black"> {JSON.stringify(upvoteArray ? upvoteArray[2] : 0)} Upvotes </text>
             </hstack>
             <hstack>
-              <text size="medium" color="black"> Upvotes: {commentArray[3]?.comment}</text>
+              <text size="medium" color="black">{commentArray[3]?.comment}</text>
               <button onPress={(async) => upvoteFunction(commentArray[3])} icon='caret-up' appearance='secondary' height="10px" width="10px"></button>
-              <text size="medium" color="black"> Upvotes: {JSON.stringify(upvoteArray ? upvoteArray[3] : 0)}</text>
+              <text size="medium" color="black">{JSON.stringify(upvoteArray ? upvoteArray[3] : 0)} Upvotes </text>
             </hstack>
         </vstack>
         <hstack  alignment="bottom center" width="85%" height="15%">

@@ -29,6 +29,7 @@ Devvit.addCustomPostType({
     const [description, setDescription] = context.useState('');  
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [commentpagenum, setCommentPageNum] = useState(0);
+    const [leaderboardpagenum, setLeaderboardPageNum] = useState(0);
     const [currentBlock, setCurrentBlock] = useState({commentId: '', img: 'emptyblock.png', dsc: ''});
     const [blockArray, setBlockArray] = useState([
       { img: 'emptyblock.png', dsc: '', commentId: ''},
@@ -40,7 +41,7 @@ Devvit.addCustomPostType({
       { img: 'emptyblock.png', dsc: '', commentId: '' },
       { img: 'emptyblock.png', dsc: '', commentId: '' },
       { img: 'emptyblock.png', dsc: '', commentId: '' },
-    ]);
+    ]); 
 
     const [commentArray, setCommentArray] = useState([
       { commentId: '', comment: '', authorId: ''},
@@ -53,12 +54,16 @@ Devvit.addCustomPostType({
       0, 0, 0, 0
     ]);
 
+    const [avatarArray, setAvatarArray] = useState([
+      '', '', '', ''
+    ]);
+
     //Four comments for each page
 
 
     const [LeaderboardArray, setLeaderboardArray] = useState([
-      '', '', '', '', '', '', '', '', '', '',  '', '', '', '', '', '', '', '', '', ''
-    ]); //Top 20 usernames
+      '', '', '', '', '',
+    ]); //Top 20 usernames, 5 for each page
 
     const [ScoreArray, setScoreArray] = useState([
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
@@ -67,7 +72,7 @@ Devvit.addCustomPostType({
     const [] = useState(async() :Promise<void> =>{
       try{
         await Blocks(0);
-        await loadLeaderboard();
+        await loadLeaderboard(0);
     } catch (err) { console.error(`An error occurred: ${err}`); }
     }) 
 
@@ -127,25 +132,38 @@ Devvit.addCustomPostType({
       }
       const comments = await context.redis.zRange(theBlock.commentId, commentpagenum * 4, commentpagenum * 4 + 3 );
       console.log({comments});
+      //page 1: 
     
       setCommentArray(comments.map(comment => JSON.parse(comment.member)));
       setUpvoteArray(comments.map(comment => comment.score));
       //console.log({commentArray});
     };
 
-    async function loadLeaderboard(){
+    async function loadLeaderboard(currentpage: number){
       try {
         //Returns top 20 users to an array
         let board = await context.redis.zRange(leaderboard, 0, 19);
-        console.log({board});
         let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
         let array = usernames.map(user => user.username);
-        console.log({array});
+        let avis = await Promise.all(usernames.map(async user => (await user.getSnoovatarUrl())?.toString() ?? ''));
         setLeaderboardArray(array);
-        console.log({LeaderboardArray});
+        setScoreArray(board.map(spot => spot.score));
+        setAvatarArray(avis);
       } catch (error) {
         console.error(error);
       }
+    }
+
+    async function incrementLeaderboard(){
+      const newPageNumber = leaderboardpagenum + 1;
+      setLeaderboardPageNum(newPageNumber);
+      await loadLeaderboard(newPageNumber);
+    }
+
+    async function decrementLeaderboard(){
+      const newPageNumber = leaderboardpagenum - 1;
+      setLeaderboardPageNum(newPageNumber);
+      await loadLeaderboard(newPageNumber);
     }
 
     async function incrementCommentPage(){ 
@@ -164,11 +182,13 @@ Devvit.addCustomPostType({
       if (await context.redis.hget(current.commentId, context.userId!) == 'upvoted'){ //Hset which uses the comment ID as the key, and the user IDs of upvoters as values
         await context.redis.hdel(current.commentId, [context.userId!]); //If the person has upvoted, and they just clicked the upvote button again, then remove their upvote, and subtract 1 from the comment's upvotes
         await context.redis.zIncrBy((currentBlock.commentId), JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: current.authorId}), -1);
+        await context.redis.zIncrBy(leaderboard, context.userId!, -1); //Subtract 1 from the user's score
         //await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
       }
       else{ //Else, add their upvote to the hset, and add and 1 to the comments upvotes 
         await context.redis.hset(current.commentId, {[context.userId!]: 'upvoted'});
         await context.redis.zIncrBy((currentBlock.commentId), JSON.stringify({commentId: current.commentId, comment: current.comment, authorId: current.authorId}), 1);
+        await context.redis.zIncrBy(leaderboard, context.userId!, 1); //Add 1 to the user's score
       }
       console.log(`Upvotes: ${await context.redis.zScore((currentBlock.commentId), current.commentId)}`);
       await loadComments(currentBlock); 
@@ -249,8 +269,6 @@ Devvit.addCustomPostType({
           await loadComments(currentBlock); //Update the comments
           let itExists = await redis.zScore(leaderboard, context.userId!);
           let size = await redis.zCard(leaderboard);
-          console.log({size});
-          console.log({itExists});
           if (itExists !== null && size !== 0) {
             console.log('The member exists in the sorted set.');
           } else {
@@ -283,6 +301,11 @@ Devvit.addCustomPostType({
         blocks={Blocks}
         currentpage={currentPageNumber}
         leaderboardArray={LeaderboardArray}
+        scoreArray={ScoreArray}
+        increment={incrementLeaderboard}
+        decrement={decrementLeaderboard}
+        avatars={avatarArray}
+        pagenum={leaderboardpagenum}
         />;
         break;
       case 'viewing':
@@ -307,7 +330,7 @@ Devvit.addCustomPostType({
         blocks={Blocks}
         redirect={redirectFunction}
         blockArray={blockArray}
-        toLeaderboard={loadLeaderboard}
+        loadLeaderboard={loadLeaderboard}
         />;
         break;
       case 'comments':
@@ -324,7 +347,7 @@ Devvit.addCustomPostType({
         />;
         break;
       default:
-        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} redirect={redirectFunction} blockArray={blockArray} toLeaderboard={loadLeaderboard}
+        currentPage = <Gallery setPage={setPage} page={0} incrementCurrentPage={incrementCurrentPage} decrementCurrentPage={decrementCurrentPage} blocks={Blocks} redirect={redirectFunction} blockArray={blockArray} loadLeaderboard={loadLeaderboard}
         />;
     }
 

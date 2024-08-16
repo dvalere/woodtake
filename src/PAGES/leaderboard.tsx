@@ -9,7 +9,11 @@ interface LeaderboardProps {
   blocks: Function;
   currentpage: number;
   leaderboardArray: string[];
-
+  scoreArray: number[];
+  increment: Function;
+  decrement: Function;
+  avatars: string[];
+  pagenum: number;
   //Create a leaderboard spot interface, array, and function
 }
 
@@ -20,6 +24,11 @@ export const Leaderboard = (props: LeaderboardProps, context: Context): JSX.Elem
     blocks,
     currentpage,
     leaderboardArray,
+    scoreArray,
+    increment,
+    decrement,
+    pagenum,
+    avatars,
   } = props;
 
   return(
@@ -34,36 +43,43 @@ export const Leaderboard = (props: LeaderboardProps, context: Context): JSX.Elem
     <vstack width="100%" gap="small" alignment= "start middle">
       <hstack>
         <text size="xxlarge" color = "black">1.</text>
-        <text color="black">{leaderboardArray[0]}</text>
-        <text color="black">Score</text>
+        <image url={avatars[0]!} imageHeight="35px" imageWidth="35px"/>
+        <text size='xxlarge' color="black">{leaderboardArray[0]}</text>
+        <spacer width='35px'></spacer>
+        <text size='xlarge' color="black">{scoreArray[0]}</text>
       </hstack>
       <hstack>
         <text size="xxlarge" color = "black">2.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
+        //No image url for these other spots for now since I'll need to add an plain image for the url when there's nothing in it
+        <text size="xxlarge" color="black">{leaderboardArray[1]}</text>
+        <spacer width='35px'></spacer>
+        <text size='xlarge' color="black">{scoreArray[1]}</text>
       </hstack>
       <hstack>
-        <text size="xxlarge" color = "black">3.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
+      <text size="xxlarge" color = "black">3.</text>
+        <text size="xxlarge" color="black">{leaderboardArray[2]}</text>
+        <spacer width='35px'></spacer>
+        <text size='xlarge' color="black">{scoreArray[2]}</text>
       </hstack>
       <hstack>
-        <text size="xxlarge" color = "black">4.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
+      <text size="xxlarge" color = "black">4.</text>
+        <text size="xxlarge" color="black">{leaderboardArray[3]}</text>
+        <spacer width='35px'></spacer>
+        <text size='xlarge' color="black">{scoreArray[3]}</text>
       </hstack>
       <hstack>
-        <text size="xxlarge" color = "black">5.</text>
-        <text color="black">Username</text>
-        <text color="black">Score</text>
+      <text size="xxlarge" color = "black">5.</text>
+        <text size="xxlarge" color="black">{leaderboardArray[4]}</text>
+        <spacer width='35px'></spacer>
+        <text size='xlarge' color="black">{scoreArray[4]}</text>
       </hstack>
     </vstack>
 
 
     <hstack gap="small">
-      <button size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px"></button>
+      <button onPress={async() => {await increment(pagenum);}} size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px"></button>
       <text alignment='center bottom' size="large" color="black">{0}</text>
-      <button size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
+      <button onPress={async() => {await decrement(pagenum);}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
     </hstack>
     </vstack>
   )
