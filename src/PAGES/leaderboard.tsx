@@ -34,10 +34,9 @@ export const Leaderboard = (props: LeaderboardProps, context: Context): JSX.Elem
   return(
     <vstack width = "100%" height = "100%" alignment = "center middle" gap = "medium" backgroundColor = "white" padding="xsmall">
     <hstack width="100%">
-      <button onPress={async() => { setPage('gallery'); blocks(currentpage); }} icon="back" disabled={false} appearance="secondary"></button>     
-      <hstack width="100%" alignment="center middle">
+      <button onPress={async() => { setPage('gallery'); blocks(currentpage); }} icon="back" disabled={false} appearance="secondary"></button> 
+      <spacer width='36%' ></spacer>    
         <text color="black" size="large" style="heading" > Leaderboard </text>
-      </hstack>     
     </hstack>
 
     <vstack width="100%" gap="small" alignment= "start middle">
@@ -78,7 +77,6 @@ export const Leaderboard = (props: LeaderboardProps, context: Context): JSX.Elem
 
     <hstack gap="small">
       <button onPress={async() => {await increment(pagenum);}} size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px"></button>
-      <text alignment='center bottom' size="large" color="black">{0}</text>
       <button onPress={async() => {await decrement(pagenum);}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
     </hstack>
     </vstack>

@@ -105,7 +105,7 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
             }}
             size="large" disabled={false} appearance="secondary" icon="caret-up" height="45px" width="125px">
         </button>
-        <button onPress={async() => { loadLeaderboard(0); setPage('leaderboard'); }} size="medium">Leaderboard</button>
+        <button icon='table' onPress={async() => { loadLeaderboard(0); setPage('leaderboard'); }} size="medium">Leaderboard</button>
         <button onPress={async() => { setPage('gallery'); await incrementCurrentPage();}} size="large" disabled={false} appearance="secondary" icon="caret-down" height="45px" width="125px"></button>
       </hstack>
     </vstack>
@@ -113,3 +113,4 @@ export const Gallery = (props: galleryProps, context: Context): JSX.Element => {
 };
 
 //<text alignment='center bottom' size="large" color="black">{page}</text>
+//<image url="woodworking-removebg-preview.png" imageWidth={35} imageHeight={35}/>

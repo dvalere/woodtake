@@ -192,6 +192,7 @@ Devvit.addCustomPostType({
       }
       console.log(`Upvotes: ${await context.redis.zScore((currentBlock.commentId), current.commentId)}`);
       await loadComments(currentBlock); 
+      await loadLeaderboard(leaderboardpagenum);
     }
     
 

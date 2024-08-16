@@ -33,6 +33,7 @@ export const ViewingPost = (props: ViewingPostProps, context: Context,): JSX.Ele
 
   return (
     <vstack width="100%" height="100%" alignment="top center" backgroundColor="white" gap="medium">
+      <spacer height="1px" ></spacer>
       <hstack width="85%" height="20%" alignment="top center"gap="large"> 
           <button onPress={async() => { setPage('gallery'); blocks(currentpage); }} icon="back" disabled={false} appearance="secondary"></button>
           <text alignment="bottom center" weight="bold" color="black" > What is this? </text>
