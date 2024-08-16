@@ -67,6 +67,7 @@ Devvit.addCustomPostType({
     const [] = useState(async() :Promise<void> =>{
       try{
         await Blocks(0);
+        await loadLeaderboard();
     } catch (err) { console.error(`An error occurred: ${err}`); }
     }) 
 
@@ -132,6 +133,21 @@ Devvit.addCustomPostType({
       //console.log({commentArray});
     };
 
+    async function loadLeaderboard(){
+      try {
+        //Returns top 20 users to an array
+        let board = await context.redis.zRange(leaderboard, 0, 19);
+        console.log({board});
+        let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
+        let array = usernames.map(user => user.username);
+        console.log({array});
+        setLeaderboardArray(array);
+        console.log({LeaderboardArray});
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function incrementCommentPage(){ 
       const newPageNumber = commentpagenum + 1;
       setCommentPageNum(newPageNumber);
@@ -158,30 +174,6 @@ Devvit.addCustomPostType({
       await loadComments(currentBlock); 
     }
     
-    async function loadLeaderboard(){
-      try {
-        //Returns top 20 users to an array
-        let board = await context.redis.zRange(leaderboard, 0, 19);
-        console.log(board);
-        //console.log({board});
-        let usernames = await Promise.all(board.map(spot => context.reddit.getUserById(spot.member)));
-        //console.log({usernames});
-        setLeaderboardArray(usernames.map(user => user.username));
-        //console.log({LeaderboardArray});
-        setPage('leaderboard');
-      } catch (error) {
-        console.error(error);
-      }
-
-      /*
-          const location = await reddit.getCommentById(currentBlock.commentId);
-          const theReply = await location.reply({text: `${values.myComment}`}); //Creating the reply to the post
-          const theID = theReply.id;
-          await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
-          await loadComments(currentBlock); //Update the comments
-          **/
-    }
-
 
     //When comment is submitted, submit their userID to the leaderboard zset
     //When a comment is upvoted or downvoted, access the score of the comment creator
@@ -255,26 +247,27 @@ Devvit.addCustomPostType({
           const theID = theReply.id;
           await redis.zAdd(currentBlock.commentId, {member: JSON.stringify({commentId: theID, comment: values.myComment, authorId: context.userId}), score: 0}); //Add the comment to the zset with 0 upvotes at the start
           await loadComments(currentBlock); //Update the comments
-          //Check if the user is in the leaderboard
           let itExists = await redis.zScore(leaderboard, context.userId!);
+          let size = await redis.zCard(leaderboard);
+          console.log({size});
           console.log({itExists});
-          let thewhatever = await redis.zRange(leaderboard, 0, 0);
-          if (thewhatever !== null){
+          if (itExists !== null && size !== 0) {
             console.log('The member exists in the sorted set.');
-            await context.redis.zRem(leaderboard, [context.userId!]);
-            console.log(`amount of users in the leaderboard: ${await redis.zCard(leaderboard)}`);
           } else {
             console.log('The member does not exist in the sorted set.');
             await redis.zAdd(leaderboard, {member: context.userId!, score: 0});
-            console.log(`this ran`);
           }
-          ui.showToast(`Comment submitted!`);
         } catch (err) {
           throw new Error(`Error submitting comment: ${err}`);
         }
-    })     
+    }
+  )     
     //Create a separate redis zset for the comments of each post, with the ID as the key   
     //<button onPress={async () => context.reddit.getCommentById(identify).reply({text: `{newComment}`})}> 
+    //if it exists itll return 0
+    //if it has no upvotes itll return 0
+    //if the set is empty itll return 0
+    //if the set has something in it itll return anything else
     
     let currentPage;
     switch (page) {
@@ -289,7 +282,7 @@ Devvit.addCustomPostType({
         setPage={setPage}
         blocks={Blocks}
         currentpage={currentPageNumber}
-
+        leaderboardArray={LeaderboardArray}
         />;
         break;
       case 'viewing':
